@@ -1,0 +1,207 @@
+/
+/* Dot indicator */
+.splitpanes {
+  background: white
+}
+
+.splitpanes--vertical > .splitpanes__splitter {
+  width: 9px;
+  background:linear-gradient(90deg,$brand, #311);
+}
+.splitpanes--horizontal > .splitpanes__splitter {
+  height: 9px;
+  background: linear-gradient(#ccc, #111);
+}
+
+
+
+.hr {
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.2);
+  margin: 0.6em 2em;
+}
+.vuecal__event {
+  background-color: rgba(173, 216, 230, 0.2);
+  border: 2px solid rgba(150, 200, 210, 0.8);
+  padding: 3px;
+  margin:3px;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+
+  
+}
+
+.vuecal__event.assignment_ind {
+  background: $secondary
+  color: #999;
+  display: inline-block;
+  justify-content: center;
+  align-items: center;
+
+  }
+
+.vuecal--month-view .vuecal__cell {height: 120px;}
+
+
+.bg-footer{
+   background:$blue-grey-4;
+}
+.bg-header {
+  background:$green-4;
+  }
+
+.text-field-default {
+  color: #black;
+}
+.bg-field-default {
+  background:#dcedc8;
+}
+.text-update-field-default {
+  color:#black;
+}
+.bg-update-field-default {
+  background:	#FEE8AE;
+}
+.text-field-o2m-default {
+  color: #black;
+}
+.bg-field-o2m-default {
+  background: #fff8e1;
+}
+
+.p {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+}
+
+.container {
+  padding: 30px 50px;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.card-wrap {
+  margin: 10px;
+  transform: perspective(800px);
+  transform-style: preserve-3d;
+  cursor: pointer;
+  // background-color: #fff;
+
+  &:hover {
+    .card-info {
+      transform: translateY(0);
+    }
+    .card-info p {
+      opacity: 1;
+    }
+    .card-info,
+    .card-info p {
+      transition: 0.8s $hoverEasing;
+    }
+    .card-info:after {
+      transition: 5s $hoverEasing;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .card-bg {
+      transition: 0.9s $hoverEasing, opacity 5s $hoverEasing;
+      opacity: 1;
+    }
+    .card {
+      transition: 0.6s $hoverEasing, box-shadow 2s $hoverEasing;
+      box-shadow: rgba(white, 0.2) 0 0 40px 5px, rgba(white, 1) 0 0 0 1px,
+        rgba(black, 0.66) 0 30px 60px 0, inset #333 0 0 0 5px,
+        inset white 0 0 0 6px;
+    }
+  }
+}
+
+.card {
+  position: relative;
+  flex: 0 0 200px;
+  width: 250px;
+  height: 190px;
+  background-color: bg-grey-5;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: rgba(black, 0.66) 0 30px 60px 0, inset #333 0 0 0 5px,
+    inset rgba(white, 0.5) 0 0 0 6px;
+  transition: 1s $returnEasing;
+}
+
+.card-bg {
+  opacity: 0.5;
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+  padding: 20%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  transition: 1s $returnEasing, opacity 5s 1s $returnEasing;
+  pointer-events: none;
+}
+
+.card-info {
+  
+  background: rgba(62, 72, 89, 0.04);
+  font-size: 30px;
+  font-weight: 700;
+  padding-bottom: 2%;
+  padding-top: 2%;
+  padding-left: 2%;
+  position: absolute;
+  bottom: 0;
+  color: $brand;
+  transform: translateY(40%);
+  transition: 0.6s 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+  p {
+    opacity: 0;
+    text-shadow: rgba(black, 1) 0 5px 6px;
+    transition: 0.6s 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 90%;
+    background-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(#000, 0.6) 100%
+    );
+    background-blend-mode: overlay;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: 5s 1s $returnEasing;
+  }
+}
+
+.card-info h1 {
+  padding-top: 0%;
+  align:left;
+  font-family: 'Playfair Display';
+  font-size: 35px;
+  font-weight: 800;
+  color:$brand;
+  background: rgba(62, 72, 89, 0);
+  text-shadow: rgba(black, 1) 0 3px 2px;
+}
+
+
+
+

@@ -1,0 +1,29 @@
+{
+  "@quasar/qflashcard": {},
+  "@quasar/qscroller": {},
+  "@quasar/testing-unit-jest": {
+    "babel": "babelrc",
+    "options": [
+      "scripts",
+      "SFC",
+      "wallabyjs",
+      "majestic"
+    ]
+  },
+  "@quasar/testing-security": {
+    "options": [
+      "zap_local"
+    ],
+    "zapbrowser": "Chrome"
+  },
+  "@quasar/testing": {
+    "harnesses": [
+      "unit-jest",
+      "unit-ava",
+      "e2e-cypress",
+      "e2e-webdriver",
+      "quality",
+      "security"
+    ]
+  }
+}
