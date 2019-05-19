@@ -16,6 +16,7 @@ export default {
   components: {
     ProfileFormCard
   },
+  /* istanbul ignore next */
   data() {
     return {
       form: {

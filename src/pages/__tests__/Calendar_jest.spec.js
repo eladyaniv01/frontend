@@ -41,19 +41,7 @@ const components = Object.keys(All).reduce((object, key) => {
 
 describe('Calendar.vue', () => {
     const localVue = createLocalVue()
-    // from boot
-    localVue.prototype.$axios = axios.create({
-        baseURL: `${constants.APIURL}`,
-        crossDomain: true
-    })
-    localVue.filter('title', function (value) {
-        if (!value) return ''
-        value = value.toString()
-        return value.charAt(0).toUpperCase() + value.slice(1)
-    })
-
-    //ext
-    // localVue.component("q-flashcard", { QFlashcard })
+    localVue.prototype.$axios = axios.create({})
 
 
 
@@ -141,6 +129,7 @@ describe('Calendar.vue', () => {
         }
 
     })
+    localVue.prototype.$store = store
 
 
 

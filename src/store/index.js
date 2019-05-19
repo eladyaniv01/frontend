@@ -5,9 +5,8 @@ import UserModules from './UserModules/index.js'
 
 import CMS from './CMS/index.js'
 import createPersistedState from 'vuex-persistedstate'
-// import calendar from './calendar'
-import scroller from './scroller'
-import common from './common'
+
+
 
 // ORM
 import VuexORM from '@vuex-orm/core'
@@ -39,9 +38,7 @@ const store = new Vuex.Store({
   modules: {
     UserModules,
     CMS,
-    // calendar,
-    common,
-    scroller
+
   },
   plugins: [
 

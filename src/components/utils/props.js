@@ -1,3 +1,4 @@
+/* istanbul ignore next */
 import { validateNumber, validateTimestamp } from './timestamp'
 
 /* public properties */

@@ -107,6 +107,8 @@ export default {
     model() {}
   },
   computed: {
+    /* istanbul ignore next */
+
     sortedFields() {
       let sorted = this.fields.sort()
 
@@ -125,6 +127,7 @@ export default {
       filtered.unshift('id')
       return filtered
     },
+    /* istanbul ignore next */
     clientId(id) {
       let client = Client.query()
         .where('menu', id)
@@ -138,12 +141,14 @@ export default {
     })
   },
   methods: {
+    /* istanbul ignore next */
     singularize(name) {
       if (_.endsWith(name, 's') || _.endsWith(name, 'S')) {
         return name.substring(0, name.length - 1)
       }
       return name
     },
+    /* istanbul ignore next */
     eventCount(value, model) {
       let id = model.id
       let count = Models.Event.query()
@@ -152,6 +157,7 @@ export default {
 
       return count.length
     },
+    /* istanbul ignore next */
     menuCount(value, model) {
       let id = model.id
       let count = Menu.query()
@@ -160,17 +166,19 @@ export default {
 
       return count.length
     },
+    /* istanbul ignore next */
     clientName(value) {
       let client = Client.find(value)
 
       return '(' + client.id + ')' + ' ' + client.first_name
     },
+    /* istanbul ignore next */
     nutritionistName(value) {
       let nutritionist = Nutritionist.find(value)
 
       return '(' + nutritionist.id + ')' + ' ' + nutritionist.first_name
     },
-
+    /* istanbul ignore next */
     getPath(id, field) {
       if (field == 'menus' && this.modelName == 'menus') {
         return { name: 'MenuDetail', params: { mid: id } }
@@ -181,6 +189,7 @@ export default {
 
       return { name: 'ClientDetail', params: { id: id } }
     },
+    /* istanbul ignore next */
     getDate(string) {
       return GetFormattedDate(string)
     }

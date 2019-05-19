@@ -219,9 +219,7 @@ export default {
         let e = ev[i]
         evs.push(e)
       }
-      evs.forEach(function(event) {
-        event.background = false
-      })
+
       console.log(evs)
       return evs
     },

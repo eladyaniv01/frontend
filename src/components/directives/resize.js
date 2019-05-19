@@ -1,7 +1,8 @@
+/* istanbul ignore next */
 export default {
   name: 'resize',
 
-  inserted (el, binding) {
+  inserted(el, binding) {
     const callback = binding.value
     const options = binding.options || { passive: true }
 
@@ -16,7 +17,7 @@ export default {
     }
   },
 
-  unbind (el) {
+  unbind(el) {
     if (!el._onResize) return
 
     const { callback, options } = el._onResize

@@ -10,31 +10,6 @@
     </div>
     <q-separator spaced/>
 
-    <!-- <div class="container" id="CardsContainer">
-      <card data-image="statics/customers.jpg">
-        <h1 slot="header">Your Clients</h1>
-        <p slot="content">View and manage your Clients</p>
-      </card>
-      <card data-image="statics/account.jpg">
-        <h1 slot="header">Account Settings</h1>
-        <p slot="content">Your Personal space</p>
-      </card>
-      <card data-image="statics/about.jpg" class="flip-horizontal">
-        <h1 slot="header">Who we are</h1>
-        <p slot="content">Meet the Team!</p>
-      </card>
-
-      <q-separator spaced/>
-    </div>-->
-    <!-- <div class="flex justify-center">
-      <div id="CardsContainer" v-for="(card, Cindex)  in this.landingCards" :key="Cindex">
-        <card :data-image="card.img_url">
-          <h1 slot="header" v-html="card.heading.title"/>
-          <p slot="content" v-html="card.body.content"/>
-        </card>
-      </div>
-    </div>-->
-
     <div class="flex justify-center">
       <q-flashcard :style="style" v-for="(card, Cindex)  in this.landingCards" :key="Cindex">
         <q-flashcard-section transition="nudge-in">
@@ -54,49 +29,8 @@
         </q-flashcard-section>
       </q-flashcard>
     </div>
-    <!-- <div v-else class="row inline q-pa-xs  flex flex items-center">
-      <q-flashcard :style="style" v-for="(card, Cindex)  in this.landingCards" :key="Cindex">
-        <q-flashcard-section transition="nudge-in">
-          <img :src="card.img_url" width="100%" height="150">
-        </q-flashcard-section>
-        <q-flashcard-section transition="fade-in" class="fit">
-          <div class="fit" style="background-color: rgba(219,127,8, 0.7);"/>
-          <q-flashcard-section transition="slide-up">
-            <p class="text-h6 flex items-center" v-html="card.heading.title"/>
-          </q-flashcard-section>
-          <q-flashcard-section transition="nudge-in">
-            <div v-html="card.body.content"/>
-          </q-flashcard-section>
-          <q-flashcard-section transition="fade-in" class="fit flex justify-center items-end">
-            <a href="#" class="my-button">Learn More</a>
-          </q-flashcard-section>
-        </q-flashcard-section>
-      </q-flashcard>
-    </div>-->
 
     <q-separator spaced/>
-    <!-- <div class="container" id="CardsContainer">
-      <card
-        data-image="https://images.unsplash.com/photo-1479621051492-5a6f9bd9e51a?dpr=2&auto=compress,format&fit=crop&w=1199&h=811&q=80&cs=tinysrgb&crop="
-      >
-        <h1 slot="header">References</h1>
-        <p slot="content">To Proffesionals</p>
-      </card>
-      <card
-        data-image="https://images.unsplash.com/photo-1479660656269-197ebb83b540?dpr=2&auto=compress,format&fit=crop&w=1199&h=798&q=80&cs=tinysrgb&crop="
-      >
-        <h1 slot="header">Suppliers</h1>
-        <p slot="content">Our Nutrient Suppliers</p>
-      </card>
-      <card
-        data-image="https://images.unsplash.com/photo-1479644025832-60dabb8be2a1?dpr=2&auto=compress,format&fit=crop&w=1199&h=799&q=80&cs=tinysrgb&crop="
-      >
-        <h1 slot="header">More..</h1>
-        <p slot="content">Meet the Team!</p>
-      </card>
-
-      <q-separator spaced/>
-    </div>-->
 
     <div v-if="this.desktop" class="row flex wrap items-start">
       <div class="col-1 bg-blue-grey-5"></div>
@@ -205,7 +139,7 @@ import Models from 'src/store/ORM/models.js'
 import Nutritionist from 'src/store/ORM/nutritionists.js'
 import { mapGetters, mapActions, mapState } from 'vuex'
 import { Platform } from 'quasar'
-import card from 'src/components/Card'
+
 export default {
   name: 'PageIndex',
   data() {
@@ -219,9 +153,7 @@ export default {
       nut: null
     }
   },
-  components: {
-    card
-  },
+  components: {},
   computed: {
     ...mapState({
       rightBlocks: state => state['CMS'].rightBlocks,

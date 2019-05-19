@@ -20,15 +20,15 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-    //  branches: 50,
-    //  functions: 50,
-    //  lines: 50,
-    //  statements: 50
+      //  branches: 50,
+      //  functions: 50,
+      //  lines: 50,
+      //  statements: 50
     }
   },
   testMatch: [
-    '<rootDir>/test/jest/__tests__/**/*.spec.js',
-    '<rootDir>/test/jest/__tests__/**/*.test.js',
+    // '<rootDir>/test/jest/__tests__/**/*.spec.js',
+    // '<rootDir>/test/jest/__tests__/**/*.test.js',
     '<rootDir>/src/**/__tests__/*_jest.spec.js'
   ],
   moduleFileExtensions: [
@@ -44,6 +44,7 @@ module.exports = {
     '^test-utils$': '<rootDir>/node_modules/@vue/test-utils/dist/vue-test-utils.js',
     '^quasar$': '<rootDir>/node_modules/quasar/dist/quasar.common.js',
     '^~/(.*)$': '<rootDir>/$1',
+    '^~/(.*)$': '<rootDir>/node_modules/$1',
     '^src/(.*)$': '<rootDir>/src/$1',
     '.*css$': '<rootDir>/test/jest/utils/stub.css'
   },

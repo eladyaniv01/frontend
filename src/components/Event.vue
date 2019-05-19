@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Models from 'src/store/ORM/models.js'
 import {
   myRep,
@@ -159,45 +159,11 @@ export default {
       }
       let cli2 = Models.Client.find(event.client.substring(2, 0))
       return cli2
-    },
-    ...mapState({
-      user: state => state['UserModules'].user.username,
-      msg: state => state['UserModules'].msg,
-      userState: state => state['UserModules'],
-      rightBlocks: state => state['CMS'].rightBlocks,
-      leftBlocks: state => state['CMS'].leftBlocks,
-      landingHeader: state => state['CMS'].landingHeader,
-      landingCards: state => state['CMS'].landingCards,
-      stickyHeader: state => state['CMS'].stickyHeader
-    }),
-    ...mapState([
-      'route' // vuex-router-sync
-    ]),
-    ...mapGetters({
-      locale: 'scroller/locale',
-      titlebarHeight: 'common/titlebarHeight',
-      roundedBorders: 'scroller/roundedBorders',
-      noHeader: 'scroller/noHeader',
-      noFooter: 'scroller/noFooter',
-      disable: 'scroller/disable',
-      dense: 'scroller/dense',
-      noBorder: 'scroller/noBorder',
-      noShadow: 'scroller/noShadow',
-      hour24Format: 'scroller/hour24Format',
-      noHours: 'scroller/noHours',
-      noMinutes: 'scroller/noMinutes',
-      shortYearLabel: 'scroller/shortYearLabel',
-      shortMonthLabel: 'scroller/shortMonthLabel',
-      showMonthLabel: 'scroller/showMonthLabel',
-      shortDayLabel: 'scroller/shortDayLabel',
-      showWeekdayLabel: 'scroller/showWeekdayLabel',
-      noYears: 'scroller/noYears',
-      noMonths: 'scroller/noMonths',
-      noDays: 'scroller/noDays'
-    })
+    }
   },
 
   methods: {
+    /* istanbul ignore next */
     del(event) {
       let form = event
 
@@ -228,6 +194,7 @@ export default {
       // formData.append('email', vm.email)
       this.hide()
     },
+    /* istanbul ignore next */
     save(event) {
       let form = event
 
@@ -341,22 +308,24 @@ export default {
     },
     // following method is REQUIRED
     // (don't change its name --> "show")
+    /* istanbul ignore next */
     show() {
       this.$refs.dialog.show()
     },
 
     // following method is REQUIRED
     // (don't change its name --> "hide")
+    /* istanbul ignore next */
     hide() {
       this.$refs.dialog.hide()
     },
-
+    /* istanbul ignore next */
     onDialogHide() {
       // required to be emitted
       // when QDialog emits "hide" event
       this.$emit('hide')
     },
-
+    /* istanbul ignore next */
     onOKClick() {
       // on OK, it is REQUIRED to
       // emit "ok" event (with optional payload)
@@ -376,7 +345,7 @@ export default {
 
     onCancelClick() {
       // we just need to hide dialog
-      console.log('im from event')
+      /* istanbul ignore next */
       this.hide()
     }
   }

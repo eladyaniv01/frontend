@@ -94,6 +94,8 @@
   </q-card>
 </template>
 <script>
+import lodash from 'lodash'
+import _ from 'lodash'
 import Client from 'src/store/ORM/client.js'
 import Menu from 'src/store/ORM/menu.js'
 import Nutritionist from 'src/store/ORM/nutritionists.js'
@@ -128,6 +130,7 @@ export default {
       var filtered_ex = sorted.filter(function(value, index, arr) {
         return value != 'id' && value != 'client'
       })
+      /* istanbul ignore next */
       if (this.fields.includes('client')) {
         filtered_ex.unshift('id')
         filtered_ex.unshift('client')
@@ -137,6 +140,14 @@ export default {
       filtered.unshift('id')
       return filtered
     },
+
+    ...mapState('UserModules', {
+      // model: state => state.currentClient
+      // nutritionist: state => state.user.nutritionist,
+    })
+  },
+  methods: {
+    /* istanbul ignore next */
     clientId(id) {
       let client = Client.query()
         .where('menu', id)
@@ -144,18 +155,13 @@ export default {
 
       return client.id
     },
-    ...mapState('UserModules', {
-      // model: state => state.currentClient
-      // nutritionist: state => state.user.nutritionist,
-    })
-  },
-  methods: {
     singularize(name) {
       if (_.endsWith(name, 's') || _.endsWith(name, 'S')) {
         return name.substring(0, name.length - 1)
       }
       return name
     },
+    /* istanbul ignore next */
     eventCount(value, model) {
       let id = model.id
       let count = Models.Event.query()
@@ -164,6 +170,7 @@ export default {
 
       return count.length
     },
+    /* istanbul ignore next */
     noteCount(value, model) {
       let id = model.id
       let count = Models.PrivateNote.query()
@@ -201,6 +208,7 @@ export default {
 
       return { name: 'ClientDetail', params: { id: id } }
     },
+    /* istanbul ignore next */
     getDate(string) {
       return GetFormattedDate(string)
     }

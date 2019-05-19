@@ -13,13 +13,23 @@
 <!-- @vuese:ModelRenderer:props:end -->
 
 
+## Events
+
+<!-- @vuese:ModelRenderer:events:start -->
+|Event Name|Description|Parameters|
+|---|---|---|
+|hide|-|-|
+
+<!-- @vuese:ModelRenderer:events:end -->
+
+
 ## Methods
 
 <!-- @vuese:ModelRenderer:methods:start -->
 |Method|Description|Parameters|
 |---|---|---|
 |submitIt|In case an UpdateForm was passed|-|
-|mapFields|In case an UpdateForm was passed|-|
+|mapFields|field getter|-|
 |slicedModel|will remap the model with given `fields` param|`fields` ( Computed )|
 |openGroupModal||-|
 |getIcon||-|

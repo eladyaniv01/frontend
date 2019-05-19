@@ -80,6 +80,8 @@ import Client from 'src/store/ORM/client.js'
 import Menu from 'src/store/ORM/menu.js'
 import Nutritionist from 'src/store/ORM/nutritionists.js'
 import Models from 'src/store/ORM/models.js'
+import lodash from 'lodash'
+import _ from 'lodash'
 import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
 import {
   myRep,
@@ -91,16 +93,9 @@ import {
 export default {
   name: 'Box',
   props: ['model', 'fields', 'modelName', 'ICON'],
-  data() {
-    return {}
-  },
-  created() {
-    // this.pullImage()
-  },
-  watch: {
-    model() {}
-  },
+
   computed: {
+    /* istanbul ignore next */
     sortedFields() {
       let sorted = this.fields.sort()
 
@@ -119,6 +114,16 @@ export default {
       filtered.unshift('id')
       return filtered
     },
+
+    /* istanbul ignore next */
+    ...mapState('UserModules', {
+      // model: state => state.currentClient
+      // nutritionist: state => state.user.nutritionist,
+    })
+  },
+
+  methods: {
+    /* istanbul ignore next */
     clientId(id) {
       let client = Client.query()
         .where('menu', id)
@@ -126,18 +131,14 @@ export default {
 
       return client.id
     },
-    ...mapState('UserModules', {
-      // model: state => state.currentClient
-      // nutritionist: state => state.user.nutritionist,
-    })
-  },
-  methods: {
+    /* istanbul ignore next */
     singularize(name) {
       if (_.endsWith(name, 's') || _.endsWith(name, 'S')) {
         return name.substring(0, name.length - 1)
       }
       return name
     },
+    /* istanbul ignore next */
     eventCount(value, model) {
       let id = model.id
       let count = Models.Event.query()
@@ -146,6 +147,7 @@ export default {
 
       return count.length
     },
+    /* istanbul ignore next */
     menuCount(value, model) {
       let id = model.id
       let count = Menu.query()
@@ -154,6 +156,7 @@ export default {
 
       return count.length
     },
+    /* istanbul ignore next */
     clientName(value) {
       let client = Client.find(value)
 
@@ -164,7 +167,7 @@ export default {
 
       return '(' + nutritionist.id + ')' + ' ' + nutritionist.first_name
     },
-
+    /* istanbul ignore next */
     getPath(id, field) {
       if (field == 'menus' && this.modelName == 'menus') {
         return { name: 'MenuDetail', params: { mid: id } }
@@ -175,6 +178,7 @@ export default {
 
       return { name: 'ClientDetail', params: { id: id } }
     },
+    /* istanbul ignore next */
     getDate(string) {
       return GetFormattedDate(string)
     }

@@ -1,5 +1,5 @@
 import { Model } from '@vuex-orm/core'
-import Client from './client.js'
+
 export default class Event extends Model {
     // This is the name used as module name of the Vuex Store.
     static entity = 'events'

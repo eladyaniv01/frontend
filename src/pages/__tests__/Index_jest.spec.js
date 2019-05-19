@@ -3,6 +3,8 @@
  * @jest-environment jsdom
  */
 
+
+
 import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
 import * as All from 'quasar'
 import Vuex from 'vuex'
@@ -11,6 +13,9 @@ import CMS from 'src/store/CMS/index.js'
 
 import * as constants from 'src/services/ServiceConstants'
 import axios from 'axios'
+
+// import { MockAdapter } from 'axios-mock-adapter'
+
 
 // app ext
 import { QFlashcard, QFlashcardSection } from '@quasar/quasar-app-extension-qflashcard'
@@ -31,6 +36,7 @@ import _ from 'lodash';
 // import langEn from 'quasar/lang/en-us' // change to any language you wish! => this breaks wallaby :(
 const { Quasar, date } = All
 
+
 const components = Object.keys(All).reduce((object, key) => {
     const val = All[key]
     if (val && val.component && val.component.name != null) {
@@ -39,12 +45,17 @@ const components = Object.keys(All).reduce((object, key) => {
     return object
 }, {})
 
+
+
+
 describe('Index.vue desktop', () => {
     const localVue = createLocalVue()
     // from boot
+
     localVue.prototype.$axios = axios.create({
-        baseURL: `${constants.APIURL}`,
-        crossDomain: true
+        baseURL: ``
+
+
     })
     localVue.filter('title', function (value) {
         if (!value) return ''
@@ -52,8 +63,7 @@ describe('Index.vue desktop', () => {
         return value.charAt(0).toUpperCase() + value.slice(1)
     })
 
-    //ext
-    // localVue.component("q-flashcard", { QFlashcard })
+
 
 
 
@@ -141,8 +151,12 @@ describe('Index.vue desktop', () => {
         }
 
     })
-    const MODEL = Client.find(1)
-
+    // const MODEL = Client.find(1)
+    const $t = () => { }
+    const $tc = () => { }
+    const $n = () => { }
+    const $d = () => { }
+    const $axios = () => { jest.mock('axios') }
 
     const wrapper = shallowMount(PageIndex, {
         store,
@@ -150,7 +164,8 @@ describe('Index.vue desktop', () => {
         components: {
             QFlashcard,
             QFlashcardSection
-        }
+        },
+        mocks: { $t, $tc, $n, $d }
 
 
 
@@ -178,6 +193,19 @@ describe('Index.vue desktop', () => {
 
 
     })
+    it("good response", () => {
+        const resp = { data: {} };
+        let $axios = axios
+        console.log($axios.get('mockurl')
+            .then(result => { }))
+
+        // ...
+    });
+
+    // it("bad response", () => {
+    //     $axios.get.mockImplementation(() => Promise.reject({}));
+    //     // ...
+    // });
     // it('singularize works ', () => {
     //     expect(vm.singularize('clients')).toBe('client')
     // })

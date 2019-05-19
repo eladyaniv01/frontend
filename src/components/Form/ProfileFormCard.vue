@@ -43,12 +43,7 @@ export default {
     return {}
   },
   computed: {
-    ...mapState('UserModules', {
-      user: state => state.user,
-      username: state => state.user.username,
-      nutritionist: state => state.nutritionist
-    }),
-    sex: function() {
+    sex() {
       if (this.form.sex === 'M') {
         return 'Male'
       }
@@ -63,22 +58,9 @@ export default {
       email: { required, email }
     }
   },
-  watch: {
-    user(newVal, oldVal) {
-      console.log(
-        `User has changed - old value ${oldVal}, new value ${newVal.username}`
-      )
-    },
-    username(newVal, oldVal) {
-      console.log(
-        `Username has changed - old value ${oldVal}, new value ${newVal}`
-      )
-    },
-    id(newVal, oldVal) {
-      console.log(`id has changed - old value ${oldVal}, new value ${newVal}`)
-    }
-  },
+
   methods: {
+    /* istanbul ignore next */
     async registerIt() {
       var vm = this.form
 
@@ -98,15 +80,13 @@ export default {
       formData.append('address', vm.address)
       formData.append('phone_number', vm.phone_number)
       formData.append('dob', vm.dob)
+
       try {
         await this.$store.dispatch('UserModules/DoRegister')
         let { data } = await axios.put(
           `http://127.0.0.1:8000/api/nutritionists/${vm.id}/`,
           formData
         )
-        console.log('DATA')
-        console.log(data)
-
         this.$store.dispatch('UserModules/UpdateNutritionist', data)
         this.$store.dispatch('UserModules/StopRegister')
         this.$router.push('/nutritionist/profile')
