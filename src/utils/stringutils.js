@@ -31,7 +31,19 @@ export function prettyStringJson(payload) {
 export function doNotify(vm, config, payload) {
   return vm.notify(config)
 }
+export function getUnique(arr, comp) {
+  const unique = arr
+    .map(e => e[comp])
 
+    // store the keys of the unique objects
+    .map((e, i, final) => final.indexOf(e) === i && i)
+
+    // eliminate the dead keys & store unique objects
+    .filter(e => arr[e])
+    .map(e => arr[e])
+
+  return unique
+}
 
 export function GetFormattedDate(string) {
   let payload = new Date(string)

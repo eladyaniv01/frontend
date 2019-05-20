@@ -1,5 +1,6 @@
 <template>
   <div class="MenuDetailView">
+    <div class="q-mt-md">Selected: {{ JSON.stringify(selected) }}</div>
     <q-option-group
       v-model="separator"
       inline
@@ -17,6 +18,7 @@
       class="row inline content-stretch q-pa-sm"
     >
       <q-table
+        :id="_.capitalize(_.lowerCase((MEAL.meal_type_name)))"
         class="bg-blue-grey-2 shadow-5"
         flat
         dense
@@ -26,7 +28,8 @@
         :columns="columns(MEAL)"
         row-key="id"
         :separator="separator"
-        selection="single"
+        :selected-rows-label="getSelectedString"
+        selection="multiple"
         :selected.sync="selected"
       />
       <p></p>
@@ -67,7 +70,8 @@ import {
   myRep,
   sentenceCase,
   doNotify,
-  prettyStringJson
+  prettyStringJson,
+  getUnique
 } from 'src/utils/stringutils.js'
 
 export default {
@@ -107,7 +111,7 @@ export default {
       return menu
     },
     probCount() {
-      console.log('this.problems.length = ', this.Problems.length)
+      // console.log('this.problems.length = ', this.Problems.length)
       return this.Problems.length
     },
     Problems() {
@@ -134,6 +138,22 @@ export default {
   },
 
   methods: {
+    getSelectedString() {
+      let len = 0
+      for (let i in this.menu.meals) {
+        len += this.menu.meals[i].foods.length
+      }
+      console.log(len)
+      let stri =
+        this.selected.length === 0
+          ? ''
+          : `${this.selected.length} record${
+              this.selected.length > 1 ? 's' : ''
+            } selected of ${len}`
+
+      console.log(stri)
+      return stri
+    },
     getData(inputFoods) {
       let outputFoods = []
 
@@ -154,24 +174,10 @@ export default {
         outputFoods.push(flattenFood)
       }
       // console.log(inputFoods)
-      console.log(outputFoods)
+      // console.log(outputFoods)
       return outputFoods
     },
     columns(payload) {
-      function getUnique(arr, comp) {
-        const unique = arr
-          .map(e => e[comp])
-
-          // store the keys of the unique objects
-          .map((e, i, final) => final.indexOf(e) === i && i)
-
-          // eliminate the dead keys & store unique objects
-          .filter(e => arr[e])
-          .map(e => arr[e])
-
-        return unique
-      }
-
       let MEAL = payload
       // console.log(MEAL)
       let cols = []
@@ -182,7 +188,7 @@ export default {
         for (let i in keys) {
           let col = {}
           // console.log(keys[i])
-          console.log(keys[i])
+          // console.log(keys[i])
           if (keys[i] !== '__index' && keys[i] !== 'food') {
             col.name = keys[i]
             col.label = _.capitalize(_.lowerCase(keys[i]))
