@@ -1,37 +1,46 @@
 <template>
   <div class="MenuDetailView">
-    <q-option-group
-      v-model="separator"
-      inline
-      class="q-mb-md"
-      :options="[
-        { label: 'Horizontal', value: 'horizontal' },
-        { label: 'Vertical', value: 'vertical' },
-        { label: 'Cell', value: 'cell' },
-        { label: 'None', value: 'none' },
-      ]"
-    />
-    <div
-      v-for="(MEAL,key, index) in (menu.meals)"
-      :key="index"
-      class="row inline content-stretch q-pa-sm"
-    >
-      <q-table
-        class="bg-blue-grey-2 shadow-5"
-        flat
+    <div class="row inline content-stretch q-gutter-sm">
+      <q-markup-table
         dense
         bordered
-        :title="_.capitalize(_.lowerCase((MEAL.meal_type_name)))"
-        :data="getData(MEAL.foods)"
-        :columns="columns(MEAL)"
-        row-key="id"
+        class="bg-blue-grey-2 shadow-5"
         :separator="separator"
-        selection="single"
-        :selected.sync="selected"
-      />
-      <p></p>
+        title="Menu"
+        no-data-label="null"
+        v-for="(MEAL,key, index) in (menu['meals'])"
+        :key="index"
+      >
+        <thead>
+          <tr>
+            <th class="self-center">
+              <div
+                class="text-blue-grey-9 text-h5 bg-blue-grey-4 shadow-5"
+              >{{_.capitalize(_.lowerCase((MEAL['meal_type_name'])))}}</div>
+            </th>
+          </tr>
+          <tr>
+            <th class="bg-blue-grey-3">#</th>
+            <th class="bg-blue-grey-3">Name</th>
+            <th class="bg-blue-grey-3">Serving Units</th>
+            <th class="bg-blue-grey-3">Total Grams</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="(obj,key2, index2) in MEAL['foods']" :key="index2">
+            <td>{{obj['food'].id}}</td>
+            <td>{{obj['food'].hebrew_name}}</td>
+            <td>{{obj['food'].serving_size}}</td>
+            <td>{{obj.total_gram}}</td>
+
+            <!-- <td>{{field[1]}}</td>
+              <td>{{field[2]}}</td>
+            <td>{{field[3]}}</td>-->
+          </tr>
+        </tbody>
+      </q-markup-table>
     </div>
-    <!-- {{menu}} -->
     <q-page-sticky position="bottom-right" class="width 50 shadow-1" :offset="[10, 118]">
       <q-btn class="bg-green-5" no-caps push color="primary" label="Back" @click="back()"/>
     </q-page-sticky>
@@ -76,7 +85,6 @@ export default {
   data() {
     return {
       separator: 'vertical',
-      selected: [],
       meals: [
         'breakfast',
         'brunch',
@@ -134,92 +142,6 @@ export default {
   },
 
   methods: {
-    getData(inputFoods) {
-      let outputFoods = []
-
-      for (let i in inputFoods) {
-        let flattenFood = {}
-        let inner = inputFoods[i]
-        for (let j in inner) {
-          if (typeof inner[j] !== 'object' && j !== '__index') {
-            flattenFood[j] = inner[j]
-          }
-          if (typeof inner[j] === 'object') {
-            let food = inner[j]
-            for (let k in food) {
-              flattenFood[k] = food[k]
-            }
-          }
-        }
-        outputFoods.push(flattenFood)
-      }
-      // console.log(inputFoods)
-      console.log(outputFoods)
-      return outputFoods
-    },
-    columns(payload) {
-      function getUnique(arr, comp) {
-        const unique = arr
-          .map(e => e[comp])
-
-          // store the keys of the unique objects
-          .map((e, i, final) => final.indexOf(e) === i && i)
-
-          // eliminate the dead keys & store unique objects
-          .filter(e => arr[e])
-          .map(e => arr[e])
-
-        return unique
-      }
-
-      let MEAL = payload
-      // console.log(MEAL)
-      let cols = []
-
-      // console.log(MEAL)
-      for (let index in MEAL.foods) {
-        let keys = Object.keys(MEAL.foods[index])
-        for (let i in keys) {
-          let col = {}
-          // console.log(keys[i])
-          console.log(keys[i])
-          if (keys[i] !== '__index' && keys[i] !== 'food') {
-            col.name = keys[i]
-            col.label = _.capitalize(_.lowerCase(keys[i]))
-            col.field = keys[i]
-
-            col.sortable = true
-            cols.push(col)
-          }
-
-          if (keys[i] === 'food') {
-            let food = Object.keys(MEAL.foods[index].food)
-
-            for (let j in food) {
-              let col2 = {}
-              col2.name = food[j]
-              col2.label = _.capitalize(_.lowerCase(food[j]))
-              col2.field = food[j]
-
-              col2.sortable = true
-              cols.push(col2)
-              // console.log(food[j])
-            }
-          }
-        }
-        // col.name = MEAL.foods[index].hebrew_name
-        // col.required = true
-        // col.
-      }
-      // console.log(cols)
-
-      let final = getUnique(cols, 'name')
-      var filtered = final.filter(function(el) {
-        return el != 'undefined'
-      })
-
-      return filtered
-    },
     back() {
       this.$router.go(-1)
     },
@@ -265,23 +187,6 @@ export default {
   }
 }
 </script>
-<style scoped lang="stylus">
-.sticky-header-table {
-  /* max height is important */
-  .q-table__middle {
-    max-height: 200px;
-  }
-
-  .q-table__top, .q-table__bottom, thead tr:first-child th {
-    background-color: #c1f4cd;
-  }
-
-  thead tr:first-child th {
-    position: sticky;
-    top: 0;
-    opacity: 1;
-    z-index: 1;
-  }
-}
+<style scoped>
 </style>
  
