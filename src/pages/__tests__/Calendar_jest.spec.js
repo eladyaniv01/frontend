@@ -2,135 +2,19 @@
 /**
  * @jest-environment jsdom
  */
-
-import { mount, createLocalVue, shallowMount } from '@vue/test-utils'
-import * as All from 'quasar'
-import Vuex from 'vuex'
-import UserModules from 'src/store/UserModules/index.js'
-import CMS from 'src/store/CMS/index.js'
-
-import * as constants from 'src/services/ServiceConstants'
-import axios from 'axios'
-
-// app ext
-
-
-
-import VuexORM from '@vuex-orm/core'
-import Client from 'src/store/ORM/client.js'
-import Menu from 'src/store/ORM/menu.js'
-import Nutritionist from 'src/store/ORM/nutritionists.js'
-import PrivateNote from 'src/store/ORM/private_notes.js'
-import Event from 'src/store/ORM/calendarevents.js'
+import { shallowMount } from '@vue/test-utils'
+import base from 'src/TestBase'
+import Models from 'src/store/ORM/models.js'
 import Calendar from 'src/pages/Calendar.vue'
-import lodash from 'lodash'
-import VueLodash from 'vue-lodash'
-import _ from 'lodash';
+
+const localVue = base.localVue
+const store = base.store
 
 
-// import langEn from 'quasar/lang/en-us' // change to any language you wish! => this breaks wallaby :(
-const { Quasar, date } = All
 
-const components = Object.keys(All).reduce((object, key) => {
-    const val = All[key]
-    if (val && val.component && val.component.name != null) {
-        object[key] = val
-    }
-    return object
-}, {})
+
 
 describe('Calendar.vue', () => {
-    const localVue = createLocalVue()
-    localVue.prototype.$axios = axios.create({})
-
-
-
-    localVue.use(Quasar, { components }) // , lang: langEn
-    localVue.use(VueLodash, lodash)
-
-    localVue.use(Vuex)
-
-
-    const database = new VuexORM.Database()
-
-    database.register(Nutritionist, 'nutritionists')
-    database.register(Client, 'clients')
-    database.register(Menu, 'menus')
-    database.register(PrivateNote, 'private_notes')
-    database.register(Event, 'events')
-    const store = new Vuex.Store({
-        modules: {
-            UserModules,
-            CMS
-
-
-
-        },
-        plugins: [
-
-            VuexORM.install(database)
-
-        ],
-    });
-    Nutritionist.create({
-        data: {
-            id: 1,
-
-            first_name: 'TestNutFN',
-            last_name: 'TestNutLN',
-            owner: 1,
-        }
-    })
-    Client.create({
-        data: {
-            id: 1,
-            created_at: Date.now(),
-            nutritionist: 1,
-            first_name: "FN_TestClient",
-            last_name: "LN_TestClient",
-            identification: "00000000",
-            dob: "14.04.1983",
-            height: "167",
-            weight: "67",
-            sex: "M",
-            address: "koresh 4",
-            email: "some@email.com",
-            phone_number: "5646546546",
-            got_free_menu: false
-        }
-    })
-    Menu.create({
-        data: {
-            created_at: Date.now(),
-            nutritionist: 1,
-            id: 1,
-            client: 1,
-            meals: null,
-
-        }
-    })
-    Event.create({
-        data: {
-            id: 1,
-            title: 'title!!!',
-            start: '1',
-            end: '2',
-            client: 1,
-            nutritionist: 1,
-        }
-
-    })
-    PrivateNote.create({
-        data: {
-            id: 1,
-            title: 'NOTEtitle!!!',
-            client: 1,
-            nutritionist: 1,
-        }
-
-    })
-    localVue.prototype.$store = store
-
 
 
     const wrapper = shallowMount(Calendar, {
@@ -180,7 +64,7 @@ describe('Calendar.vue', () => {
     })
 
     it('getClient works ', () => {
-        expect(vm.getClient(Event.find(1))).toBe('1 FN_TestClient')
+        expect(vm.getClient(Models.Event.find(1))).toBe('1 FN_TestClient')
     })
     it('add Event method works ', () => {
         console.log(vm.add(form))

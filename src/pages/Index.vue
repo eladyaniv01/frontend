@@ -161,6 +161,7 @@ export default {
       landingHeader: state => state['CMS'].landingHeader,
       landingCards: state => state['CMS'].landingCards
     }),
+    /* istanbul ignore next */
     ...mapState([
       'route' // vuex-router-sync
     ]),

@@ -82,6 +82,7 @@
   </q-card>
 </template>
 <script>
+import _ from 'lodash'
 import Client from 'src/store/ORM/client.js'
 import Menu from 'src/store/ORM/menu.js'
 import Nutritionist from 'src/store/ORM/nutritionists.js'
@@ -127,20 +128,20 @@ export default {
       filtered.unshift('id')
       return filtered
     },
-    /* istanbul ignore next */
-    clientId(id) {
-      let client = Client.query()
-        .where('menu', id)
-        .get()
 
-      return client.id
-    },
     ...mapState('UserModules', {
       // model: state => state.currentClient
       // nutritionist: state => state.user.nutritionist,
     })
   },
   methods: {
+    clientId(id) {
+      let client = Client.query()
+        .where('event', id)
+        .get()
+
+      return client.id
+    },
     /* istanbul ignore next */
     singularize(name) {
       if (_.endsWith(name, 's') || _.endsWith(name, 'S')) {
