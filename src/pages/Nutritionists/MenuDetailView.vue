@@ -1,6 +1,6 @@
 <template>
   <div class="MenuDetailView">
-    <div class="q-mt-md">Selected: {{ JSON.stringify(selected) }}</div>
+    <!-- <div class="q-mt-md">Selected: {{ JSON.stringify(selected) }}</div> -->
     <q-option-group
       v-model="separator"
       inline
