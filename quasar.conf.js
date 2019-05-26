@@ -35,7 +35,7 @@ module.exports = function (ctx) {
       // }
     },
     devServer: {
-      open: false,
+      open: true,
       port: 8080
     },
     // framework: 'all', // --- includes everything; for dev only!

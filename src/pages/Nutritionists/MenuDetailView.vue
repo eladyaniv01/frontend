@@ -31,10 +31,23 @@
           :columns="columns(MEAL)"
           row-key="id"
           :separator="separator"
-          :selected-rows-label="getSelectedString"
-          selection="single"
-          :selected.sync="selected"
-        />
+          binary-state-sort
+        >
+          <template v-slot:body="props">
+            <q-tr :props="props">
+              <q-td v-for="col in props.row" :key="col.__index">
+                <p
+                  v-if="col !== props.row.__index"
+                  @click="onRowClick(props.row,MEAL.meal_type_name)"
+                >{{col}}</p>
+              </q-td>
+
+              <!-- <q-td v-for="COL in FOOD.food" :key="COL">{{COL}}</q-td>
+              <q-td key="quantity_min">{{FOOD.quantity_min}}</q-td>
+              <q-td key="total_gram">{{FOOD.total_gram}}</q-td>-->
+            </q-tr>
+          </template>
+        </q-table>
       </draggable>
     </container>
 
@@ -80,12 +93,14 @@ import {
   prettyStringJson,
   getUnique
 } from 'src/utils/stringutils.js'
+import FoodPopUp from '../../components/FoodPopUp.vue'
 
 export default {
   name: 'MenuDetailView',
   components: {
     Container,
-    Draggable
+    Draggable,
+    FoodPopUp
   },
 
   data() {
@@ -111,11 +126,82 @@ export default {
         'goodnight'
       ],
 
-      problems: []
+      problems: [],
+      options: []
     }
   },
 
   methods: {
+    onRowClick(row, meal_name) {
+      console.log(meal_name)
+      this.showDialog = true
+      let id = row.id
+      this.options = []
+      this.$q.loading.show({
+        delay: 200, // ms
+        message: 'Processing ...'
+      })
+      this.$axios
+        .get(`api/fooddb/${id}`)
+        .then(result => {
+          console.log(result.data.objects)
+          this.options = result.data.objects
+
+          this.$q.loading.hide()
+          this.$q
+            .dialog({
+              component: FoodPopUp,
+              dark: true,
+
+              cancel: true,
+              persistent: true,
+              food: row,
+              options: this.options,
+              menu_id: this.menu.id,
+              meal_name: meal_name
+            })
+            .onOk(data => {
+              this.$forceUpdate()
+              console.log('>>>> OK, received', data)
+            })
+            .onCancel(() => {
+              this.$forceUpdate()
+              console.log('>>>> Cancel')
+            })
+            .onDismiss(() => {
+              console.log('I am triggered on both OK and Cancel')
+            })
+        })
+        .catch(err => {
+          this.$q.loading.hide()
+          alert(err)
+          if (err.response) {
+            let errors = prettyStringJson(err.response.data)
+            for (let index in errors) {
+              if (i === 4) {
+                break
+              }
+              if (errors[index]) {
+                this.$q.notify({
+                  message: errors[index] + '.',
+                  position: 'center',
+                  color: 'negative'
+                })
+              }
+            }
+          } else {
+            this.$q.notify({
+              message: 'Network Error, Server might be Offline',
+              position: 'center',
+
+              color: 'negative'
+            })
+          }
+        })
+    },
+    doSomething(key) {
+      alert(key)
+    },
     onDrop: function(dropResult) {
       let menu = Menu.find(this.$route.params.mid)
       menu.meals = applyDrag(menu.meals, dropResult)

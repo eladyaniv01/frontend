@@ -115,11 +115,6 @@ export default {
       password: { required }
     }
   },
-  watch: {
-    user(newVal, oldVal) {
-      console.log(`User has changed - old value ${oldVal}, new value ${newVal}`)
-    }
-  },
   methods: {
     logItIn() {
       this.$q.loading.show({
@@ -145,27 +140,7 @@ export default {
             data: result.data.user.nutritionist,
             insert: ['clients']
           })
-          // INIT THE MENU SET BELONGING TO EACH CLIENT
-          // result.data.user.nutritionist.clients.forEach(function(client) {
-          //   client.menus.forEach(function(menu) {
-          //     Menu.create({ data: menu })
-          //   })
-          // })
-          // console.log('CLIENTS')
 
-          // console.log(
-          //   Nutritionist.query()
-          //     .with('clients')
-          //     .get()
-          // )
-          // console.log('MENUS')
-          // console.log(
-          //   Nutritionist.query()
-          //     .with('menus')
-          //     .with('clients')
-          //     .get()
-          // )
-          // this.$store.dispatch('UserModules/UpdateNutritionist', result.data)
           this.$store.dispatch('UserModules/UpdateToken', result.data.token)
           this.$store.dispatch('UserModules/FetchToken')
 

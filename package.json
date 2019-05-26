@@ -45,6 +45,7 @@
     "vue-cal": "^1.58.0",
     "vue-i18n": "^8.11.2",
     "vue-lodash": "^2.0.2",
+    "vue-smooth-dnd": "^0.8.0",
     "vuelidate": "^0.7.4",
     "vuex": "^3.1.1",
     "vuex-persistedstate": "^2.5.4"
