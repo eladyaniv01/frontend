@@ -12,28 +12,32 @@
         { label: 'None', value: 'none' },
       ]"
     />
-    <div
-      v-for="(MEAL,key, index) in (menu.meals)"
-      :key="index"
+
+    <container
+      group-name="row"
+      @drop="onDrop"
       class="row inline content-stretch q-pa-sm"
+      :animation-duration="800"
     >
-      <q-table
-        :id="_.capitalize(_.lowerCase((MEAL.meal_type_name)))"
-        class="bg-blue-grey-2 shadow-5"
-        flat
-        dense
-        bordered
-        :title="_.capitalize(_.lowerCase((MEAL.meal_type_name)))"
-        :data="getData(MEAL.foods)"
-        :columns="columns(MEAL)"
-        row-key="id"
-        :separator="separator"
-        :selected-rows-label="getSelectedString"
-        selection="multiple"
-        :selected.sync="selected"
-      />
-      <p></p>
-    </div>
+      <draggable class="row q-pa-sm" v-for="(MEAL,key, index) in menu.meals" :key="index">
+        <q-table
+          :id="_.capitalize(_.lowerCase((MEAL.meal_type_name)))"
+          class="bg-blue-grey-2 shadow-5"
+          flat
+          dense
+          bordered
+          :title="_.capitalize(_.lowerCase((MEAL.meal_type_name)))"
+          :data="getData(MEAL.foods)"
+          :columns="columns(MEAL)"
+          row-key="id"
+          :separator="separator"
+          :selected-rows-label="getSelectedString"
+          selection="single"
+          :selected.sync="selected"
+        />
+      </draggable>
+    </container>
+
     <!-- {{menu}} -->
     <q-page-sticky position="bottom-right" class="width 50 shadow-1" :offset="[10, 118]">
       <q-btn class="bg-green-5" no-caps push color="primary" label="Back" @click="back()"/>
@@ -64,8 +68,11 @@
 </template>
 
 <script>
+import { Container, Draggable } from 'vue-smooth-dnd'
 import Menu from 'src/store/ORM/menu.js'
 import { mapState } from 'vuex'
+import applyDrag from 'src/utils/applyDrag.js'
+
 import {
   myRep,
   sentenceCase,
@@ -76,9 +83,23 @@ import {
 
 export default {
   name: 'MenuDetailView',
+  components: {
+    Container,
+    Draggable
+  },
 
   data() {
     return {
+      upperDropPlaceholderOptions: {
+        className: 'cards-drop-preview',
+        animationDuration: '150',
+        showOnTop: true
+      },
+      dropPlaceholderOptions: {
+        className: 'drop-preview',
+        animationDuration: '150',
+        showOnTop: true
+      },
       separator: 'vertical',
       selected: [],
       meals: [
@@ -89,55 +110,32 @@ export default {
         'dinner',
         'goodnight'
       ],
+
       problems: []
-    }
-  },
-  computed: {
-    ...mapState('UserModules', {
-      user: state => state.user,
-      userName: state => state.user.username,
-      nutritionist: state => state.user.nutritionist,
-      currentClient: state => state.currentClient
-    }),
-    heading() {
-      return 'Account Information'
-    },
-    updatePath() {
-      return '/nutritionist/profile/update'
-    },
-    menu() {
-      let menu = Menu.find(this.$route.params.mid)
-
-      return menu
-    },
-    probCount() {
-      // console.log('this.problems.length = ', this.Problems.length)
-      return this.Problems.length
-    },
-    Problems() {
-      let problems = this.problems
-      let index
-      let menu = Menu.find(this.$route.params.mid)
-      let PROBS = menu['problems']
-        .replace('[', '')
-        .replace(']', '')
-        .replace(/"/g, '')
-        .split(',')
-
-      for (index in PROBS) {
-        let problem = {
-          label: _.capitalize(PROBS[index]),
-          icon: 'fas fa-exclamation-circle',
-          color: 'red',
-          id: index
-        }
-        problems.push(problem)
-      }
-      return problems
     }
   },
 
   methods: {
+    onDrop: function(dropResult) {
+      let menu = Menu.find(this.$route.params.mid)
+      menu.meals = applyDrag(menu.meals, dropResult)
+    },
+    // moveTable(e, toIndex) {
+    //   const fromIndex = e.dataTransfer.getData('from-table-index')
+    //   const fromTable = this.menu.meals[fromIndex]
+    //   let tables = this.menu.meals
+    //   this.$store.dispatch('UserModules/MoveTable', {
+    //     fromIndex,
+    //     toIndex,
+    //     tables
+    //   })
+    // },
+    // pickUpTable(e, index) {
+    //   e.dataTransfer.effectAllowed = 'move'
+    //   e.dataTransfer.dropEffect = 'move'
+    //   e.dataTransfer.setData('index', index)
+    //   e.dataTransfer.setData('from-table-index', index)
+    // },
     getSelectedString() {
       let len = 0
       for (let i in this.menu.meals) {
@@ -267,6 +265,55 @@ export default {
         .onOk(action => {})
         .onCancel(() => {})
         .onDismiss(() => {})
+    }
+  },
+  computed: {
+    ...mapState('UserModules', {
+      user: state => state.user,
+      userName: state => state.user.username,
+      nutritionist: state => state.user.nutritionist,
+      currentClient: state => state.currentClient
+    }),
+    heading() {
+      return 'Account Information'
+    },
+    updatePath() {
+      return '/nutritionist/profile/update'
+    },
+    menu() {
+      let menu = Menu.find(this.$route.params.mid)
+
+      return menu
+    },
+    // tables() {
+    //   let menu = Menu.find(this.$route.params.mid)
+    //   this.tables = menu.meals
+    //   return menu.meals
+    // },
+    probCount() {
+      // console.log('this.problems.length = ', this.Problems.length)
+      return this.Problems.length
+    },
+    Problems() {
+      let problems = this.problems
+      let index
+      let menu = Menu.find(this.$route.params.mid)
+      let PROBS = menu['problems']
+        .replace('[', '')
+        .replace(']', '')
+        .replace(/"/g, '')
+        .split(',')
+
+      for (index in PROBS) {
+        let problem = {
+          label: _.capitalize(PROBS[index]),
+          icon: 'fas fa-exclamation-circle',
+          color: 'red',
+          id: index
+        }
+        problems.push(problem)
+      }
+      return problems
     }
   }
 }

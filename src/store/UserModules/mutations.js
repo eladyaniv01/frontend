@@ -126,3 +126,9 @@ export function SETCLIENTNOTES(state, payload) {
   state.currentClient.private_notes = payload
 
 }
+export function MOVETABLE(state, { from, to, tables }) {
+  const tableToMove = tables[from]
+  tables.push(tableToMove)
+
+
+}
