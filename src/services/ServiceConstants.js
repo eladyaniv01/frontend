@@ -7,4 +7,4 @@ if (process.env['NODE_ENV'] === 'development') {
     manager = prod
 }
 
-export const APIURL = manager
+export const APIURL = prod

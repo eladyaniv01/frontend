@@ -154,6 +154,8 @@ export default {
 
             type: 'info'
           })
+          // this.$axios.defaults.headers.common['Access-Control-Allow-Headers'] =
+          //   '*'
           this.$router.push('/')
         })
         .catch(err => {

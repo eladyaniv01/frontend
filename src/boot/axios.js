@@ -10,7 +10,8 @@ import * as constants from 'src/services/ServiceConstants'
 export default ({ Vue }) => {
   Vue.prototype.$axios = axios.create({
     baseURL: `${constants.APIURL}`,
-    crossDomain: true
+    crossDomain: true,
+    // headers: { 'Access-Control-Allow-Methods': ['GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'OPTIONS'] }
 
 
 
