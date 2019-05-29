@@ -1,5 +1,5 @@
 <template>
-  <div id="ModelListView" class="col-xs-12 col-sm-6 col-md-4 flex justify-center items-stretch">
+  <div id="MinListView" class="col-xs-12 col-sm-6 col-md-4 flex justify-center items-stretch">
     <MinBox
       class="q-pa-sm q-ma-sm shadow-5"
       v-for="model in modelList"
@@ -26,7 +26,7 @@ import {
 } from 'src/utils/stringutils.js'
 
 export default {
-  name: 'ModelListView',
+  name: 'MinListView',
   components: {
     MinBox
   },

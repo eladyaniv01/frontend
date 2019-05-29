@@ -16,7 +16,7 @@
     <container
       group-name="row"
       @drop="onDrop"
-      class="row inline content-stretch q-pa-sm"
+      class="row inline content-start q-pa-sm"
       :animation-duration="800"
     >
       <draggable class="row q-pa-sm" v-for="(MEAL,key, index) in menu.meals" :key="index">
@@ -37,6 +37,7 @@
             <q-tr :props="props">
               <q-td v-for="col in props.row" :key="col.__index">
                 <p
+                  class="cursor-pointer"
                   v-if="col !== props.row.__index"
                   @click="onRowClick(props.row,MEAL.meal_type_name)"
                 >{{col}}</p>

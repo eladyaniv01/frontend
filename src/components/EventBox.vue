@@ -4,15 +4,11 @@
       <q-separator/>
       <div v-for="field in fields" :key="field">
         <div v-if="field == 'id'">
-          <q-btn
-            glossy
-            class="eventBtn"
-            to="../../../calendar"
-            style="background: rgba(0, 151, 19, 0.2); ; width: 199px;"
-          >
+          <q-btn flat class="eventBtn" to="../../../calendar">
             <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
             <div class="text-h6">{{singularize(modelName)}}</div>
             <div class="text-subtitle2">{{model[field]}}</div>
+            <q-tooltip>Click For Details</q-tooltip>
           </q-btn>
           <q-separator/>
         </div>
@@ -37,10 +33,13 @@
           <q-separator/>
         </div>
 
-        <div v-if="field == 'client'">
-          <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
-
-          <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
+        <div class="q-pt-sm" v-if="field == 'client'">
+          <div class="doc-card-title shadow-1 bg-grey">
+            <div class="text-subtitle2 text-capitalize bg-grey">
+              {{_.replace(field, /_/gi, ' ')}}
+              <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
+            </div>
+          </div>
           <p class="text-h6">{{clientName(model[field])}}</p>
           <q-separator/>
         </div>

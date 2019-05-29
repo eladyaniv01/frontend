@@ -1,14 +1,16 @@
 <template>
   <q-card style="width: 100%; max-width: 300px; height: 100%; max-height: 20px;">
     <q-list>
-      <q-separator/>
       <div v-for="field in sortedFields" :key="field">
-        <div v-if="field == 'id'">
-          <q-btn :to="getPath(model[field],modelName)" style="width: 100%;">
-            <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
-            <div style="color:black;" class="text-h6">{{singularize(modelName)}}</div>
-            <div style="color:black;" class="text-subtitle2">{{model[field]}}</div>
-          </q-btn>
+        <div class="q-mr-sm" v-if="field == 'id'">
+          <div class="doc-card-title shadow-1 bg-grey">
+            <q-btn class="bg-grey" flat :to="getPath(model[field],modelName)" style="width: 100%;">
+              <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
+              <div style="color:black; " class="text-h6 bg-grey">{{singularize(modelName)}}</div>
+              <div style="color:black; " class="text-subtitle2 bg-grey">{{model[field]}}</div>
+              <q-tooltip>Click For Details</q-tooltip>
+            </q-btn>
+          </div>
           <q-separator/>
         </div>
         <div v-if="field == 'menus'">
@@ -250,3 +252,4 @@ q-item-section {
   font-size: small;
 }
 </style>
+

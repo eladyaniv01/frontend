@@ -1,7 +1,8 @@
 <template>
   <q-layout view="hHr LpR lFf">
     <!-- Header -->
-    <q-header elevated class="bg-header shadow-7">
+
+    <q-header elevated class="bg-header shadow-7" style="-webkit-app-region: drag">
       <q-toolbar class>
         <div v-if="loggedin">
           <q-btn @click="showLeft = !showLeft" icon="menu"/>

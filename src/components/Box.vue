@@ -1,14 +1,16 @@
 <template>
   <q-card style="width: 100%; max-width: 300px; height: 100%; max-height: 20px;">
     <q-list>
-      <q-separator/>
       <div v-for="field in sortedFields" :key="field">
-        <div v-if="field == 'id'">
-          <q-btn :to="getPath(model[field],modelName)" style="width: 100%;">
-            <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
-            <div class="text-h6">{{singularize(modelName)}}</div>
-            <div class="text-subtitle2">{{model[field]}}</div>
-          </q-btn>
+        <div class="q-pb-sm" v-if="field == 'id'">
+          <div class="doc-card-title shadow-1 bg-grey" style="margin-left: -20px">
+            <q-btn flat class="bg-grey" :to="getPath(model[field],modelName)">
+              <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
+              <div class="text-h6 bg-grey">{{singularize(modelName)}}</div>
+              <div class="text-subtitle2 bg-grey">{{model[field]}}</div>
+              <q-tooltip>Click For Details</q-tooltip>
+            </q-btn>
+          </div>
           <q-separator/>
         </div>
         <div v-if="field == 'menus'">
@@ -41,13 +43,17 @@
         </div>
 
         <div v-if="field == 'client'">
-          <div
-            class="text-info text-subtitle2 text-left text-capitalize"
-          >{{_.replace(field, /_/gi, ' ')}}</div>
-          <q-btn rounded style="width: 100%;" clickable :to="getPath(model[field],field)">
+          <div class="doc-card-title shadow-1 bg-grey" style="margin-left: -20px">
+            <div
+              class="bg-grey text-subtitle2 text-left text-capitalize"
+            >{{_.replace(field, /_/gi, ' ')}}</div>
+          </div>
+          <q-btn clickable :to="getPath(model[field],field)">
             <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
             <p class="text-h6">{{clientName(model[field])}}</p>
+            <q-tooltip>Client Details</q-tooltip>
           </q-btn>
+
           <q-separator/>
         </div>
         <div v-if="field == 'nutritionist'">
@@ -208,7 +214,6 @@ div {
   line-height: 15pt;
   font-size: small;
   display: table;
-  color: rgb(12, 106, 129);
 }
 eventBtn {
   background: red;

@@ -1,19 +1,16 @@
 <template>
   <q-card style="width: 100%; max-width: 300px; height: 100%; max-height: 20px;">
     <q-list>
-      <q-separator/>
       <div v-for="field in fields" :key="field">
-        <div v-if="field == 'id'">
-          <q-btn
-            glossy
-            class="eventBtn"
-            :to="getPath(model[field],modelName)"
-            style="background: rgba(0, 151, 19, 0.2); ; width: 199px;"
-          >
-            <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
-            <div class="text-h6">{{singularize(modelName)}}</div>
-            <div class="text-subtitle2">{{model[field]}}</div>
-          </q-btn>
+        <div class="q-pb-sm" v-if="field == 'id'">
+          <div class="doc-card-title shadow-1 bg-grey" style="margin-left: -20px">
+            <q-btn flat class="bg-grey" :to="getPath(model[field],modelName)">
+              <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
+              <div class="text-h6 bg-grey">{{singularize(modelName)}}</div>
+              <div class="text-subtitle2 bg-grey">{{model[field]}}</div>
+              <q-tooltip>Click For Details</q-tooltip>
+            </q-btn>
+          </div>
           <q-separator/>
         </div>
 
@@ -38,10 +35,13 @@
           <q-separator/>
         </div>
 
-        <div v-if="field == 'client'">
-          <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
-
-          <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
+        <div class="q-pb-sm" v-if="field == 'client'">
+          <div class="doc-card-title shadow-1 bg-grey">
+            <div class="text-subtitle2 text-capitalize bg-grey">
+              {{_.replace(field, /_/gi, ' ')}}
+              <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
+            </div>
+          </div>
           <p class="text-h6">{{clientName(model[field])}}</p>
           <q-separator/>
         </div>
