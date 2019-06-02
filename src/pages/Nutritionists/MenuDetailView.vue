@@ -1,5 +1,5 @@
 <template>
-  <div class="MenuDetailView">
+  <div class="flex content-start">
     <!-- <div class="q-mt-md">Selected: {{ JSON.stringify(selected) }}</div> -->
     <q-option-group
       v-model="separator"
@@ -16,7 +16,7 @@
     <container
       group-name="row"
       @drop="onDrop"
-      class="row inline content-start q-pa-sm"
+      class="row inline items-start q-pa-sm"
       :animation-duration="800"
     >
       <draggable class="row q-pa-sm" v-for="(MEAL,key, index) in menu.meals" :key="index">
@@ -134,7 +134,6 @@ export default {
 
   methods: {
     onRowClick(row, meal_name) {
-      console.log(meal_name)
       this.showDialog = true
       let id = row.id
       this.options = []
@@ -145,7 +144,6 @@ export default {
       this.$axios
         .get(`api/fooddb/${id}`)
         .then(result => {
-          console.log(result.data.objects)
           this.options = result.data.objects
 
           this.$q.loading.hide()

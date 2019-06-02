@@ -22,7 +22,7 @@ module.exports = function (ctx) {
       // extractCSS: false,
 
 
-      publicPath: '/'
+      publicPath: '/',
 
 
       // extendWebpack(cfg) {
@@ -33,6 +33,15 @@ module.exports = function (ctx) {
       //     exclude: /node_modules/
       //   })
       // }
+      extendWebpack(cfg) {
+        cfg.module.rules.push({
+          resourceQuery: /blockType=i18n/,
+          use: [
+            { loader: '@kazupon/vue-i18n-loader' },
+            { loader: 'yaml-loader' }
+          ]
+        })
+      }
     },
     devServer: {
       open: true,
@@ -40,6 +49,7 @@ module.exports = function (ctx) {
     },
     // framework: 'all', // --- includes everything; for dev only!
     framework: {
+
       components: [
         // layout
         'QLayout',
