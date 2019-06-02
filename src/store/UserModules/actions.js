@@ -67,6 +67,7 @@ export function SetClientNotes({ state, commit }, payload) {
 export function MoveTable({ state, commit }, { from, to, tables }) {
   commit('MOVETABLE', { from, to, tables })
 
-
-
+}
+export function SetClientTests({ state, commit }, payload) {
+  commit('SETCLIENTTESTS', payload)
 }

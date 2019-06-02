@@ -78,13 +78,13 @@ export default {
       return 'clients'
     }
   },
-  watch: {
-    clients(newValue, oldValue) {
-      console.log(
-        `clients has changed - old value ${oldValue}, new value ${newValue}`
-      )
-    }
-  },
+  // watch: {
+  //   clients(newValue, oldValue) {
+  //     console.log(
+  //       `clients has changed - old value ${oldValue}, new value ${newValue}`
+  //     )
+  //   }
+  // },
   methods: {
     APIURL() {
       return this.getApiUrl
@@ -122,6 +122,10 @@ export default {
     }
   },
   created() {
+    let tests = Models.Test.query().get()
+    console.log(tests)
+    let evs = Models.Event.query().get()
+    console.log(evs)
     this.$axios
       .get(`api/clients/?nutritionist=${this.nutid}`)
       .then(result => {

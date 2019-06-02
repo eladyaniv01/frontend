@@ -1,8 +1,8 @@
 import { Model } from '@vuex-orm/core'
 import Menu from './menu.js'
-import Nutritionist from './nutritionists.js'
 import PrivateNote from './private_notes.js';
 import Event from './calendarevents.js';
+import Test from './tests.js';
 export default class Client extends Model {
     // This is the name used as module name of the Vuex Store.
     static entity = 'clients'
@@ -16,6 +16,7 @@ export default class Client extends Model {
             menus: this.hasMany(Menu, 'client'),
             private_notes: this.hasMany(PrivateNote, 'client'),
             events: this.hasMany(Event, 'client'),
+            tests: this.hasMany(Test, 'client'),
 
 
             nutritionist: this.attr(null),

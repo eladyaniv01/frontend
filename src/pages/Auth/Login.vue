@@ -134,7 +134,10 @@ export default {
           this.$store.dispatch('UserModules/UpdateUser', result.data)
 
           // INIT THE CLIENT SET BELONGING TO THE NUTRITIONIST
-          Client.create({ data: result.data.user.nutritionist.clients })
+          Client.create({
+            data: result.data.user.nutritionist.clients,
+            insert: ['tests']
+          })
           // INIT THE NUTRITIONIST
           Nutritionist.create({
             data: result.data.user.nutritionist,

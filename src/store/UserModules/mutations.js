@@ -132,3 +132,8 @@ export function MOVETABLE(state, { from, to, tables }) {
 
 
 }
+export function SETCLIENTTESTS(state, payload) {
+  state.currentClient.tests = payload
+
+}
+

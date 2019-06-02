@@ -11,169 +11,27 @@
         :thumb-style="thumbStyle"
         :content-style="contentStyle"
         :content-active-style="contentActiveStyle"
-        class="flex content-center"
-        style="height: 200px; width: 100%;"
+        style="height: 300px; width: 100%;"
       >
         <!-- <q-option-group v-model="cbc" :options="options" color="primary" inline/> -->
-        <div class="q-gutter-sm flex table">
-          <u>CBC</u>
-          <div class="q-gutter-sm">
-            <q-radio dense v-model="cbc" val="low" label="Low"/>
-            <q-radio dense v-model="cbc" val="normal" label="Normal"/>
-            <q-radio dense v-model="cbc" val="high" label="High"/>
+        <ul class="flex items-center" v-for="item in tests" :key="item.id">
+          <li v-if="item.group == 'Hematology'">
+            <b class="text-red">{{item.group}}</b>
+          </li>
+          <li v-if="item.group == 'Chemistry'">
+            <b class="text-green">{{item.group}}</b>
+          </li>
+          <li v-if="item.group == 'Endocrinology'">
+            <b class="text-blue">{{item.group}}</b>
+          </li>
+          <li>{{ item.name }}</li>
 
-            <br>
-            <div class="q-px-sm">
-              Your selection is:
-              <strong>{{ this.cbc }}</strong>
-            </div>
-          </div>
-          <p class="text-h6">
-            <u>Hb</u>
-          </p>
-          <q-radio dense v-model="hb" val="Low" label="Low"/>
-          <q-radio dense v-model="hb" val="Normal" label="Normal"/>
-          <q-radio dense v-model="hb" val="High" label="High"/>
-          <p class="text-h6">
-            <u>DDD</u>
-          </p>
-          <q-radio dense v-model="ddd" val="Low" label="Low"/>
-          <q-radio dense v-model="ddd" val="Normal" label="Normal"/>
-          <q-radio dense v-model="ddd" val="High" label="High"/>
-          <p class="text-h6">
-            <u>ESR</u>
-          </p>
-          <q-radio dense v-model="esr" val="Low" label="Low"/>
-          <q-radio dense v-model="esr" val="Normal" label="Normal"/>
-          <q-radio dense v-model="esr" val="High" label="High"/>
-          <p class="text-h6">
-            <u>XXX</u>
-          </p>
-          <q-radio dense v-model="xxx" val="Low" label="Low"/>
-          <q-radio dense v-model="xxx" val="Normal" label="Normal"/>
-          <q-radio dense v-model="xxx" val="High" label="High"/>
-
-          <p class="text-h6">
-            <u>Vitamin_B12</u>
-          </p>
-          <q-radio dense v-model="vitamin_b12" val="Low" label="Low"/>
-          <q-radio dense v-model="vitamin_b12" val="Normal" label="Normal"/>
-          <q-radio dense v-model="vitamin_b12" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Folic_Acid</u>
-          </p>
-          <q-radio dense v-model="folic_acid" val="Low" label="Low"/>
-          <q-radio dense v-model="folic_acid" val="Normal" label="Normal"/>
-          <q-radio dense v-model="folic_acid" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Vitamin_D</u>
-          </p>
-          <q-radio dense v-model="vitamin_d" val="Low" label="Low"/>
-          <q-radio dense v-model="vitamin_d" val="Normal" label="Normal"/>
-          <q-radio dense v-model="vitamin_d" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Vitamin_A</u>
-          </p>
-          <q-radio dense v-model="vitamin_a" val="Low" label="Low"/>
-          <q-radio dense v-model="vitamin_a" val="Normal" label="Normal"/>
-          <q-radio dense v-model="vitamin_a" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Vitamin_E</u>
-          </p>
-          <q-radio dense v-model="vitamin_e" val="Low" label="Low"/>
-          <q-radio dense v-model="vitamin_e" val="Normal" label="Normal"/>
-          <q-radio dense v-model="vitamin_e" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Vitamin_B1</u>
-          </p>
-          <q-radio dense v-model="vitamin_b1" val="Low" label="Low"/>
-          <q-radio dense v-model="vitamin_b1" val="Normal" label="Normal"/>
-          <q-radio dense v-model="vitamin_b1" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Potassium</u>
-          </p>
-          <q-radio dense v-model="potassium" val="Low" label="Low"/>
-          <q-radio dense v-model="potassium" val="Normal" label="Normal"/>
-          <q-radio dense v-model="potassium" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Sodium</u>
-          </p>
-          <q-radio dense v-model="sodium" val="Low" label="Low"/>
-          <q-radio dense v-model="sodium" val="Normal" label="Normal"/>
-          <q-radio dense v-model="sodium" val="High" label="High"/>
-          <p class="text-h6">
-            <u>chloride</u>
-          </p>
-          <q-radio dense v-model="chloride" val="Low" label="Low"/>
-          <q-radio dense v-model="chloride" val="Normal" label="Normal"/>
-          <q-radio dense v-model="chloride" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Glucose</u>
-          </p>
-          <q-radio dense v-model="glucose" val="Low" label="Low"/>
-          <q-radio dense v-model="glucose" val="Normal" label="Normal"/>
-          <q-radio dense v-model="glucose" val="High" label="High"/>
-          <p class="text-h6">
-            <u>TSH</u>
-          </p>
-          <q-radio dense v-model="tsh" val="Low" label="Low"/>
-          <q-radio dense v-model="tsh" val="Normal" label="Normal"/>
-          <q-radio dense v-model="tsh" val="High" label="High"/>
-          <p class="text-h6">
-            <u>FT4</u>
-          </p>
-          <q-radio dense v-model="ft4" val="Low" label="Low"/>
-          <q-radio dense v-model="ft4" val="Normal" label="Normal"/>
-          <q-radio dense v-model="ft4" val="High" label="High"/>
-          <p class="text-h6">
-            <u>TT3</u>
-          </p>
-          <q-radio dense v-model="tt3" val="Low" label="Low"/>
-          <q-radio dense v-model="tt3" val="Normal" label="Normal"/>
-          <q-radio dense v-model="tt3" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Thyroglobulin</u>
-          </p>
-          <q-radio dense v-model="thyroglobulin" val="Low" label="Low"/>
-          <q-radio dense v-model="thyroglobulin" val="Normal" label="Normal"/>
-          <q-radio dense v-model="thyroglobulin" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Antithyroglobulin_Ab</u>
-          </p>
-          <q-radio dense v-model="antithyroglobulin_ab" val="Low" label="Low"/>
-          <q-radio dense v-model="antithyroglobulin_ab" val="Normal" label="Normal"/>
-          <q-radio dense v-model="antithyroglobulin_ab" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Antimicrosomal_Ab</u>
-          </p>
-          <q-radio dense v-model="antimicrosomal_ab" val="Low" label="Low"/>
-          <q-radio dense v-model="antimicrosomal_ab" val="Normal" label="Normal"/>
-          <q-radio dense v-model="antimicrosomal_ab" val="High" label="High"/>
-          <p class="text-h6">
-            <u>rT3</u>
-          </p>
-          <q-radio dense v-model="rt3" val="Low" label="Low"/>
-          <q-radio dense v-model="rt3" val="Normal" label="Normal"/>
-          <q-radio dense v-model="rt3" val="High" label="High"/>
-          <p class="text-h6">
-            <u>TBG</u>
-          </p>
-          <q-radio dense v-model="tbg" val="Low" label="Low"/>
-          <q-radio dense v-model="tbg" val="Normal" label="Normal"/>
-          <q-radio dense v-model="tbg" val="High" label="High"/>
-          <p class="text-h6">
-            <u>Insulin</u>
-          </p>
-          <q-radio dense v-model="insulin" val="Low" label="Low"/>
-          <q-radio dense v-model="insulin" val="Normal" label="Normal"/>
-          <q-radio dense v-model="insulin" val="High" label="High"/>
-          <p class="text-h6">
-            <u>C-Peptide</u>
-          </p>
-          <q-radio dense v-model="c_peptide" val="Low" label="Low"/>
-          <q-radio dense v-model="c_peptide" val="Normal" label="Normal"/>
-          <q-radio dense v-model="c_peptide" val="High" label="High"/>
-        </div>
+          <li>
+            <q-radio dense v-model="item.value" val="Low" label="Low"/>
+            <q-radio dense v-model="item.value" val="Normal" label="Normal"/>
+            <q-radio dense v-model="item.value" val="High" label="High"/>
+          </li>
+        </ul>
       </q-scroll-area>
     </q-expansion-item>
     <splitpanes horizontal="horizontal">
@@ -353,35 +211,10 @@ export default {
       headerFields: [],
       perPage: 10,
       client: Models.Client.find(parseInt(this.$route.params['id'], 10)),
-
-      nutritionist: Nutritionist.query().get(),
-
-      cbc: 'normal',
-      hb: 'Normal',
-      ddd: 'Normal',
-      esr: 'Normal',
-      xxx: 'Normal',
-
-      vitamin_b12: 'Normal',
-      folic_acid: 'Normal',
-      vitamin_d: 'Normal',
-      vitamin_a: 'Normal',
-      vitamin_e: 'Normal',
-      vitamin_b1: 'Normal',
-      potassium: 'Normal',
-      sodium: 'Normal',
-      chloride: 'Normal',
-      glucose: 'Normal',
-      tsh: 'Normal',
-      ft4: 'Normal',
-      tt3: 'Normal',
-      thyroglobulin: 'Normal',
-      antithyroglobulin_ab: 'Normal',
-      antimicrosomal_ab: 'Normal',
-      rt3: 'Normal',
-      tbg: 'Normal',
-      insulin: 'Normal',
-      c_peptide: 'Normal'
+      tests: Models.Test.query()
+        .where('client', parseInt(this.$route.params['id'], 10))
+        .get(),
+      nutritionist: Nutritionist.query().get()
     }
   },
   watch: {
@@ -473,7 +306,7 @@ export default {
         right: '2px',
         borderRadius: '5px',
         backgroundColor: '#027be3',
-        width: '5px',
+        width: '10px',
         opacity: 0.75
       }
     }
@@ -632,6 +465,14 @@ export default {
   }
 }
 </script>
-<style >
+<style scoped>
+ul {
+  columns: 3;
+  display: block;
+}
+ul li {
+  display: column;
+  align-content: right;
+}
 </style>
  

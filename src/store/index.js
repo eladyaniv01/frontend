@@ -15,7 +15,7 @@ import Menu from 'src/store/ORM/menu.js'
 import Nutritionist from 'src/store/ORM/nutritionists.js'
 import PrivateNote from 'src/store/ORM/private_notes.js'
 import Event from 'src/store/ORM/calendarevents.js'
-
+import Test from 'src/store/ORM/tests'
 
 
 Vue.use(Vuex)
@@ -26,6 +26,7 @@ database.register(Client, 'clients')
 database.register(Menu, 'menus')
 database.register(PrivateNote, 'private_notes')
 database.register(Event, 'events')
+database.register(Test, 'tests')
 
 
 
