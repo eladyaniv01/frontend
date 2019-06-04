@@ -1,84 +1,86 @@
-<template>
-  <q-card style="width: 100%; max-width: 300px; height: 100%; max-height: 20px;">
-    <q-list>
-      <q-separator/>
-      <div v-for="field in fields" :key="field">
-        <div v-if="field == 'id'">
-          <q-btn flat class="eventBtn" to="../../../calendar">
-            <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
-            <div class="text-h6">{{singularize(modelName)}}</div>
-            <div class="text-subtitle2">{{model[field]}}</div>
-            <q-tooltip>Click For Details</q-tooltip>
-          </q-btn>
-          <q-separator/>
-        </div>
-        <div v-if="field == 'menus'">
-          <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
-          <div>{{menuCount(model[field], model)}}</div>
-          <q-separator/>
-        </div>
-        <div v-if="field == 'events'">
-          <div class="text-subtitle2 text-capitalize">Calendar {{_.replace(field, /_/gi, ' ')}}</div>
-          <div>{{eventCount(model[field], model)}}</div>
-          <q-separator/>
-        </div>
-        <div v-if="field == 'private_notes'">
-          <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
-          <div>{{menuCount(model[field], model)}}</div>
-          <q-separator/>
-        </div>
-        <div v-if="field =='created_at'">
-          <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
-          <div>{{ getDate(model[field]) }}</div>
-          <q-separator/>
-        </div>
-
-        <div class="q-pt-sm" v-if="field == 'client'">
-          <div class="doc-card-title shadow-1 bg-grey">
-            <div class="text-subtitle2 text-capitalize bg-grey">
-              {{_.replace(field, /_/gi, ' ')}}
-              <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
-            </div>
+<template >
+  <div>
+    <q-card style="width: 100%; max-width: 300px; height: 100%; max-height: 20px; ">
+      <q-list>
+        <q-separator/>
+        <div v-for="field in fields" :key="field">
+          <div :class="bg" v-if="field == 'id'">
+            <q-btn flat class="eventBtn" to="../../../calendar">
+              <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
+              <div :class="bg" :style="st" class="shadow-1 text-h6">{{singularize(modelName)}}</div>
+              <div :class="bg" :style="st" class="shadow-1 text-subtitle2">{{model[field]}}</div>
+              <q-tooltip>Click For Details</q-tooltip>
+            </q-btn>
+            <q-separator/>
           </div>
-          <p class="text-h6">{{clientName(model[field])}}</p>
-          <q-separator/>
-        </div>
-        <div v-if="field == 'nutritionist'">
-          <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
-
-          <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
-          <u>{{nutritionistName(model[field])}}</u>
-          <q-separator/>
-        </div>
-
-        <div v-if="field == 'meals'">
-          <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
-          <div>{{Object.keys(model[field]).length}}</div>
-          <q-separator/>
-        </div>
-        <div v-if="field == 'title'">
-          <div class="title text-weight-bold text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
-          <div
-            class="text-weight-bolder"
-            style="font-size:25px;"
-          >{{ _.replace(_.replace(model[field],'true',"✔"),'false',"✘") }}</div>
-          <q-separator/>
-        </div>
-        <div v-else/>
-
-        <div
-          v-if="field != '$id' && field != 'title' && field != 'events' && field != 'private_notes' && field != 'id' && field != 'menus' && field != 'client' && field != 'meals' && field != 'created_at' && field != 'nutritionist'"
-        >
-          <div>
+          <div v-if="field == 'menus'">
             <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
-            <div>{{ _.replace(_.replace(model[field],'true',"✔"),'false',"✘") }}</div>
+            <div>{{menuCount(model[field], model)}}</div>
+            <q-separator/>
           </div>
-          <q-separator/>
+          <div v-if="field == 'events'">
+            <div class="text-subtitle2 text-capitalize">Calendar {{_.replace(field, /_/gi, ' ')}}</div>
+            <div>{{eventCount(model[field], model)}}</div>
+            <q-separator/>
+          </div>
+          <div v-if="field == 'private_notes'">
+            <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
+            <div>{{menuCount(model[field], model)}}</div>
+            <q-separator/>
+          </div>
+          <div v-if="field =='created_at'">
+            <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
+            <div>{{ getDate(model[field]) }}</div>
+            <q-separator/>
+          </div>
+
+          <div class="q-pt-sm" v-if="field == 'client'">
+            <div class="doc-card-title shadow-1 bg-grey">
+              <div class="text-subtitle2 text-capitalize bg-grey">
+                {{_.replace(field, /_/gi, ' ')}}
+                <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
+              </div>
+            </div>
+            <p class="text-h6">{{clientName(model[field])}}</p>
+            <q-separator/>
+          </div>
+          <div v-if="field == 'nutritionist'">
+            <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
+
+            <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
+            <u>{{nutritionistName(model[field])}}</u>
+            <q-separator/>
+          </div>
+
+          <div v-if="field == 'meals'">
+            <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
+            <div>{{Object.keys(model[field]).length}}</div>
+            <q-separator/>
+          </div>
+          <div v-if="field == 'title'">
+            <div class="title text-weight-bold text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
+            <div
+              class="text-weight-bolder"
+              style="font-size:25px;"
+            >{{ _.replace(_.replace(model[field],'true',"✔"),'false',"✘") }}</div>
+            <q-separator/>
+          </div>
+          <div v-else/>
+
+          <div
+            v-if="field != '$id' && field != 'title' && field != 'events' && field != 'private_notes' && field != 'id' && field != 'menus' && field != 'client' && field != 'meals' && field != 'created_at' && field != 'nutritionist'"
+          >
+            <div>
+              <div class="text-subtitle2 text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
+              <div>{{ _.replace(_.replace(model[field],'true',"✔"),'false',"✘") }}</div>
+            </div>
+            <q-separator/>
+          </div>
         </div>
-      </div>
-      <q-separator/>
-    </q-list>
-  </q-card>
+        <q-separator/>
+      </q-list>
+    </q-card>
+  </div>
 </template>
 <script>
 import _ from 'lodash'
@@ -94,6 +96,7 @@ import {
   prettyStringJson,
   GetFormattedDate
 } from 'src/utils/stringutils.js'
+import { date } from 'quasar'
 export default {
   name: 'Box',
   props: ['model', 'fields', 'modelName', 'ICON'],
@@ -131,7 +134,33 @@ export default {
     ...mapState('UserModules', {
       // model: state => state.currentClient
       // nutritionist: state => state.user.nutritionist,
-    })
+    }),
+    cardStyle() {
+      return {
+        background: 'red',
+        lineHeight: '15pt',
+        fontSize: 'small',
+        display: 'table'
+      }
+    },
+    bg() {
+      let today = Date.now()
+      let end = new Date(this.$props.model.end)
+      console.log(end - today)
+      if (end - today < 0) {
+        return 'bg-orange shadow-5'
+      }
+      return ''
+    },
+    st() {
+      let today = Date.now()
+      let end = new Date(this.$props.model.end)
+      console.log(end - today)
+      if (end - today < 0) {
+        return 'text-decoration: line-through;'
+      }
+      return ''
+    }
   },
   methods: {
     clientId(id) {
@@ -209,7 +238,7 @@ export default {
 </script>
 <style scoped>
 div {
-  background: #c8e6c9;
+  background: #e6fce6;
   line-height: 15pt;
   font-size: small;
   display: table;
@@ -231,5 +260,8 @@ q-card {
 q-item-section {
   line-height: 11pt;
   font-size: small;
+}
+bg-red {
+  background: red;
 }
 </style>

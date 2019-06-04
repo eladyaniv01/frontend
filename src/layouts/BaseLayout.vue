@@ -181,7 +181,7 @@
             class="shadow-4 text-black"
             color="secondary"
             @click="clientAdd()"
-            label="Add a New Client"
+            label="+"
           />
         </div>
       </q-page-sticky>

@@ -1,5 +1,5 @@
 <template>
-  <div id="ClientDetail" class="row flex items-start q-pa-sm q-ma-sm">
+  <div id="ClientDetail" class="row q-pa-sm q-ma-sm">
     <q-expansion-item
       expand-separator
       icon="fas fa-ambulance"
@@ -34,125 +34,108 @@
         </ul>
       </q-scroll-area>
     </q-expansion-item>
-    <splitpanes horizontal="horizontal">
-      <span></span>
-      <span>
-        <splitpanes vertical="vertical">
-          <span>
-            <div class="col-3">
-              <h6>Client Info</h6>
-              <q-btn
-                style="width:250px;"
-                class="q-pa-sm q-ma-sm"
-                push
-                color="primary"
-                label="Edit Client Info"
-                @click="EditClient()"
-              />
-              <Box
-                class="q-pa-sm q-ma-sm shadow-5 justify-right"
-                :fields="fields()"
-                :model="this.client"
-                modelName="client"
-              ></Box>
-            </div>
-            <q-separator vertical/>
-          </span>
-          <span>
-            <div class="col-auto q-pa-sm q-ma-sm">
-              <h6>Daily Menu's</h6>
-              <div class="text-subtitle2" align="center">
-                <q-btn
-                  style="width:250px;"
-                  class="q-pa-sm q-ma-sm"
-                  push
-                  color="primary"
-                  v-model="client"
-                  @click="gotoMenu()"
-                  label="Create Menu"
+
+    <div class="col-3">
+      <h6>General Information</h6>
+      <q-btn push color="primary" icon="edit" @click="EditClient()"/>
+      <Box
+        class="q-pa-sm q-ma-sm shadow-5 justify-right"
+        :fields="fields()"
+        :model="this.client"
+        modelName="client"
+      ></Box>
+    </div>
+    <q-separator vertical/>
+
+    <div class="col-4 q-pa-sm q-ma-sm">
+      <h6>Daily Menu's</h6>
+      <div class="text-subtitle2" align="center">
+        <q-btn
+          push
+          icon="fas fa-plus"
+          color="primary"
+          v-model="client"
+          @click="gotoMenu()"
+          label="Menu"
+        />
+      </div>
+
+      <MenuListView
+        :headerFields="this.headerFields"
+        :perPage="this.perPage"
+        :modelList="this.Menus"
+        :title="this.MenuTableToolTip"
+        modelName="menus"
+      />
+    </div>
+    <q-separator vertical/>
+
+    <div class="col-4 q-pa-sm q-ma-sm">
+      <q-expansion-item
+        class="shadow-1 overflow-hidden"
+        popup
+        icon="note"
+        label="Private Notes"
+        style="border-radius:10px"
+        dense
+        header-class="bg-primary text-white"
+        round
+      >
+        <div class="text-subtitle2" align="center">
+          <q-btn icon="fas fa-plus" push color="primary" label="Note">
+            <q-popup-proxy>
+              <div class="col-auto q-pa-sm q-ma-sm">
+                Title
+                <q-input
+                  filled
+                  v-model="noteForm.title"
+                  hint="Pick a Descriptive name to find fast"
+                  type="text"
                 />
+                <br>Content
+                <q-input filled v-model="noteForm.content" type="textarea"/>
+
+                <div>
+                  <q-btn
+                    label="Create A Note"
+                    @click="createNote()"
+                    type="submit"
+                    color="primary"
+                    v-close-popup
+                  />
+                </div>
               </div>
+            </q-popup-proxy>
+          </q-btn>
+        </div>
+        <NoteListView :modelList="PrivateNotes" modelName="notes"/>
+      </q-expansion-item>
 
-              <MenuListView
-                :headerFields="this.headerFields"
-                :perPage="this.perPage"
-                :modelList="this.Menus"
-                :title="this.MenuTableToolTip"
-                modelName="menus"
-              />
-            </div>
-            <q-separator vertical/>
-          </span>
-          <span>
-            <div class="col-3 q-pa-sm q-ma-sm">
-              <h6>Private Notes</h6>
-              <q-item-section>
-                <q-btn
-                  style="width:250px;"
-                  class="q-pa-sm q-ma-sm"
-                  push
-                  color="primary"
-                  label="Create a New Note"
-                >
-                  <q-popup-proxy>
-                    <div class="col-auto q-pa-sm q-ma-sm">
-                      <q-form @reset="onReset" class="right q-gutter-md">
-                        <q-input
-                          filled
-                          v-model="form.title"
-                          label="Note - Title"
-                          hint="Pick a Descriptive name to find fast"
-                          lazy-rules
-                          :rules="[ val => val && val.length > 0 || 'Please type something']"
-                        />
-                        <q-input
-                          filled
-                          v-model="form.content"
-                          label="Note - Content"
-                          type="textarea"
-                          lazy-rules
-                          :rules="[ val => val && val.length > 0 || 'Please type something']"
-                        />
-                        <q-toggle v-model="form.accept" label="I accept the license and terms"/>
+      <q-expansion-item
+        class="shadow-1 overflow-hidden"
+        popup
+        icon="fas fa-calendar-alt"
+        label="Calendar Events"
+        style="border-radius:10px"
+        dense
+        header-class="bg-primary text-white"
+        round
+      >
+        <div class="col-10 q-pa-sm q-ma-sm">
+          <h6></h6>
+          <div class="text-subtitle2" align="center"></div>
 
-                        <div>
-                          <q-btn
-                            label="Create A Note"
-                            @click="createNote()"
-                            type="submit"
-                            color="primary"
-                            v-close-popup
-                          />
-                          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"/>
-                        </div>
-                      </q-form>
-                    </div>
-                  </q-popup-proxy>
-                </q-btn>
-                <NoteListView :modelList="PrivateNotes" modelName="notes"/>
-              </q-item-section>
-            </div>
-            <q-separator vertical/>
-          </span>
-          <span>
-            <div class="col-auto q-pa-sm q-ma-sm">
-              <h6>Calendar Events</h6>
-
-              <q-item-section>
-                <EventListView
-                  :headerFields="this.headerFields"
-                  :perPage="this.perPage"
-                  :modelList="Events"
-                  :title="this.MenuTableToolTip"
-                  modelName="events"
-                />
-              </q-item-section>
-            </div>
-          </span>
-        </splitpanes>
-      </span>
-      <span></span>
-    </splitpanes>
+          <EventListView
+            :headerFields="this.headerFields"
+            :perPage="this.perPage"
+            :modelList="Events"
+            :title="this.MenuTableToolTip"
+            modelName="events"
+          />
+        </div>
+      </q-expansion-item>
+    </div>
+    <q-separator vertical/>
   </div>
 </template>
 <script>
@@ -186,6 +169,10 @@ export default {
   },
   data() {
     return {
+      noteForm: {
+        title: '',
+        content: ''
+      },
       form: {
         title: '',
         content: '',
@@ -341,7 +328,7 @@ export default {
         delay: 200, // ms
         message: 'Processing ...'
       })
-      var vm = this.form
+      var vm = this.noteForm
 
       let formData = new FormData()
 

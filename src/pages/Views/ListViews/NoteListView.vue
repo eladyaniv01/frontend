@@ -1,7 +1,7 @@
 <template>
   <div id="NoteListView" round class="col-xs-12 col-sm-6 col-md-4 flex q-pa-sm q-ma-sm">
     <q-card class="q-pa-sm" v-for="model in modelList" :key="model.id">
-      <q-btn flat @click="deleteNote(model.id)" label="X"/>
+      <q-btn @click="deleteNote(model.id)" icon="fas fa-trash-alt"/>
       <q-expansion-item
         expand-separator
         icon="note"
