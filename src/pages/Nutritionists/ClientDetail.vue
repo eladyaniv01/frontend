@@ -80,6 +80,7 @@
         dense
         header-class="bg-primary text-white"
         round
+        default-opened
       >
         <div class="text-subtitle2" align="center">
           <q-btn icon="fas fa-plus" push color="primary" label="Note">
@@ -120,6 +121,7 @@
         dense
         header-class="bg-primary text-white"
         round
+        default-opened
       >
         <div class="col-10 q-pa-sm q-ma-sm">
           <h6></h6>

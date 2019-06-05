@@ -2,23 +2,22 @@
   <q-layout view="hHr LpR lFf">
     <!-- Header -->
 
-    <q-header elevated class="bg-header shadow-7" style="-webkit-app-region: drag">
+    <q-header elevated class="bg-header shadow-1" style="-webkit-app-region: drag">
       <q-toolbar class>
         <div v-if="loggedin">
-          <q-btn @click="showLeft = !showLeft" icon="menu"/>
+          <q-btn flat @click="showLeft = !showLeft" icon="menu"/>
 
-          <transition :enter-active-class="enterClass" :leave-active-class="enterClass">
-            <q-btn v-if="showLeft" flat round @click="drawerActive()" icon="fas fa-lock-open"/>
-            <!-- @mouseover="showLeft = !showLeft" -->
-          </transition>
-          <q-drawer v-model="showLeft" bordered content-class="bg-grey-8 shadow-2 text-white ">
+          <q-btn v-if="showLeft" flat round @click="drawerActive()"/>
+          <!-- @mouseover="showLeft = !showLeft" -->
+
+          <q-drawer show-if-above v-model="showLeft" bordered content-class="sidedrawer">
             <!--      :mini="miniState"
       @mouseover="miniState = false"
             @mouseout="miniState = true"-->
             <!-- drawer content -->
             <q-scroll-area class="fit">
               <q-list v-for="(menuItem, index) in menuList" :key="index">
-                <q-item :to="menuItem.to" clickable :active="menuItem.label === 'Outbox'" v-ripple>
+                <q-item :to="menuItem.to" clickable :active="$route.path === menuItem.to" v-ripple>
                   <q-item-section avatar>
                     <q-icon :name="menuItem.icon"/>
                   </q-item-section>
@@ -40,35 +39,27 @@
         </div>
 
         <q-toolbar-title class="col-xs-12 col-sm-12 col-md-8" v-if="loggedin">
-          <font class="q-pa-sm text-capitalize" size="xs">
-            Logged in as
-            <b>{{user.username|title}}</b>
-          </font>
-
-          <q-avatar>
+          <q-btn class="q-pr-auto" flat to="/home">
             <img class="red" src="/statics/lotus.png">
-          </q-avatar>NutHub
-          <q-btn v-if="loggedin" glossy dense icon="mail">
+          </q-btn>
+          <!-- <q-btn v-if="loggedin" glossy dense icon="mail">
             <q-badge color="green" floating>{{devnum}}</q-badge>
-          </q-btn>
-          <q-btn v-if="loggedin" glossy dense icon="alarm">
-            <q-badge color="red" floating>{{devnum2}}</q-badge>
-          </q-btn>
-          <q-separator vertical/>
-          <q-btn v-if="this.stickyHeader" v-html="this.stickyHeader"/>
-          <q-separator vertical/>
+          </q-btn>-->
         </q-toolbar-title>
-
+        <center>
+          <q-btn flat v-if="this.stickyHeader" v-html="this.stickyHeader"/>
+        </center>
         <div id="BaseHeader" class="col-auto">
           <!-- Second row of header is a QTabs -->
           <div v-if="loggedin">
             <q-tabs>
               <q-separator vertical/>
 
-              <q-route-tab icon="home" to="/home" label="Home"/>
-              <q-route-tab icon="calendar" to="/calendar" label="Calendar"/>
+              <q-route-tab icon="fas fa-calendar-alt" to="/calendar" label="Calendar">
+                <q-badge color="red" floating>{{devnum2}}</q-badge>
+              </q-route-tab>
               <q-separator vertical/>
-              <q-btn-dropdown color="bg-header" label="Account" align="right">
+              <q-btn-dropdown color="bg-header" :label="user.username" align="right">
                 <q-list link>
                   <q-item clickable v-close-popup to="/nutritionist/profile">
                     <q-item-section avatar>
@@ -76,47 +67,18 @@
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>Account Settings</q-item-label>
-                      <q-item-label caption>February 22, 2016</q-item-label>
                     </q-item-section>
                     <q-item-section side>
                       <q-icon name="info" color="amber"/>
                     </q-item-section>
                   </q-item>
 
-                  <q-item clickable v-close-popup to="/nutritionist/clients">
+                  <q-item clickable v-close-popup @click="logItOut()">
                     <q-item-section avatar>
                       <q-avatar icon="far fa-handshake" color="primary" text-color="white"/>
                     </q-item-section>
                     <q-item-section>
-                      <q-item-label>Your Clients</q-item-label>
-                      <q-item-label caption>February 22, 2016</q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                      <q-icon name="info" color="amber"/>
-                    </q-item-section>
-                  </q-item>
-
-                  <q-item clickable v-close-popup to="/nutritionist/clients/add">
-                    <q-item-section avatar>
-                      <q-avatar icon="folder" color="primary" text-color="white"/>
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Add a new Client</q-item-label>
-                    </q-item-section>
-                    <q-item-section side>
-                      <q-icon name="info" color="amber"/>
-                    </q-item-section>
-                  </q-item>
-
-                  <q-separator spaced/>
-                  <q-item-label header>Personal</q-item-label>
-                  <q-item>
-                    <q-item-section avatar>
-                      <q-avatar icon="airport_shuttle" color="primary" text-color="white"/>
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>Vacation</q-item-label>
-                      <q-item-label caption>February 22, 2016</q-item-label>
+                      <q-item-label>Logout</q-item-label>
                     </q-item-section>
                     <q-item-section side>
                       <q-icon name="info" color="amber"/>
@@ -175,14 +137,7 @@
         :offset="[7, 10]"
       >
         <div class="text-subtitle2" align="center">
-          <q-btn
-            rounded
-            glossy
-            class="shadow-4 text-black"
-            color="secondary"
-            @click="clientAdd()"
-            label="+"
-          />
+          <q-btn rounded class="bg-header text-white" @click="clientAdd()" label="+"/>
         </div>
       </q-page-sticky>
     </div>
@@ -191,6 +146,12 @@
 
 <script>
 const menuList = [
+  {
+    icon: 'home',
+    label: 'Home',
+    separator: true,
+    to: '/'
+  },
   {
     icon: 'account_box',
     label: 'Account Settings',
@@ -264,7 +225,7 @@ export default {
       transitionName: 'bounce',
       leftDrawerOpen: this.$q.platform.is.desktop,
       company_name: '<span style="color:red">NutritionistHub</span>',
-      showLeft: false,
+      showLeft: true,
       showRight: false,
       active: false,
       enter: 'flip',

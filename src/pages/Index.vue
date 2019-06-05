@@ -1,142 +1,26 @@
 <template>
-  <div id="Home">
-    <div class="flex justify-center" id="Header">
-      <center>
-        <p class="text-h4">Hello {{getUser|title}}</p>
-        <p v-if="this.landingHeader" class="text-center" v-html="this.landingHeader"/>
-        <!-- <p>{{this.nut}}</p> -->
-      </center>
-      <div class></div>
+  <div>
+    <div class="row content-stretch justify-center" id="Home">
+      <DashboardCard head1="Clients" :head1count="cliCount" head2count="2"/>
+      <DashboardCard head1="Meetings" head1count="7" head2count="3"/>
+      <DashboardCard head1="Sales" head1count="1347.0$" head2count="234$"/>
+      <DashboardCard head1="Payments" head1count="273$" head2count="26.43$"/>
+      <DashboardCard head1="Revenue" head1count="12.3%" head2count="1.2%"/>
     </div>
-    <q-separator spaced/>
-
-    <div class="flex justify-center">
-      <q-flashcard :style="style" v-for="(card, Cindex)  in this.landingCards" :key="Cindex">
-        <q-flashcard-section transition="nudge-in">
-          <img :src="card.img_url" :style="cardImgStyle">
-        </q-flashcard-section>
-        <q-flashcard-section transition="fade-in" class="fit">
-          <div class="fit" style="background-color: rgba(219,127,8, 0.7);"/>
-          <q-flashcard-section transition="slide-up">
-            <p class="text-h6 flex items-center" v-html="card.heading.title"/>
-          </q-flashcard-section>
-          <q-flashcard-section transition="nudge-in">
-            <div v-html="card.body.content"/>
-          </q-flashcard-section>
-          <q-flashcard-section transition="fade-in" class="fit flex justify-center items-end">
-            <a href="#" class="my-button">Learn More</a>
-          </q-flashcard-section>
-        </q-flashcard-section>
-      </q-flashcard>
-    </div>
-
-    <q-separator spaced/>
-
-    <div v-if="this.desktop" class="row flex wrap items-start">
-      <div class="col-1 bg-blue-grey-5"></div>
-      <div class="col-5 bg-blue-grey-2 shadow-5">
-        <p class="text-h2 text-bold text-center bg-secondary"></p>
-        <div v-for="(block, bindex)  in this.leftBlocks" :key="bindex">
-          <div v-for="(item,value, iindex) in block" :key="iindex">
-            <div v-if="value == 'left_block_heading'">
-              <p v-html="block[value].title" class="bg-secondary"></p>
-            </div>
-            <div v-if="value == 'left_block_body'">
-              <p v-html="getBody(block[value].content)" class="text-justify"></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-1"></div>
-      <div class="col-5">
-        <p class="text-h2 text-bold text-center"></p>
-        <div v-for="(block, bindex)  in this.rightBlocks" :key="bindex">
-          <div v-for="(item,value,iindex) in block" :key="iindex">
-            <!-- {{value}} -->
-            <div v-if="value == 'right_block_heading'">
-              <p v-html="block[value].title"></p>
-            </div>
-            <div v-if="value == 'right_block_body'">
-              <!-- {{value.body.replace("table class\=\"table table-bordered\"", "q-table")}} -->
-              <p v-html="getBody(block[value].content)"></p>
-            </div>
-          </div>
-        </div>
+    <div class="row justify-center">
+      <div class="Chart">
+        <line-example></line-example>
       </div>
     </div>
-    <div v-else class="row inline q-pa-sm justify-start">
-      <div class="col-sm bg-blue-grey-2 shadow-5">
-        <p class="text-h2 text-bold bg-secondary"></p>
-        <div v-for="(block, bindex)  in this.leftBlocks" :key="bindex">
-          <div v-for="(item,value, iindex) in block" :key="iindex">
-            <div v-if="value == 'left_block_heading'">
-              <p v-html="block[value].title" class="bg-secondary"></p>
-            </div>
-            <div v-if="value == 'left_block_body'">
-              <p v-html="getBody(block[value].content)" class="text-justify"></p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row inline q-pa-sm justify-start">
-        <div class="col-sm wrap">
-          <p class="text-h2 text-bold text-center wrap"></p>
-          <div v-for="(block, bindex)  in this.rightBlocks" :key="bindex">
-            <div v-for="(item,value,iindex) in block" :key="iindex">
-              <!-- {{value}} -->
-              <div v-if="value == 'right_block_heading'">
-                <p v-html="block[value].title"></p>
-              </div>
-              <div v-if="value == 'right_block_body'">
-                <!-- {{value.body.replace("table class\=\"table table-bordered\"", "q-table")}} -->
-                <p v-html="getBody(block[value].content)"></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <q-page-sticky position="right" :offset="[7, 10]">
-      <div v-if="this.desktop" class="q-pa-sm shadow-3">
-        <div class="description text-center rounded-borders">
-          <q-flashcard :style="botstyle">
-            <q-flashcard-section transition="slide-left-out">
-              <div class="row full-width">
-                <div class="col-6">
-                  <img src="statics/lotus.png" style="width:100%;max-width:100px;">
-                  <br>
-                  <a class="text-overline">Nuthub</a>
-                </div>
-
-                <div class="text-center text-black col-6">
-                  <p class="text-h6">Send Us a Message</p>
-                  <p class="text-italic">or leave your Email and we will get back to you</p>
-                </div>
-              </div>
-            </q-flashcard-section>
-            <q-flashcard-section transition="slide-left-in" class="fit">
-              <div class="q-pa-md q-gutter-sm">
-                <q-input v-model="email" filled type="email" hint="Email"></q-input>
-                <q-flashcard-section transition="roll-left-in" style="top:60%">
-                  <q-btn color="white" text-color="black" label="Submit" class="q-mr-sm"></q-btn>
-                  <a>Learn More</a>
-                </q-flashcard-section>
-              </div>
-            </q-flashcard-section>
-          </q-flashcard>
-        </div>
-      </div>
-    </q-page-sticky>
   </div>
 </template>
 
-<style>
-</style>
 
 <script>
 import Models from 'src/store/ORM/models.js'
 import Nutritionist from 'src/store/ORM/nutritionists.js'
+import DashboardCard from 'src/components/DashboardCard'
+import LineExample from 'src/components/LineChart.js'
 import { mapGetters, mapActions, mapState } from 'vuex'
 import { Platform } from 'quasar'
 
@@ -153,8 +37,12 @@ export default {
       nut: null
     }
   },
-  components: {},
+  components: { DashboardCard, LineExample },
   computed: {
+    cliCount() {
+      let clients = Models.Client.query().get()
+      return clients.length
+    },
     ...mapState({
       rightBlocks: state => state['CMS'].rightBlocks,
       leftBlocks: state => state['CMS'].leftBlocks,
@@ -284,3 +172,28 @@ export default {
 //   return this.$store.state['userState'].user
 // }
 </script>
+<style lang="stylus" scoped>
+.my-card {
+  width: 100%;
+  max-width: 250px;
+}
+
+.Chart {
+  background: #FBFBFC;
+  border-radius: 15px;
+  box-shadow: 0px 2px 15px rgba(25, 25, 25, 0.27);
+  margin: 25px 0;
+  width: 80%;
+}
+
+.chartjs-render-monitor {
+  width: 80%;
+}
+
+.Chart h2 {
+  margin-top: 0;
+  padding: 15px 0;
+  color: rgba(255, 0, 0, 0.5);
+  border-bottom: 1px solid #323d54;
+}
+</style>

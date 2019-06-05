@@ -3,6 +3,7 @@
     <div class="column" style="height: 75px"></div>
     <q-btn label="refresh" @click="refresh()"/>
     <q-input class="q-pa-sm" v-model="searchQuery" type="text" label="search by first name"/>
+    <!-- <autoComplete v-model="searchQuery" :options="modelList.first_name" label="label"/> -->
     <MinListView
       :headerFields="headerFields"
       :perPage="perPage"
@@ -25,6 +26,7 @@ import {
   prettyStringJson
 } from 'src/utils/stringutils.js'
 import MinListView from 'src/pages/Views/ListViews/MinListView'
+import autoComplete from 'src/components/AutoComplete'
 import * as constants from 'src/services/ServiceConstants.js'
 import { Loading } from 'quasar'
 import Axios from 'axios'
@@ -34,7 +36,8 @@ function filterIt(obj, substr) {
 export default {
   name: 'ClientList',
   components: {
-    MinListView
+    MinListView,
+    autoComplete
   },
   data() {
     return {
@@ -58,6 +61,14 @@ export default {
     },
     title() {
       return 'Client List Belonging to Nutritioninst ID#' + `${this.nutid}`
+    },
+    acList() {
+      let names = []
+      let clis = Models.Client.query().get()
+      for (let i in clis) {
+        names.push(clis[i].first_name)
+      }
+      return names
     },
     modelList() {
       // let mosh = Models.Client.find(24)
