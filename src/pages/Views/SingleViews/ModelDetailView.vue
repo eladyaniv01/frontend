@@ -1,6 +1,5 @@
 <template>
-  <div class="FieldWrapper">
-    <h2 align="center"></h2>
+  <div class="FieldWrapper col q-pa-xl">
     <SingleModelView
       :model="model"
       :userName="userName"

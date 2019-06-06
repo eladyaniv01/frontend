@@ -7,7 +7,7 @@
           v-model="step"
           header-nav
           ref="stepper"
-          class="text-weight-medium bg-blue-grey-2"
+          class="text-weight-medium bg-blue-1"
           animated
         >
           <q-step
@@ -17,14 +17,14 @@
             :done="done1"
             :error="step < 2"
           >
-            <q-toolbar class="bg-primary text-white shadow-2">
+            <q-toolbar class="bg-secondary text-white shadow-2">
               <br>
 
               <q-toolbar-title>
                 <div class="text-h6" align="center">Add a New Client</div>
               </q-toolbar-title>
             </q-toolbar>
-            <q-card dark bordered class="bg-grey-5 my-card">
+            <q-card dark bordered class="my-card">
               <q-card-section>
                 <div class="text-h6 absolute-center">{{username|title}}</div>
               </q-card-section>
@@ -112,7 +112,7 @@
               <div class="self-center full-width no-outline" tabindex="110"></div>
             </q-card>
             <q-stepper-navigation>
-              <q-btn @click="() => { done1 = true; step = 2 }" color="primary" label="Continue"/>
+              <q-btn @click="() => { done1 = true; step = 2 }" color="secondary" label="Continue"/>
             </q-stepper-navigation>
           </q-step>
 
@@ -123,14 +123,14 @@
             icon="fas fa-notes-medical"
             :done="done2"
           >
-            <q-toolbar class="bg-primary text-white shadow-2">
+            <q-toolbar class="bg-secondary text-white shadow-2">
               <br>
 
               <q-toolbar-title>
                 <div class="text-h6" align="center">Medical Information</div>
               </q-toolbar-title>
             </q-toolbar>
-            <q-card dark bordered class="bg-grey-5 my-card">
+            <q-card dark bordered class="my-card">
               <q-card-section>
                 <div class="text-h6 absolute-center">{{username|title}}</div>
               </q-card-section>
@@ -162,13 +162,13 @@
               <div class="self-center full-width no-outline" tabindex="110"></div>
             </q-card>
             <q-stepper-navigation>
-              <q-btn color="primary" @click="done2 = true; step=3" label="Finish"/>
+              <q-btn color="secondary" @click="done2 = true; step=3" label="Finish"/>
 
-              <q-btn flat @click="step = 1" color="primary" label="Back" class="q-ml-sm"/>
+              <q-btn flat @click="step = 1" color="secondary" label="Back" class="q-ml-sm"/>
             </q-stepper-navigation>
           </q-step>
           <q-step :name="3" title="Review and Submit" icon="submit" :done="done3">
-            <q-btn class="absolute-center" color="primary" @click="registerIt()">Submit</q-btn>
+            <q-btn class="absolute-center" color="secondary" @click="registerIt()">Submit</q-btn>
           </q-step>
         </q-stepper>
       </div>
@@ -184,6 +184,7 @@ import {
   doNotify,
   prettyStringJson
 } from 'src/utils/stringutils.js'
+import Models from 'src/store/ORM/models.js'
 
 export default {
   name: 'ClientRegister',
@@ -297,6 +298,9 @@ img {
   margin: auto;
   display: block;
   margin-bottom: 10px;
+}
+tab {
+  background-color: red;
 }
 </style>
  

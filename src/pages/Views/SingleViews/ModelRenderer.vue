@@ -1,6 +1,6 @@
 <template>
-  <div class="ModelRenderer">
-    <q-markup-table class="bg-grey-3" :separator="separator">
+  <div id="ModelRenderer">
+    <q-markup-table class :separator="separator">
       <thead>
         <tr>
           <th class="center"></th>
@@ -10,13 +10,7 @@
         <tr v-if="typeof field !== null">
           <td v-if="(getField(fields[index])) != '-1' && (getField(fields[index])) != 'FFG'">
             <div v-if="!is_updating">
-              <q-field
-                class="standout"
-                rounded
-                outlined
-                :label="getField(fields[index])"
-                stack-label
-              >
+              <q-field rounded :label="getField(fields[index])" stack-label items-aligned>
                 <q-tooltip
                   :delay="500"
                   :anchor="getToolTipAnchor()"
@@ -77,7 +71,7 @@
         </q-toolbar-title>
       </q-toolbar>
     </q-markup-table>
-    <q-markup-table class="bg-grey-5" :separator="separator" flat>
+    <q-markup-table class="bg-blue-grey-5" :separator="separator" flat>
       <thead></thead>
       <!-- <p>{{slicedModel(mapFields())}}</p> -->
       <tbody v-for="(field,key, index) in slicedModel(mapFields())['fields']" :key="index" bordered>

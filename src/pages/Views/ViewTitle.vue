@@ -1,7 +1,7 @@
 
 <template>
   <div class="ViewTitle">
-    <q-toolbar class="bg-primary text-white shadow-2">
+    <q-toolbar class="bg-secondary text-white shadow-2">
       <br>
 
       <q-toolbar-title>

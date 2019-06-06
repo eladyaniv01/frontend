@@ -96,38 +96,6 @@
         </div>
       </div>
     </div>
-
-    <q-page-sticky position="right" :offset="[7, 10]">
-      <div v-if="this.desktop" class="q-pa-sm shadow-3">
-        <div class="description text-center rounded-borders">
-          <q-flashcard :style="botstyle">
-            <q-flashcard-section transition="slide-left-out">
-              <div class="row full-width">
-                <div class="col-6">
-                  <img src="statics/lotus.png" style="width:100%;max-width:100px;">
-                  <br>
-                  <a class="text-overline">Nuthub</a>
-                </div>
-
-                <div class="text-center text-black col-6">
-                  <p class="text-h6">Send Us a Message</p>
-                  <p class="text-italic">or leave your Email and we will get back to you</p>
-                </div>
-              </div>
-            </q-flashcard-section>
-            <q-flashcard-section transition="slide-left-in" class="fit">
-              <div class="q-pa-md q-gutter-sm">
-                <q-input v-model="email" filled type="email" hint="Email"></q-input>
-                <q-flashcard-section transition="roll-left-in" style="top:60%">
-                  <q-btn color="white" text-color="black" label="Submit" class="q-mr-sm"></q-btn>
-                  <a>Learn More</a>
-                </q-flashcard-section>
-              </div>
-            </q-flashcard-section>
-          </q-flashcard>
-        </div>
-      </div>
-    </q-page-sticky>
   </div>
 </template>
 

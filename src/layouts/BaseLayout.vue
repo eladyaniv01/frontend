@@ -4,22 +4,26 @@
 
     <q-header elevated class="bg-header shadow-1" style="-webkit-app-region: drag">
       <q-toolbar class>
+        <!-- LEFT DRAWER -->
         <div v-if="loggedin">
           <q-btn flat @click="showLeft = !showLeft" icon="menu"/>
 
           <q-btn v-if="showLeft" flat round @click="drawerActive()"/>
-          <!-- @mouseover="showLeft = !showLeft" -->
 
           <q-drawer show-if-above v-model="showLeft" bordered content-class="sidedrawer">
-            <!--      :mini="miniState"
-      @mouseover="miniState = false"
-            @mouseout="miniState = true"-->
-            <!-- drawer content -->
             <q-scroll-area class="fit">
               <q-list v-for="(menuItem, index) in menuList" :key="index">
                 <q-item :to="menuItem.to" clickable :active="$route.path === menuItem.to" v-ripple>
                   <q-item-section avatar>
                     <q-icon :name="menuItem.icon"/>
+                    <q-badge
+                      v-if="menuItem.badge"
+                      rounded-borders
+                      class="text-subtitle"
+                      color="red-4"
+                      floating
+                      transparent
+                    >{{menuItem.badge}}</q-badge>
                   </q-item-section>
                   <q-item-section>{{ menuItem.label }}</q-item-section>
                 </q-item>
@@ -27,7 +31,7 @@
                 <q-separator v-if="menuItem.separator"/>
               </q-list>
               <q-list>
-                <q-item v-model="user" clickable @click="logItOut()">
+                <q-item class="fixed-bottom" v-model="user" clickable @click="logItOut()">
                   <q-item-section avatar>
                     <q-icon name="fas fa-sign-out-alt"/>
                   </q-item-section>
@@ -38,6 +42,7 @@
           </q-drawer>
         </div>
 
+        <!-- NAV BAR -->
         <q-toolbar-title class="col-xs-12 col-sm-12 col-md-8" v-if="loggedin">
           <q-btn class="q-pr-auto" flat to="/home">
             <img class="red" src="/statics/lotus.png">
@@ -56,7 +61,13 @@
               <q-separator vertical/>
 
               <q-route-tab icon="fas fa-calendar-alt" to="/calendar" label="Calendar">
-                <q-badge color="red" floating>{{devnum2}}</q-badge>
+                <q-badge
+                  rounded-borders
+                  class="text-subtitle2 shadow-up-1"
+                  color="red"
+                  floating
+                  transparent
+                >{{newEventCount}}</q-badge>
               </q-route-tab>
               <q-separator vertical/>
               <q-btn-dropdown color="bg-header" :label="user.username" align="right">
@@ -97,10 +108,7 @@
       </q-toolbar>
     </q-header>
 
-    <!-- <q-drawer v-model="right" side="right" overlay bordered> -->
-    <!-- drawer content -->
-    <!-- </q-drawer> -->
-
+    <!-- PAGE CONTAINER -->
     <q-page-container>
       <transition name="bounce" mode="out-in">
         <div class="row">
@@ -145,57 +153,8 @@
 </template>
 
 <script>
-const menuList = [
-  {
-    icon: 'home',
-    label: 'Home',
-    separator: true,
-    to: '/'
-  },
-  {
-    icon: 'account_box',
-    label: 'Account Settings',
-    separator: true,
-    to: '/nutritionist/profile'
-  },
-  // {
-  //   icon: 'update',
-  //   label: 'Update Account information',
-  //   separator: true,
-  //   to: '/nutritionist/profile/update'
-  // },
-  {
-    icon: 'supervisor_account',
-    label: 'Client List',
-    separator: true,
-    to: '/nutritionist/clients'
-  },
-  {
-    icon: 'person_add',
-    label: 'Add a Client',
-    separator: true,
-    to: '/nutritionist/clients/add'
-  },
-  {
-    icon: 'mdi-food',
-    label: 'Menus',
-    separator: true,
-    to: '/nutritionist/menus'
-  },
-  {
-    icon: 'attach_money',
-    label: 'Sales',
-    separator: true,
-    to: '/sales'
-  },
-
-  {
-    icon: 'help',
-    iconColor: 'primary',
-    label: 'Help',
-    separator: true
-  }
-]
+var moment = require('moment')
+import Models from 'src/store/ORM/models.js'
 import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
 import { openURL, Platform } from 'quasar'
 import LeftSideDrawer from './LeftSideDrawer'
@@ -229,12 +188,103 @@ export default {
       showRight: false,
       active: false,
       enter: 'flip',
-      leave: 'rotate',
-      // stickyHeader,
-      menuList
+      leave: 'rotate'
     }
   },
   computed: {
+    newEventCount() {
+      // int time interval (days) for a week it will be 7
+      let now = moment(new Date())
+
+      let count = 0
+
+      let total = Models.Event.query().get()
+      for (let i in total) {
+        let ca = moment(Date.parse(total[i].start))
+        if (now.diff(ca, 'days') <= 7) {
+          count += 1
+        }
+      }
+      return count
+    },
+    menuList() {
+      function newEventCount() {
+        // int time interval (days) for a week it will be 7
+        let now = moment(new Date())
+
+        let count = 0
+
+        let total = Models.Event.query().get()
+        for (let i in total) {
+          let ca = moment(Date.parse(total[i].start))
+          if (now.diff(ca, 'days') <= 7) {
+            count += 1
+          }
+        }
+        return count
+      }
+      return [
+        {
+          icon: 'home',
+          label: 'Home',
+          separator: true,
+          to: '/'
+        },
+        {
+          icon: 'account_box',
+          label: 'Account Settings',
+          separator: true,
+          to: '/nutritionist/profile'
+        },
+        {
+          icon: 'fas fa-calendar-alt',
+          label: 'Calendar',
+          separator: true,
+          to: '/calendar',
+          badge: newEventCount()
+        },
+
+        {
+          icon: 'supervisor_account',
+          label: 'Client List',
+          separator: true,
+          to: '/nutritionist/clients'
+        },
+        {
+          icon: 'person_add',
+          label: 'Add a Client',
+          separator: true,
+          to: '/nutritionist/clients/add'
+        },
+        {
+          icon: 'mdi-food',
+          label: 'Menus',
+          separator: true,
+          to: '/nutritionist/menus'
+        },
+        {
+          icon: 'attach_money',
+          label: 'Sales',
+          separator: true,
+          to: '/sales'
+        },
+
+        {
+          icon: 'help',
+          iconColor: 'primary',
+          label: 'Help',
+          separator: true
+        },
+        {
+          icon: 'fas fa-hand-spock',
+          iconColor: 'primary',
+          label: 'About Us',
+          to: '/about',
+          separator: true
+        }
+      ]
+    },
+
     enterClass() {
       return `animated ${this.enter}`
     },

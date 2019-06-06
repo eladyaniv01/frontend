@@ -1,4 +1,4 @@
-
+import Models from 'src/store/ORM/models.js'
 import axios from 'axios'
 export function REGISTERSTART(state) {
   state.registering = true
@@ -103,6 +103,16 @@ export function ADDCLIENT(state, payload) {
     return
   } else {
     state.user.nutritionist.clients.push(payload)
+    Models.Client.insert({data: payload})
+  }
+}
+export function ADDEVENT(state, payload) {
+
+  if (!payload) {
+    return
+  } else {
+    
+    Models.Event.insert({data: payload})
   }
 }
 

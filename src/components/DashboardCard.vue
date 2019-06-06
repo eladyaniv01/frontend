@@ -7,9 +7,17 @@
         <font class size="3px">{{head1count}}</font>
       </q-card-section>
       <q-card-section class>
-        <p style="color:rgba(28, 43, 56, 0.62);">This week</p>
+        <p style="color:rgba(28, 43, 56, 0.62);">{{head2}}</p>
 
-        <q-icon class="q-pb-md" size="20px" right color="green" name="fas fa-arrow-up"></q-icon>
+        <q-icon
+          v-if="head2count>0"
+          class="q-pb-md"
+          size="20px"
+          right
+          color="green"
+          name="fas fa-arrow-up"
+        ></q-icon>
+        <q-icon v-else class="q-pb-md" size="20px" right color="grey" name="fas fa-window-minimize"></q-icon>
         <font size="5px">{{head2count}}</font>
       </q-card-section>
     </q-card>
@@ -62,6 +70,5 @@ export default {
 <style lang="stylus" scoped>
 .my-card {
   width: 100%;
-  max-width: 250px;
 }
 </style>

@@ -43,7 +43,7 @@
     </vue-cal>
     <!-- Alternatively to custom cells if you just want custom no-event text: -->
 
-    <q-btn push color="primary" label="Create a New Event">
+    <q-btn push color="secondary" label="Create a New Event">
       <q-popup-proxy :breakpoint="1000">
         <q-card class="even-form" style="width: 700px; max-width: 80vw;">
           <q-card-section>
@@ -154,6 +154,7 @@
 </style>
 
 <script>
+var moment = require('moment')
 import { mapGetters } from 'vuex'
 import { isCssColor } from 'src/utils/color'
 import events from 'src/utils/events'
@@ -186,6 +187,9 @@ export default {
   components: { VueCal, Event },
 
   data() {
+    let tmp = new Date()
+    let today = moment(tmp).format('YYYY-MM-DD HH:mm')
+    console.log(today)
     return {
       overlapEvents: true,
       selectedEvent: {},
@@ -194,8 +198,8 @@ export default {
       dateTime1: '2019-05-10 06:30',
       showDialog: false,
       form: {
-        start: '2019-05-10 06:30',
-        end: '2019-05-10 06:30',
+        start: today,
+        end: today,
         client: '',
         nutritionist: '',
         title: '',

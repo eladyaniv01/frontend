@@ -1,26 +1,60 @@
 <template>
   <div>
     <div class="row content-stretch justify-center" id="Home">
-      <DashboardCard head1="Clients" :head1count="cliCount" head2count="2"/>
-      <DashboardCard head1="Meetings" head1count="7" head2count="3"/>
-      <DashboardCard head1="Sales" head1count="1347.0$" head2count="234$"/>
-      <DashboardCard head1="Payments" head1count="273$" head2count="26.43$"/>
-      <DashboardCard head1="Revenue" head1count="12.3%" head2count="1.2%"/>
+      <DashboardCard
+        head1="Clients"
+        :head1count="cliCount"
+        head2="Last 7 Days"
+        :head2count="newClientCount"
+      />
+      <DashboardCard
+        head1="Menus"
+        :head1count="menuCount"
+        head2="Last 7 Days"
+        :head2count="newMenuCount"
+      />
+      <DashboardCard
+        head1="Meetings"
+        head1count="7"
+        head2="Last 7 Days"
+        :head2count="newEventCount"
+      />
+      <DashboardCard head1="Sales" head1count="1347.0$" head2="Last 7 Days" head2count="234$"/>
+      <DashboardCard head1="Payments" head1count="273$" head2="Last 7 Days" head2count="26.43$"/>
     </div>
-    <div class="row justify-center">
-      <div class="Chart">
-        <line-example></line-example>
-      </div>
-    </div>
+    <center>
+      <container class="row" group-name="row" @drop="onDrop">
+        <div class="col q-pa-md justify-center" v-for="item in this.charts" :key="item.id">
+          <div class="Chart">
+            <component class="q-ma-xl" :is="item"></component>
+          </div>
+        </div>
+        <!-- <draggable class="col-auto q-pa-md Chart draggable-item">
+        <div>
+          <client-chart/>
+        </div>
+      </draggable>
+      
+      <draggable class="col-auto q-pa-md Chart draggable-item">
+        <div>
+          <event-chart/>
+        </div>
+        </draggable>-->
+      </container>
+    </center>
   </div>
 </template>
 
 
 <script>
+var moment = require('moment')
+import { Container, Draggable } from 'vue-smooth-dnd'
+import applyDrag from 'src/utils/applyDrag.js'
 import Models from 'src/store/ORM/models.js'
 import Nutritionist from 'src/store/ORM/nutritionists.js'
 import DashboardCard from 'src/components/DashboardCard'
-import LineExample from 'src/components/LineChart.js'
+import ClientChart from 'src/components/ClientLineChart.js'
+import EventChart from 'src/components/EventLineChart.js'
 import { mapGetters, mapActions, mapState } from 'vuex'
 import { Platform } from 'quasar'
 
@@ -30,6 +64,17 @@ export default {
     const vm = this
     vm.$forceUpdate()
     return {
+      charts: ['client-chart', 'event-chart'],
+      upperDropPlaceholderOptions: {
+        className: 'cards-drop-preview',
+        animationDuration: '150',
+        showOnTop: true
+      },
+      dropPlaceholderOptions: {
+        className: 'drop-preview',
+        animationDuration: '150',
+        showOnTop: true
+      },
       email: '',
       desktop: this.$q.platform.is.desktop,
 
@@ -37,12 +82,68 @@ export default {
       nut: null
     }
   },
-  components: { DashboardCard, LineExample },
+  components: {
+    DashboardCard,
+    ClientChart,
+    EventChart,
+    Container,
+    Draggable
+  },
   computed: {
+    newClientCount() {
+      // int time interval (days) for a week it will be 7
+      let now = moment(new Date())
+
+      let count = 0
+
+      let total = Models.Client.query().get()
+      for (let i in total) {
+        let ca = moment(Date.parse(total[i].created_at))
+        if (now.diff(ca, 'days') <= 7) {
+          count += 1
+        }
+      }
+      return count
+    },
+    newMenuCount() {
+      // int time interval (days) for a week it will be 7
+      let now = moment(new Date())
+
+      let count = 0
+
+      let total = Models.Menu.query().get()
+      for (let i in total) {
+        let ca = moment(Date.parse(total[i].created_at))
+        if (now.diff(ca, 'days') <= 7) {
+          count += 1
+        }
+      }
+      return count
+    },
+    newEventCount() {
+      // int time interval (days) for a week it will be 7
+      let now = moment(new Date())
+
+      let count = 0
+
+      let total = Models.Event.query().get()
+      for (let i in total) {
+        let ca = moment(Date.parse(total[i].start))
+        if (now.diff(ca, 'days') <= 7) {
+          count += 1
+        }
+      }
+      return count
+    },
     cliCount() {
       let clients = Models.Client.query().get()
       return clients.length
     },
+    menuCount() {
+      let menus = Models.Menu.query().get()
+      return menus.length
+    },
+
     ...mapState({
       rightBlocks: state => state['CMS'].rightBlocks,
       leftBlocks: state => state['CMS'].leftBlocks,
@@ -106,6 +207,9 @@ export default {
     }
   },
   methods: {
+    onDrop(dropResult) {
+      this.charts = applyDrag(this.charts, dropResult)
+    },
     getBody(payload) {
       let body = payload.replace(
         '<table class="table table-bordered">',
@@ -173,21 +277,14 @@ export default {
 // }
 </script>
 <style lang="stylus" scoped>
-.my-card {
-  width: 100%;
-  max-width: 250px;
-}
-
 .Chart {
   background: #FBFBFC;
   border-radius: 15px;
   box-shadow: 0px 2px 15px rgba(25, 25, 25, 0.27);
   margin: 25px 0;
-  width: 80%;
 }
 
 .chartjs-render-monitor {
-  width: 80%;
 }
 
 .Chart h2 {

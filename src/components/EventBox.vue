@@ -1,14 +1,14 @@
 <template >
   <div>
-    <q-card style="width: 100%; max-width: 300px; height: 100%; max-height: 20px; ">
+    <q-card style=" max-width: 300px;  max-height: 20px; ">
       <q-list>
         <q-separator/>
         <div v-for="field in fields" :key="field">
           <div :class="bg" v-if="field == 'id'">
             <q-btn flat class="eventBtn" to="../../../calendar">
               <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
-              <div :class="bg" :style="st" class="shadow-1 text-h6">{{singularize(modelName)}}</div>
-              <div :class="bg" :style="st" class="shadow-1 text-subtitle2">{{model[field]}}</div>
+              <div :class="bg" :style="st" class="text-h6">{{singularize(modelName)}}</div>
+              <div :class="bg" :style="st" class="text-subtitle2">{{model[field]}}</div>
               <q-tooltip>Click For Details</q-tooltip>
             </q-btn>
             <q-separator/>
@@ -35,10 +35,10 @@
           </div>
 
           <div class="q-pt-sm" v-if="field == 'client'">
-            <div class="doc-card-title shadow-1 bg-grey">
-              <div class="text-subtitle2 text-capitalize bg-grey">
+            <div class="doc-card-title shadow-1 bg-green-1" style="margin-left: -11px">
+              <div class="text-subtitle2 text-capitalize bg-green-1">
                 {{_.replace(field, /_/gi, ' ')}}
-                <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
+                <q-icon onright style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
               </div>
             </div>
             <p class="text-h6">{{clientName(model[field])}}</p>
@@ -148,9 +148,9 @@ export default {
       let end = new Date(this.$props.model.end)
       console.log(end - today)
       if (end - today < 0) {
-        return 'bg-orange shadow-5'
+        return 'bg-yellow-1'
       }
-      return ''
+      return 'bg-green-1'
     },
     st() {
       let today = Date.now()
@@ -238,6 +238,29 @@ export default {
 </script>
 <style scoped>
 div {
+  /* $amber-1 */
+  line-height: 15pt;
+  font-size: small;
+  display: table;
+  color: rgba(28, 43, 56, 0.62);
+}
+eventBtn {
+  background: red;
+}
+q-item {
+  line-height: 11pt;
+  font-size: small;
+}
+q-card {
+  line-height: 11pt;
+  font-size: small;
+  color: rgba(28, 43, 56, 0.62);
+}
+q-item-section {
+  line-height: 11pt;
+  font-size: small;
+}
+/* div {
   background: #e6fce6;
   line-height: 15pt;
   font-size: small;
@@ -263,5 +286,5 @@ q-item-section {
 }
 bg-red {
   background: red;
-}
+} */
 </style>

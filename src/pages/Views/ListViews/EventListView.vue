@@ -1,10 +1,8 @@
 <template>
-  <div
-    id="EventListView"
-    class="q-pa-sm q-ma-sm col-xs-12 col-sm-6 col-md-4 flex justify-center items-stretch"
-  >
+  <div id="EventListView" class="q-pa-sm q-ma-sm col-xs-12 col-sm-6 col-md-4 flex justify-center">
     <EventBox
-      class="q-pa-sm q-ma-sm shadow-5"
+      block
+      class="q-px-sm q-mx-sm"
       v-for="model in modelList"
       :key="model.id"
       :fields="fields()"

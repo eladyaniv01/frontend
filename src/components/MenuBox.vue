@@ -3,11 +3,11 @@
     <q-list>
       <div v-for="field in fields" :key="field">
         <div class="q-pb-sm" v-if="field == 'id'">
-          <div class="doc-card-title shadow-1 bg-grey" style="margin-left: -20px">
-            <q-btn flat class="bg-grey" :to="getPath(model[field],modelName)">
+          <div class="doc-card-title shadow-1 bg-green-1" style="margin-left: -20px">
+            <q-btn flat class="bg-green-1" :to="getPath(model[field],modelName)">
               <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
-              <div class="text-h6 bg-grey">{{singularize(modelName)}}</div>
-              <div class="text-subtitle2 bg-grey">{{model[field]}}</div>
+              <div class="text-h6 bg-green-1">{{singularize(modelName)}}</div>
+              <div class="text-subtitle2 bg-green-1">{{model[field]}}</div>
               <q-tooltip>Click For Details</q-tooltip>
             </q-btn>
           </div>
@@ -36,8 +36,8 @@
         </div>
 
         <div class="q-pb-sm" v-if="field == 'client'">
-          <div class="doc-card-title shadow-1 bg-grey">
-            <div class="text-subtitle2 text-capitalize bg-grey">
+          <div class="doc-card-title shadow-1 bg-green-1">
+            <div class="text-subtitle2 text-capitalize bg-green-1">
               {{_.replace(field, /_/gi, ' ')}}
               <q-icon left style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
             </div>
@@ -198,6 +198,29 @@ export default {
 </script>
 <style scoped>
 div {
+  /* $amber-1 */
+  line-height: 15pt;
+  font-size: small;
+  display: table;
+  color: rgba(28, 43, 56, 0.62);
+}
+eventBtn {
+  background: red;
+}
+q-item {
+  line-height: 11pt;
+  font-size: small;
+}
+q-card {
+  line-height: 11pt;
+  font-size: small;
+  color: rgba(28, 43, 56, 0.62);
+}
+q-item-section {
+  line-height: 11pt;
+  font-size: small;
+}
+/* div {
   background: #ffcc80;
   line-height: 15pt;
   font-size: small;
@@ -217,5 +240,5 @@ q-card {
 q-item-section {
   line-height: 11pt;
   font-size: small;
-}
+} */
 </style>

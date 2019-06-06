@@ -50,6 +50,9 @@ export function StopRegister({ state, commit }) {
 export function AddClient({ state, commit }, payload) {
   commit('ADDCLIENT', payload)
 }
+export function AddEvent({ state, commit }, payload) {
+  commit('ADDEVENT', payload)
+}
 export function FetchClients({ state, commit }, payload) {
   commit('FETCHCLIENTS', payload)
 }

@@ -1,7 +1,7 @@
 <template>
   <div id="MinListView" class="col-xs-12 col-sm-6 col-md-4 flex justify-center items-stretch">
     <MinBox
-      class="q-pa-sm q-ma-sm shadow-5"
+      class="q-pa-sm q-ma-sm shadow-1"
       v-for="model in modelList"
       :key="model.id"
       :fields="fields()"

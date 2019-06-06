@@ -1,146 +1,188 @@
 <template>
-  <div id="ClientDetail" class="row q-pa-sm q-ma-sm">
-    <q-expansion-item
-      expand-separator
-      icon="fas fa-ambulance"
-      label="Medical Information"
-      caption="For Accurate Menu Generation"
-      style="width: 100%;"
-    >
-      <q-scroll-area
-        :thumb-style="thumbStyle"
-        :content-style="contentStyle"
-        :content-active-style="contentActiveStyle"
-        style="height: 300px; width: 100%;"
+  <div>
+    <div id="ClientDetail" class="row q-pa-sm q-ma-sm">
+      <q-expansion-item
+        expand-separator
+        icon="fas fa-ambulance"
+        label="Medical Information"
+        caption="For Accurate Menu Generation"
+        style="width: 100%;"
+        header-class="bg-secondary text-white"
       >
-        <!-- <q-option-group v-model="cbc" :options="options" color="primary" inline/> -->
-        <ul class="flex items-center" v-for="item in tests" :key="item.id">
-          <li v-if="item.group == 'Hematology'">
-            <b class="text-red">{{item.group}}</b>
-          </li>
-          <li v-if="item.group == 'Chemistry'">
-            <b class="text-green">{{item.group}}</b>
-          </li>
-          <li v-if="item.group == 'Endocrinology'">
-            <b class="text-blue">{{item.group}}</b>
-          </li>
-          <li>{{ item.name }}</li>
+        <q-scroll-area
+          :thumb-style="thumbStyle"
+          :content-style="contentStyle"
+          :content-active-style="contentActiveStyle"
+          style="height: 300px; width: 100%;"
+        >
+          <!-- <q-option-group v-model="cbc" :options="options" color="primary" inline/> -->
+          <ul class="flex items-center" v-for="item in tests" :key="item.id">
+            <li v-if="item.group == 'Hematology'">
+              <b class="text-red">{{item.group}}</b>
+            </li>
+            <li v-if="item.group == 'Chemistry'">
+              <b class="text-green">{{item.group}}</b>
+            </li>
+            <li v-if="item.group == 'Endocrinology'">
+              <b class="text-blue">{{item.group}}</b>
+            </li>
+            <li>{{ item.name }}</li>
 
-          <li>
-            <q-radio dense v-model="item.value" val="Low" label="Low"/>
-            <q-radio dense v-model="item.value" val="Normal" label="Normal"/>
-            <q-radio dense v-model="item.value" val="High" label="High"/>
-          </li>
-        </ul>
-      </q-scroll-area>
-    </q-expansion-item>
-
-    <div class="col-3">
-      <h6>General Information</h6>
-      <q-btn push color="primary" icon="edit" @click="EditClient()"/>
-      <Box
-        class="q-pa-sm q-ma-sm shadow-5 justify-right"
-        :fields="fields()"
-        :model="this.client"
-        modelName="client"
-      ></Box>
+            <li>
+              <q-radio dense v-model="item.value" val="Low" label="Low"/>
+              <q-radio dense v-model="item.value" val="Normal" label="Normal"/>
+              <q-radio dense v-model="item.value" val="High" label="High"/>
+            </li>
+          </ul>
+        </q-scroll-area>
+      </q-expansion-item>
     </div>
-    <q-separator vertical/>
-
-    <div class="col-4 q-pa-sm q-ma-sm">
-      <h6>Daily Menu's</h6>
-      <div class="text-subtitle2" align="center">
-        <q-btn
-          push
-          icon="fas fa-plus"
-          color="primary"
-          v-model="client"
-          @click="gotoMenu()"
-          label="Menu"
-        />
-      </div>
-
-      <MenuListView
-        :headerFields="this.headerFields"
-        :perPage="this.perPage"
-        :modelList="this.Menus"
-        :title="this.MenuTableToolTip"
-        modelName="menus"
+    <div class="row q-pa-sm q-ma-sm justify-center">
+      <DashboardCard
+        class="col-auto"
+        head1="Menus"
+        :head1count="menuCount"
+        head2="Last 7 Days"
+        :head2count="newMenuCount"
+      />
+      <DashboardCard
+        class="col-auto"
+        head1="Meetings"
+        :head1count="eventCount"
+        head2="Last 7 Days"
+        :head2count="newEventCount"
+      />
+      <DashboardCard
+        class="col-auto"
+        head1="Sales"
+        head1count="147.0$"
+        head2="Last 7 Days"
+        head2count="34$"
+      />
+      <DashboardCard
+        class="col-auto"
+        head1="Purchases"
+        head1count="27$"
+        head2="Last 7 Days"
+        head2count="5.43$"
       />
     </div>
-    <q-separator vertical/>
 
-    <div class="col-4 q-pa-sm q-ma-sm">
-      <q-expansion-item
-        class="shadow-1 overflow-hidden"
-        popup
-        icon="note"
-        label="Private Notes"
-        style="border-radius:10px"
-        dense
-        header-class="bg-primary text-white"
-        round
-        default-opened
-      >
+    <div class="row q-pa-sm q-ma-sm justify-center">
+      <div>
+        <ClientComp
+          class="q-pa-sm q-ma-sm"
+          :fields="fields()"
+          :model="this.client"
+          modelName="client"
+        ></ClientComp>
+      </div>
+      <div>
+        <q-btn push color="secondary" icon="edit" @click="EditClient()">
+          <q-tooltip>Edit</q-tooltip>
+        </q-btn>
+      </div>
+    </div>
+
+    <div class="row q-pa-sm q-ma-sm items-start">
+      <q-separator vertical/>
+
+      <div class="col-grow q-pa-sm q-ma-sm">
         <div class="text-subtitle2" align="center">
-          <q-btn icon="fas fa-plus" push color="primary" label="Note">
-            <q-popup-proxy>
-              <div class="col-auto q-pa-sm q-ma-sm">
-                Title
-                <q-input
-                  filled
-                  v-model="noteForm.title"
-                  hint="Pick a Descriptive name to find fast"
-                  type="text"
-                />
-                <br>Content
-                <q-input filled v-model="noteForm.content" type="textarea"/>
-
-                <div>
-                  <q-btn
-                    label="Create A Note"
-                    @click="createNote()"
-                    type="submit"
-                    color="primary"
-                    v-close-popup
-                  />
-                </div>
-              </div>
-            </q-popup-proxy>
+          <q-btn
+            push
+            icon="fas fa-plus"
+            color="secondary"
+            v-model="client"
+            @click="gotoMenu()"
+            label="Menu"
+          >
+            <q-tooltip>Generate a New Menu</q-tooltip>
           </q-btn>
         </div>
-        <NoteListView :modelList="PrivateNotes" modelName="notes"/>
-      </q-expansion-item>
 
-      <q-expansion-item
-        class="shadow-1 overflow-hidden"
-        popup
-        icon="fas fa-calendar-alt"
-        label="Calendar Events"
-        style="border-radius:10px"
-        dense
-        header-class="bg-primary text-white"
-        round
-        default-opened
-      >
-        <div class="col-10 q-pa-sm q-ma-sm">
-          <h6></h6>
-          <div class="text-subtitle2" align="center"></div>
+        <MenuListView
+          :headerFields="this.headerFields"
+          :perPage="this.perPage"
+          :modelList="this.Menus"
+          :title="this.MenuTableToolTip"
+          modelName="menus"
+        />
+      </div>
+      <q-separator vertical/>
 
-          <EventListView
-            :headerFields="this.headerFields"
-            :perPage="this.perPage"
-            :modelList="Events"
-            :title="this.MenuTableToolTip"
-            modelName="events"
-          />
-        </div>
-      </q-expansion-item>
+      <div class="col-grow q-pa-sm q-ma-sm">
+        <q-expansion-item
+          class="shadow-1 overflow-hidden"
+          icon="note"
+          label="Private Notes"
+          style="border-radius:10px"
+          dense
+          header-class="bg-secondary text-white"
+          round
+          default-opened
+        >
+          <div class="text-subtitle2" align="center">
+            <q-btn icon="fas fa-plus" push color="secondary" label="Note">
+              <q-popup-proxy>
+                <div class="col-grow q-pa-sm q-ma-sm">
+                  Title
+                  <q-input
+                    filled
+                    v-model="noteForm.title"
+                    hint="Pick a Descriptive name to find fast"
+                    type="text"
+                  />
+                  <br>Content
+                  <q-input filled v-model="noteForm.content" type="textarea"/>
+
+                  <div>
+                    <q-btn
+                      label="Create A Note"
+                      @click="createNote()"
+                      type="submit"
+                      color="secondary"
+                      v-close-popup
+                    ></q-btn>
+                  </div>
+                </div>
+              </q-popup-proxy>
+              <q-tooltip>Write a Note</q-tooltip>
+            </q-btn>
+          </div>
+          <NoteListView :modelList="PrivateNotes" modelName="notes"/>
+        </q-expansion-item>
+
+        <q-expansion-item
+          class="shadow-1 overflow-hidden"
+          icon="fas fa-calendar-alt"
+          label="Calendar Events"
+          style="border-radius:10px"
+          dense
+          header-class="bg-secondary text-white"
+          round
+          default-opened
+        >
+          <div class="col-10 q-pa-sm q-ma-sm">
+            <h6></h6>
+            <div class="text-subtitle2" align="center"></div>
+
+            <EventListView
+              :headerFields="this.headerFields"
+              :perPage="this.perPage"
+              :modelList="Events"
+              :title="this.MenuTableToolTip"
+              modelName="events"
+            />
+          </div>
+        </q-expansion-item>
+      </div>
+      <q-separator vertical/>
     </div>
-    <q-separator vertical/>
   </div>
 </template>
 <script>
+var moment = require('moment')
 import { mapState, mapGetters } from 'vuex'
 import Client from 'src/store/ORM/client.js'
 import Nutritionist from 'src/store/ORM/nutritionists.js'
@@ -152,8 +194,9 @@ import NoteListView from 'src/pages/Views/ListViews/NoteListView'
 import EventListView from 'src/pages/Views/ListViews/EventListView'
 import MinListView from 'src/pages/Views/ListViews/MinListView'
 import Models from 'src/store/ORM/models.js'
-import Box from 'src/components/Box'
+import ClientComp from 'src/components/ClientComp'
 import Splitpanes from 'splitpanes'
+import DashboardCard from 'src/components/DashboardCard'
 import 'splitpanes/dist/splitpanes.css'
 export default {
   name: 'ClientDetail',
@@ -161,13 +204,14 @@ export default {
   components: {
     ModelDetailView,
     ModelListView,
-    Box,
+    ClientComp,
     ClientUpdate,
     NoteListView,
     Splitpanes,
     EventListView,
     MinListView,
-    MenuListView
+    MenuListView,
+    DashboardCard
   },
   data() {
     return {
@@ -180,20 +224,7 @@ export default {
         content: '',
         accept: false
       },
-      options: [
-        {
-          label: 'Option 1',
-          value: 'Normal'
-        },
-        {
-          label: 'Option 2',
-          value: 'High'
-        },
-        {
-          label: 'Option 3',
-          value: 'Low'
-        }
-      ],
+
       showDialog: false,
       menu: Object,
       result: Object,
@@ -206,12 +237,7 @@ export default {
       nutritionist: Nutritionist.query().get()
     }
   },
-  watch: {
-    cbc(newValue, oldValue) {
-      console.log('cbc changed from ', oldValue)
-      console.log('cbc changed to ', newValue)
-    }
-  },
+  watch: {},
   created() {},
   mounted() {
     var id = parseInt(this.$route.params['id'], 10)
@@ -230,7 +256,68 @@ export default {
 
       clients: state => state.user.nutritionist.clients
     }),
+    newMenuCount() {
+      // int time interval (days) for a week it will be 7
+      let now = moment(new Date())
+      var id = parseInt(this.$route.params['id'], 10)
+      let client = Client.find(id)
+      let count = 0
 
+      let total = Models.Menu.query()
+        .where('client', id)
+        .get()
+      for (let i in total) {
+        let ca = moment(Date.parse(total[i].created_at))
+        if (now.diff(ca, 'days') <= 7) {
+          count += 1
+        }
+      }
+      return count
+    },
+    menuCount() {
+      // int time interval (days) for a week it will be 7
+      let now = moment(new Date())
+      var id = parseInt(this.$route.params['id'], 10)
+      let client = Client.find(id)
+      let count = 0
+
+      let total = Models.Menu.query()
+        .where('client', id)
+        .get()
+
+      return total.length
+    },
+    newEventCount() {
+      // int time interval (days) for a week it will be 7
+      let now = moment(new Date())
+      var id = parseInt(this.$route.params['id'], 10)
+      let client = Client.find(id)
+      let count = 0
+
+      let total = Models.Event.query()
+        .where('client', id)
+        .get()
+      for (let i in total) {
+        let ca = moment(Date.parse(total[i].start))
+        if (now.diff(ca, 'days') <= 7) {
+          count += 1
+        }
+      }
+      return count
+    },
+    eventCount() {
+      // int time interval (days) for a week it will be 7
+      let now = moment(new Date())
+      var id = parseInt(this.$route.params['id'], 10)
+      let client = Client.find(id)
+      let count = 0
+
+      let total = Models.Event.query()
+        .where('client', id)
+        .get()
+
+      return total.length
+    },
     Menus() {
       var cid = parseInt(this.$route.params['id'], 10)
       var nid = Models.Nutritionist.query().get()[0].id
@@ -285,7 +372,7 @@ export default {
 
     contentActiveStyle() {
       return {
-        backgroundColor: '#eee',
+        backgroundColor: 'rgba(0,0,0,0.03)',
         color: 'black'
       }
     },

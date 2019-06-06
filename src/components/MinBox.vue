@@ -3,11 +3,16 @@
     <q-list>
       <div v-for="field in sortedFields" :key="field">
         <div class="q-mr-sm" v-if="field == 'id'">
-          <div class="doc-card-title shadow-1 bg-grey">
-            <q-btn class="bg-grey" flat :to="getPath(model[field],modelName)" style="width: 100%;">
+          <div class="doc-card-title shadow-1 bg-green-1">
+            <q-btn
+              class="bg-green-1"
+              flat
+              :to="getPath(model[field],modelName)"
+              style="width: 100%;"
+            >
               <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
-              <div style="color:black; " class="text-h6 bg-grey">{{singularize(modelName)}}</div>
-              <div style="color:black; " class="text-subtitle2 bg-grey">{{model[field]}}</div>
+              <div style="color:black; " class="text-h6 bg-green-1">{{singularize(modelName)}}</div>
+              <div style="color:black; " class="text-subtitle2 bg-green-1">{{model[field]}}</div>
               <q-tooltip>Click For Details</q-tooltip>
             </q-btn>
           </div>
@@ -230,11 +235,11 @@ export default {
 </script>
 <style scoped>
 div {
-  background: #fff8e1; /* $amber-1 */
+  /* $amber-1 */
   line-height: 15pt;
   font-size: small;
   display: table;
-  color: rgb(12, 106, 129);
+  color: rgba(28, 43, 56, 0.62);
 }
 eventBtn {
   background: red;
@@ -246,6 +251,7 @@ q-item {
 q-card {
   line-height: 11pt;
   font-size: small;
+  color: rgba(28, 43, 56, 0.62);
 }
 q-item-section {
   line-height: 11pt;

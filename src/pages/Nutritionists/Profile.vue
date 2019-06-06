@@ -1,5 +1,5 @@
 <template>
-  <div id="ProfileNut">
+  <div id="ProfileNut" class="row flex justify-center">
     <ModelDetailView
       :model="nutritionist"
       :userName="userName"
