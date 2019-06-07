@@ -1,5 +1,17 @@
-/
+
 /* Dot indicator */
+// TRANSITIONS
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+//  SPLITPANES
+
 .splitpanes {
   background: white
 }
@@ -12,6 +24,9 @@
   height: 9px;
   background: linear-gradient(#ccc, #111);
 }
+
+//  RIBBON
+
 .doc-card-title {
   margin-left: -22px;
   padding: 2px 15px 2px 24px;
@@ -20,14 +35,6 @@
   position: relative;
   border-radius: 3px 5px 5px 0;
 }
-.sidedrawer {
-   background:#FBFBFC;
-   color: rgba(28, 43, 56, 0.62);
-  }
-
-.q-item--active {
-  background: rgba(159, 139, 239, 0.29) ;
-  }
 .doc-card-title:after {
   content: '';
   position: absolute;
@@ -39,6 +46,18 @@
   border-top-color: #bebebe;
   border-width: 9px 0 0 11px;
 }
+//  DRAWER
+.sidedrawer {
+   background:#FBFBFC;
+   color: rgba(28, 43, 56, 0.62);
+  }
+
+// ACTIVE ITEM BACKGROUND ON DRAWER
+.q-item--active {
+  background: rgba(159, 139, 239, 0.29) ;
+  }
+
+//  QTABLE
 .q-table__title {
   margin-left: -26px;
   padding: 2px 10px 2px 24px;
@@ -83,6 +102,8 @@
   border-top: 1px solid rgba(0,0,0,0.2);
   margin: 0.6em 2em;
 }
+
+//  VUE CAL
 .vuecal__event {
   background-color:#e8f5e9;
   border: 2px solid rgba(150, 200, 210, 0.8);
@@ -106,6 +127,8 @@
 
 .vuecal--month-view .vuecal__cell {height: 120px;}
 
+
+//  LAYOUT GLOBAL
 
 .bg-footer{
    background:$blue-grey-4;

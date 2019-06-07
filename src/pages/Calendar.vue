@@ -48,7 +48,14 @@
         <q-card class="even-form" style="width: 700px; max-width: 80vw;">
           <q-card-section>
             <div class="text-h4 text-info">Create a New Calendar Event</div>
-            <q-btn push color="info" class="float-right" label="Submit" @click="add(form)"/>
+            <q-btn
+              v-close-popup
+              push
+              color="info"
+              class="float-right"
+              label="Submit"
+              @click="add(form)"
+            />
           </q-card-section>
           <!-- <div v-for="(item ,head) in event" :key="item.id">{{head }} : {{ item }}</div> -->
 
@@ -274,10 +281,11 @@ export default {
             type: 'info'
           })
           this.$q.loading.hide()
-          Models.Event.insert({ data: result.data })
+          this.$store.dispatch('UserModules/AddEvent', result.data)
+
           this.form = {
-            start: '2019-05-10 06:30',
-            end: '2019-05-10 06:30',
+            start: '',
+            end: '',
             client: '',
             nutritionist: '',
             title: '',
@@ -285,7 +293,6 @@ export default {
             contentFull: '',
             accept: false
           }
-          console.log(form)
         })
         .catch(err => {
           this.$q.loading.hide()

@@ -39,7 +39,9 @@ export default {
   watch: {},
   computed: {
     sortedFields() {
-      let sorted = this.fields.sort()
+      let fields = _.keys(_.clone(Models.Client.query().get()[0]))
+
+      let sorted = fields.sort()
 
       var filtered = sorted.filter(function(value, index, arr) {
         return value != 'id'
@@ -47,7 +49,7 @@ export default {
       var filtered_ex = sorted.filter(function(value, index, arr) {
         return value != 'id' && value != 'client'
       })
-      if (this.fields.includes('client')) {
+      if (fields.includes('client')) {
         filtered_ex.unshift('id')
         filtered_ex.unshift('client')
 
@@ -61,6 +63,22 @@ export default {
       filtered.splice(filtered.indexOf('nutritionist'), 1)
       filtered.splice(filtered.indexOf('private_notes'), 1)
       filtered.splice(filtered.indexOf('tests'), 1)
+      filtered.splice(filtered.indexOf('first_name'), 1)
+      filtered.splice(filtered.indexOf('last_name'), 1)
+      filtered.splice(filtered.indexOf('id'), 1)
+      filtered.splice(filtered.indexOf('created_at'), 1)
+      filtered.splice(filtered.indexOf('height'), 1)
+      filtered.splice(filtered.indexOf('weight'), 1)
+      filtered.splice(filtered.indexOf('sex'), 1)
+
+      filtered.unshift('sex')
+      filtered.unshift('first_name')
+      filtered.unshift('last_name')
+      filtered.unshift('id')
+
+      filtered.push('height')
+      filtered.push('weight')
+      filtered.push('created_at')
 
       return filtered
     },

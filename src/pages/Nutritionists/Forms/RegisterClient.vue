@@ -88,7 +88,7 @@
                   v-model="form.phone_number"
                   label="Phone Number"
                   hint="(000)-00-000000"
-                  mask="(###)-##-######"
+                  mask="(+###)-##-#######"
                   fill-mask
                   lazy-rules
                   :rules="[ val => val && val.length > 0 || 'Required']"

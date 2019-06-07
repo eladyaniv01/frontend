@@ -1,10 +1,47 @@
 <template>
   <div id="ClientList">
     <div class="column" style="height: 75px"></div>
+    <q-option-group
+      v-model="render"
+      inline
+      class="q-mb-md"
+      :options="[
+        { label: 'Cards', value: 'cards' },
+        { label: 'Table', value: 'table' }
+  
+      ]"
+    />
+
     <q-btn label="refresh" @click="refresh()"/>
+
     <q-input class="q-pa-sm" v-model="searchQuery" type="text" label="search by first name"/>
     <!-- <autoComplete v-model="searchQuery" :options="modelList.first_name" label="label"/> -->
+    <transition name="fade">
+      <q-markup-table class="q-ma-sm" v-if="render == 'table'">
+        <thead>
+          <tr class="bg-green-1">
+            <th
+              v-for="field in sortedFields"
+              :key="field"
+            >{{_.capitalize(_.replace(field, /_/gi, ' '))}}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            class="cursor-pointer"
+            v-for="model in modelList"
+            :key="model.id"
+            @click="onRowClick(model.id)"
+          >
+            <td v-for="field in sortedFields" :key="field">{{model[field]}}</td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </transition>
+
     <MinListView
+      v-if="render == 'cards'"
       :headerFields="headerFields"
       :perPage="perPage"
       :modelList="modelList"
@@ -18,6 +55,7 @@
 import Client from 'src/store/ORM/client.js'
 import Menu from 'src/store/ORM/menu.js'
 import Models from 'src/store/ORM/models.js'
+import ClientComp from 'src/components/ClientComp'
 import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
 import {
   myRep,
@@ -37,16 +75,62 @@ export default {
   name: 'ClientList',
   components: {
     MinListView,
-    autoComplete
+    autoComplete,
+    ClientComp
   },
   data() {
     return {
       headerFields: [],
       perPage: 40,
-      searchQuery: ''
+      searchQuery: '',
+      render: 'table'
     }
   },
   computed: {
+    sortedFields() {
+      let fields = _.keys(_.clone(Models.Client.query().get()[0]))
+
+      let sorted = fields.sort()
+
+      var filtered = sorted.filter(function(value, index, arr) {
+        return value != 'id'
+      })
+      var filtered_ex = sorted.filter(function(value, index, arr) {
+        return value != 'id' && value != 'client'
+      })
+      if (fields.includes('client')) {
+        filtered_ex.unshift('id')
+        filtered_ex.unshift('client')
+
+        return filtered_ex
+      }
+      filtered.unshift('id')
+      filtered.splice(filtered.indexOf('$id'), 1)
+      filtered.splice(filtered.indexOf('events'), 1)
+      filtered.splice(filtered.indexOf('got_free_menu'), 1)
+      filtered.splice(filtered.indexOf('menus'), 1)
+      filtered.splice(filtered.indexOf('nutritionist'), 1)
+      filtered.splice(filtered.indexOf('private_notes'), 1)
+      filtered.splice(filtered.indexOf('tests'), 1)
+      filtered.splice(filtered.indexOf('first_name'), 1)
+      filtered.splice(filtered.indexOf('last_name'), 1)
+      filtered.splice(filtered.indexOf('id'), 1)
+      filtered.splice(filtered.indexOf('created_at'), 1)
+      filtered.splice(filtered.indexOf('height'), 1)
+      filtered.splice(filtered.indexOf('weight'), 1)
+      filtered.splice(filtered.indexOf('sex'), 1)
+
+      filtered.unshift('sex')
+      filtered.unshift('first_name')
+      filtered.unshift('last_name')
+      filtered.unshift('id')
+
+      filtered.push('height')
+      filtered.push('weight')
+      filtered.push('created_at')
+
+      return filtered
+    },
     ...mapState('UserModules', {
       user: state => state.user,
       clients: state => state.clients,
@@ -97,6 +181,14 @@ export default {
   //   }
   // },
   methods: {
+    onRowClick(id) {
+      this.$router.push(`/nutritionist/clients/${id}`)
+    },
+    fields() {
+      let f = _.clone(Models.Client.query().get()[0]) || -1
+
+      return _.keys(f)
+    },
     APIURL() {
       return this.getApiUrl
     },
@@ -169,3 +261,5 @@ export default {
   }
 }
 </script>
+<style scoped>
+</style>

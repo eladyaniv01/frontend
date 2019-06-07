@@ -263,6 +263,13 @@ export default {
           to: '/nutritionist/menus'
         },
         {
+          icon: 'fas fa-clinic-medical',
+          iconColor: 'primary',
+          label: 'Specialists',
+
+          separator: true
+        },
+        {
           icon: 'attach_money',
           label: 'Sales',
           separator: true,
