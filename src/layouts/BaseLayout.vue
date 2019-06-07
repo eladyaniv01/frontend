@@ -59,16 +59,18 @@
           <div v-if="loggedin">
             <q-tabs>
               <q-separator vertical/>
+              <span v-tooltip.top="'Future Scheduled Meetings'">
+                <q-route-tab icon="fas fa-calendar-alt" to="/calendar" label="Calendar">
+                  <q-badge
+                    rounded-borders
+                    class="text-subtitle2 shadow-up-1"
+                    color="red"
+                    floating
+                    transparent
+                  >{{newEventCount}}</q-badge>
+                </q-route-tab>
+              </span>
 
-              <q-route-tab icon="fas fa-calendar-alt" to="/calendar" label="Calendar">
-                <q-badge
-                  rounded-borders
-                  class="text-subtitle2 shadow-up-1"
-                  color="red"
-                  floating
-                  transparent
-                >{{newEventCount}}</q-badge>
-              </q-route-tab>
               <q-separator vertical/>
               <q-btn-dropdown color="bg-header" :label="user.username" align="right">
                 <q-list link>

@@ -4,7 +4,7 @@ module.exports = function (ctx) {
   return {
     // app plugins (/src/boot)
 
-    boot: ['i18n', 'axios', 'vuelidate', 'Ftitle', 'lodash', 'noConsole', 'notify-defaults'],
+    boot: ['i18n', 'axios', 'vuelidate', 'Ftitle', 'lodash', 'noConsole', 'notify-defaults', 'vtooltip'],
     css: ['app.styl'],
     extras: [
       'material-icons',
