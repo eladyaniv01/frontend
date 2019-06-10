@@ -1,6 +1,11 @@
 <template>
   <div class="q-pa-md row justify-center">
     <div class="col-auto">
+      <!-- <section class="section">
+        <div class="container">
+          <FormBuilder formmethod="makeUserSignInForm"></FormBuilder>
+        </div>
+      </section>-->
       <q-card dark bordered class="bg-grey-5 my-card">
         <div class="text-h4 text-amber-8 bg-grey-7 shadow-7 text-center">I am a</div>
         <q-tabs
@@ -84,7 +89,9 @@
 <script>
 import Nutritionist from 'src/store/ORM/nutritionists.js'
 import Client from 'src/store/ORM/client.js'
+import Message from 'src/store/ORM/messages.js'
 import Menu from 'src/store/ORM/menu.js'
+// import FormBuilder from 'src/components/Form/FormBuilder.vue'
 import { required, email } from 'vuelidate/lib/validators'
 import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
 import {
@@ -97,6 +104,9 @@ import axios from 'axios'
 
 export default {
   name: 'PageLogin',
+  components: {
+    // FormBuilder
+  },
   data() {
     return {
       brandEmail: 'email@email.com',
@@ -133,6 +143,16 @@ export default {
         .then(result => {
           this.$store.dispatch('UserModules/UpdateUser', result.data)
 
+          // console.log(
+          //   Message.Create({ data: result.data.user.nutritionist.messages })
+          // )
+          try {
+            Message.create({ data: result.data.user.nutritionist.messages })
+          } catch (err) {
+            alert(err.message)
+          }
+          console.log('messages')
+          console.log(result.data.user.nutritionist.messages)
           // INIT THE CLIENT SET BELONGING TO THE NUTRITIONIST
           Client.create({
             data: result.data.user.nutritionist.clients,
@@ -141,7 +161,7 @@ export default {
           // INIT THE NUTRITIONIST
           Nutritionist.create({
             data: result.data.user.nutritionist,
-            insert: ['clients']
+            insert: ['clients', 'messages']
           })
 
           this.$store.dispatch('UserModules/UpdateToken', result.data.token)

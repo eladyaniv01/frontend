@@ -4,6 +4,7 @@ import Menu from './menu.js'
 import Client from './client.js'
 import PrivateNote from './private_notes.js';
 import Event from './calendarevents.js';
+import InternalMessage from './messages.js';
 export default class Nutritionist extends Model {
     // This is the name used as module name of the Vuex Store.
     static entity = 'nutritionists'
@@ -27,6 +28,8 @@ export default class Nutritionist extends Model {
             menus: this.hasMany(Menu, 'nutritionist'),
             events: this.hasMany(Event, 'nutritionist'),
             private_notes: this.hasMany(PrivateNote, 'nutritionist'),
+            messages: this.hasMany(InternalMessage, 'sender')
+
 
         }
     }

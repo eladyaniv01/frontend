@@ -22,26 +22,24 @@
       <DashboardCard head1="Sales" head1count="1347.0$" head2="Last 7 Days" head2count="234$"/>
       <DashboardCard head1="Payments" head1count="273$" head2="Last 7 Days" head2count="26.43$"/>
     </div>
-    <center>
-      <container class="row" group-name="row" @drop="onDrop">
-        <div class="col q-pa-md justify-center" v-for="item in this.charts" :key="item.id">
-          <div class="Chart">
-            <component class="q-ma-xl" :is="item"></component>
-          </div>
+
+    <container class="row" group-name="row" @drop="onDrop">
+      <div class="col q-pa-md justify-center" v-for="item in this.charts" :key="item.id">
+        <div class="Chart">
+          <component class="q-ma-xl" :is="item"></component>
         </div>
-        <!-- <draggable class="col-auto q-pa-md Chart draggable-item">
-        <div>
-          <client-chart/>
-        </div>
-      </draggable>
-      
-      <draggable class="col-auto q-pa-md Chart draggable-item">
-        <div>
-          <event-chart/>
-        </div>
-        </draggable>-->
-      </container>
-    </center>
+      </div>
+    </container>
+    <div class="row">
+      <q-expansion-item
+        expand-separator
+        icon="email"
+        label="Inbox"
+        header-class="bg-secondary text-white"
+      >
+        <Inbox/>
+      </q-expansion-item>
+    </div>
   </div>
 </template>
 
@@ -53,6 +51,7 @@ import applyDrag from 'src/utils/applyDrag.js'
 import Models from 'src/store/ORM/models.js'
 import Nutritionist from 'src/store/ORM/nutritionists.js'
 import DashboardCard from 'src/components/DashboardCard'
+import Inbox from 'src/components/Inbox'
 import ClientChart from 'src/components/ClientLineChart.js'
 import EventChart from 'src/components/EventLineChart.js'
 import { mapGetters, mapActions, mapState } from 'vuex'
@@ -87,7 +86,8 @@ export default {
     ClientChart,
     EventChart,
     Container,
-    Draggable
+    Draggable,
+    Inbox
   },
   computed: {
     newClientCount() {

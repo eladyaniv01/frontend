@@ -67,6 +67,7 @@
                     color="red"
                     floating
                     transparent
+                    v-if="newEventCount"
                   >{{newEventCount}}</q-badge>
                 </q-route-tab>
               </span>
@@ -268,7 +269,7 @@ export default {
           icon: 'fas fa-clinic-medical',
           iconColor: 'primary',
           label: 'Specialists',
-
+          to: '/specialists',
           separator: true
         },
         {

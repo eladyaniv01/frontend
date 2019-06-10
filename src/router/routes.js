@@ -22,6 +22,11 @@ const routes = [
     children: [{ path: '', component: () => import('pages/Calendar.vue') }]
   },
   {
+    path: '/specialists',
+    component: () => import('layouts/BaseLayout.vue'),
+    children: [{ path: '', component: () => import('pages/Specialists.vue') }]
+  },
+  {
     path: '/about',
     component: () => import('layouts/BaseLayout.vue'),
     children: [{ path: '', component: () => import('pages/AboutUs.vue') }]

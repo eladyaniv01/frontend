@@ -16,17 +16,19 @@ import Nutritionist from 'src/store/ORM/nutritionists.js'
 import PrivateNote from 'src/store/ORM/private_notes.js'
 import Event from 'src/store/ORM/calendarevents.js'
 import Test from 'src/store/ORM/tests'
-
+import InternalMessage from 'src/store/ORM/messages.js';
 
 Vue.use(Vuex)
 const database = new VuexORM.Database()
 
 database.register(Nutritionist, 'nutritionists')
+database.register(InternalMessage, 'messages')
 database.register(Client, 'clients')
 database.register(Menu, 'menus')
 database.register(PrivateNote, 'private_notes')
 database.register(Event, 'events')
 database.register(Test, 'tests')
+
 
 
 

@@ -130,6 +130,8 @@ module.exports = function (ctx) {
         // pagination
         'QPagination',
 
+        // messages / chat
+        'QChatMessage',
 
         'QToggle',
 
