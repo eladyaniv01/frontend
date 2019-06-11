@@ -30,14 +30,20 @@
 
                 <q-separator v-if="menuItem.separator"/>
               </q-list>
+              <q-separator/>
+              <q-item></q-item>
+              <q-separator/>
+              <q-item></q-item>
+              <q-separator/>
               <q-list>
-                <q-item class="fixed-bottom" v-model="user" clickable @click="logItOut()">
+                <q-item class="q-mt-xl" v-model="user" clickable @click="logItOut()">
                   <q-item-section avatar>
                     <q-icon name="fas fa-sign-out-alt"/>
                   </q-item-section>
                   <q-item-section>Logout</q-item-section>
                 </q-item>
               </q-list>
+              <q-separator/>
             </q-scroll-area>
           </q-drawer>
         </div>
@@ -62,13 +68,13 @@
               <span v-tooltip.top="'Future Scheduled Meetings'">
                 <q-route-tab icon="fas fa-calendar-alt" to="/calendar" label="Calendar">
                   <q-badge
+                    v-if="nec() != null"
                     rounded-borders
                     class="text-subtitle2 shadow-up-1"
                     color="red"
                     floating
                     transparent
-                    v-if="newEventCount"
-                  >{{newEventCount}}</q-badge>
+                  >{{nec()}}</q-badge>
                 </q-route-tab>
               </span>
 
@@ -162,6 +168,7 @@ import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
 import { openURL, Platform } from 'quasar'
 import LeftSideDrawer from './LeftSideDrawer'
 import RightSideDrawer from './RightSideDrawer'
+import { newEventCount } from 'src/utils/time.js'
 import {
   myRep,
   sentenceCase,
@@ -191,41 +198,27 @@ export default {
       showRight: false,
       active: false,
       enter: 'flip',
-      leave: 'rotate'
+      leave: 'rotate',
+      nec: newEventCount
     }
   },
   computed: {
-    newEventCount() {
-      // int time interval (days) for a week it will be 7
-      let now = moment(new Date())
-
-      let count = 0
-
-      let total = Models.Event.query().get()
-      for (let i in total) {
-        let ca = moment(Date.parse(total[i].start))
-        if (now.diff(ca, 'days') <= 7) {
-          count += 1
-        }
-      }
-      return count
-    },
     menuList() {
-      function newEventCount() {
-        // int time interval (days) for a week it will be 7
-        let now = moment(new Date())
+      // function newEventCount() {
+      //   // int time interval (days) for a week it will be 7
+      //   let now = moment(new Date())
 
-        let count = 0
+      //   let count = 0
 
-        let total = Models.Event.query().get()
-        for (let i in total) {
-          let ca = moment(Date.parse(total[i].start))
-          if (now.diff(ca, 'days') <= 7) {
-            count += 1
-          }
-        }
-        return count
-      }
+      //   let total = Models.Event.query().get()
+      //   for (let i in total) {
+      //     let ca = moment(Date.parse(total[i].start))
+      //     if (now.diff(ca, 'days') <= 7) {
+      //       count += 1
+      //     }
+      //   }
+      //   return count
+      // }
       return [
         {
           icon: 'home',

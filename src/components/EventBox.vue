@@ -9,7 +9,7 @@
               <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
               <div :class="bg" :style="st" class="text-h6">{{singularize(modelName)}}</div>
               <div :class="bg" :style="st" class="text-subtitle2">{{model[field]}}</div>
-              <q-tooltip>Click For Details</q-tooltip>
+              <q-tooltip>{{tt}}</q-tooltip>
             </q-btn>
             <q-separator/>
           </div>
@@ -146,7 +146,7 @@ export default {
     bg() {
       let today = Date.now()
       let end = new Date(this.$props.model.end)
-      console.log(end - today)
+
       if (end - today < 0) {
         return 'bg-yellow-1'
       }
@@ -155,11 +155,20 @@ export default {
     st() {
       let today = Date.now()
       let end = new Date(this.$props.model.end)
-      console.log(end - today)
+
       if (end - today < 0) {
         return 'text-decoration: line-through;'
       }
       return ''
+    },
+    tt() {
+      let today = Date.now()
+      let end = new Date(this.$props.model.end)
+
+      if (end - today < 0) {
+        return 'This Event has Ended'
+      }
+      return 'Click For Details'
     }
   },
   methods: {

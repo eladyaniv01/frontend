@@ -77,10 +77,50 @@
           modelName="client"
         ></ClientComp>
       </div>
+
       <div>
         <q-btn push color="secondary" icon="edit" @click="EditClient()">
           <q-tooltip>Edit</q-tooltip>
         </q-btn>
+      </div>
+    </div>
+
+    <div class="row q-pa-sm q-ma-sm justify-center">
+      <div class="col-4">
+        <q-select
+          style="width:50%"
+          transition-show="scale"
+          transition-hide="scale"
+          v-model="spec"
+          :options="specs"
+          label="Reffer to a Specialist"
+          emit-value
+          map-options
+        />
+        <q-btn>Send</q-btn>
+      </div>
+      <div class="col-auto">
+        <q-markup-table>
+          <tr>
+            <th class="text-bold text-green">
+              <u>
+                <b>Past Reffrences</b>
+              </u>
+            </th>
+          </tr>
+          <tr>
+            <th>Date</th>
+            <th>Specialist</th>
+          </tr>
+          <tr>
+            <td>
+              <del class="text-red">example</del>
+            </td>
+            <td>
+              <del class="text-red">example</del>
+            </td>
+          </tr>
+        </q-markup-table>
       </div>
     </div>
 
@@ -215,6 +255,7 @@ export default {
   },
   data() {
     return {
+      spec: '',
       noteForm: {
         title: '',
         content: ''
@@ -250,6 +291,19 @@ export default {
     this.$store.dispatch('UserModules/SetCurrentClient', m)
   },
   computed: {
+    specs() {
+      let sp = Models.Supplier.query().get()
+      let options = []
+      for (let i in sp) {
+        // console.log(cli[i])
+        // console.log(i)
+        let repr = sp[i].name
+        options.push(repr)
+      }
+      // console.log('options')
+      // console.log(options)
+      return options
+    },
     ...mapState('UserModules', {
       user: state => state.user,
       userName: state => state.user.username,

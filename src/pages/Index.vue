@@ -31,14 +31,14 @@
       </div>
     </container>
     <div class="row">
-      <q-expansion-item
+      <!-- <q-expansion-item
         expand-separator
         icon="email"
         label="Inbox"
         header-class="bg-secondary text-white"
       >
-        <Inbox/>
-      </q-expansion-item>
+        <InboxView :msgs="msgs"/>
+      </q-expansion-item>-->
     </div>
   </div>
 </template>
@@ -51,7 +51,7 @@ import applyDrag from 'src/utils/applyDrag.js'
 import Models from 'src/store/ORM/models.js'
 import Nutritionist from 'src/store/ORM/nutritionists.js'
 import DashboardCard from 'src/components/DashboardCard'
-import Inbox from 'src/components/Inbox'
+import InboxView from 'src/components/InboxView'
 import ClientChart from 'src/components/ClientLineChart.js'
 import EventChart from 'src/components/EventLineChart.js'
 import { mapGetters, mapActions, mapState } from 'vuex'
@@ -87,7 +87,7 @@ export default {
     EventChart,
     Container,
     Draggable,
-    Inbox
+    InboxView
   },
   computed: {
     newClientCount() {
@@ -204,6 +204,11 @@ export default {
         textAlign: 'center',
         boxShadow: '1px 1px 2px #e6e6e6'
       }
+    },
+    msgs() {
+      let msgs = Models.InternalMessage.query().get()
+
+      return msgs
     }
   },
   methods: {

@@ -100,7 +100,7 @@
       <q-item>
         <q-item-section>
           <q-editor v-model="event.contentFull" label="Long Description" type="html"/>
-          <q-item-label v-html="event.contentFull"/>
+          <!-- <q-item-label v-html="event.contentFull"/> -->
         </q-item-section>
       </q-item>
     </q-card>

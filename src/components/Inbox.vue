@@ -1,6 +1,11 @@
 <template>
-  <div id="Messages" class="q-pa-md row justify-center">
+  <div id="Inbox" class="q-pa-md row justify-center">
+    <!-- inbox view by 2nd party(other person messaging) -->
+    <!-- <InboxView :msgs="msgs"/> -->
+
     <div v-for="m in msgs" :key="m.id" style="width: 100%; max-width: 400px">
+      <!-- create a new message -->
+
       <q-chat-message>
         <!-- <q-icon name="email"></q-icon> -->
       </q-chat-message>
@@ -20,9 +25,10 @@
 var moment = require('moment')
 import { mapGetters, mapActions, mapState } from 'vuex'
 import Models from 'src/store/ORM/models.js'
+import InboxView from 'src/components/InboxView'
 export default {
-  name: 'Messages',
-  components: {},
+  name: 'Inbox',
+  components: { InboxView },
   data() {
     return {}
   },

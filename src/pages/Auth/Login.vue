@@ -91,6 +91,7 @@ import Nutritionist from 'src/store/ORM/nutritionists.js'
 import Client from 'src/store/ORM/client.js'
 import Message from 'src/store/ORM/messages.js'
 import Menu from 'src/store/ORM/menu.js'
+import Supplier from 'src/store/ORM/suppliers.js'
 // import FormBuilder from 'src/components/Form/FormBuilder.vue'
 import { required, email } from 'vuelidate/lib/validators'
 import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
@@ -147,12 +148,17 @@ export default {
           //   Message.Create({ data: result.data.user.nutritionist.messages })
           // )
           try {
-            Message.create({ data: result.data.user.nutritionist.messages })
+            Supplier.create({ data: result.data.user.nutritionist.suppliers })
           } catch (err) {
-            alert(err.message)
+            console.log(err.message)
           }
-          console.log('messages')
-          console.log(result.data.user.nutritionist.messages)
+          // try {
+          //   Message.create({ data: result.data.user.nutritionist.messages })
+          // } catch (err) {
+          //   console.log(err.message)
+          // }
+          // console.log('messages')
+          // console.log(result.data.user.nutritionist.messages)
           // INIT THE CLIENT SET BELONGING TO THE NUTRITIONIST
           Client.create({
             data: result.data.user.nutritionist.clients,
