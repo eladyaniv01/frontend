@@ -12,8 +12,12 @@
         { label: 'None', value: 'none' },
       ]"
     />
-
+    <q-separator class="q-mx-md" vertical/>
+    <div
+      class="bg-blue-grey-2 q-pa-xs q-ma-md text-h6 shadow-5"
+    >Template : {{menuTemplate(menu.source)}}</div>
     <container
+      id="print"
       group-name="row"
       @drop="onDrop"
       class="row inline items-start q-pa-sm"
@@ -78,10 +82,13 @@
         @click="showStats()"
       ></q-btn>
     </q-page-sticky>
+    <q-btn @click="printPdf">Click Me</q-btn>
+    <canvas id="canvas" width="1000" height="2000" style="border: 1px solid black;"></canvas>
   </div>
 </template>
 
 <script>
+import * as rasterizeHTML from 'rasterizehtml'
 import { Container, Draggable } from 'vue-smooth-dnd'
 import Menu from 'src/store/ORM/menu.js'
 import { mapState } from 'vuex'
@@ -133,6 +140,15 @@ export default {
   },
 
   methods: {
+    printPdf() {
+      let canvas = document.getElementById('canvas')
+      let html_container = document.getElementById('print')
+      let html = html_container.innerHTML
+      rasterizeHTML.drawHTML(html, canvas, {
+        executeJs: true,
+        baseUrl: this.$route.fullPath
+      })
+    },
     onRowClick(row, meal_name) {
       this.showDialog = true
       let id = row.id
@@ -350,6 +366,17 @@ export default {
         .onOk(action => {})
         .onCancel(() => {})
         .onDismiss(() => {})
+    },
+    menuTemplate(source) {
+      // console.log(this.nutritionist.menu_templates)
+      let templates = this.nutritionist.menu_templates
+      for (let i in templates) {
+        if (parseInt(templates[i], 10) == source) {
+          return templates[i]
+        }
+      }
+      return 'Not Found'
+      // return this.nutritionist.menu_templates[source]
     }
   },
   computed: {

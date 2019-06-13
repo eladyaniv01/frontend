@@ -109,7 +109,7 @@ const routes = [
     children: [{ path: '', component: () => import('pages/Nutritionists/Forms/ClientUpdate.vue') }]
   },
   {
-    path: '/nutritionist/clients/:id/menu',
+    path: '/nutritionist/clients/:id/menu/:tid/',
     props: true,
     component: () => import('layouts/BaseLayout.vue'),
     children: [{ path: '', component: () => import('pages/Nutritionists/Forms/MenuGetter.vue') }]

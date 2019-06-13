@@ -112,13 +112,9 @@
             <th>Date</th>
             <th>Specialist</th>
           </tr>
-          <tr>
-            <td>
-              <del class="text-red">example</del>
-            </td>
-            <td>
-              <del class="text-red">example</del>
-            </td>
+          <tr v-for="ref in Refs" :key="ref.id">
+            <td>{{created_at(ref)}}</td>
+            <td>{{ref.getter_name}}</td>
           </tr>
         </q-markup-table>
       </div>
@@ -129,6 +125,18 @@
 
       <div class="col-grow q-pa-sm q-ma-sm">
         <div class="text-subtitle2" align="center">
+          <q-select
+            style="width:50%"
+            transition-show="scale"
+            transition-hide="scale"
+            v-model="template"
+            :options="menuTemplates"
+            label="Pick Menu Template"
+            emit-value
+            map-options
+          />
+          <q-btn>pick</q-btn>
+
           <q-btn
             push
             icon="fas fa-plus"
@@ -237,6 +245,7 @@ import Models from 'src/store/ORM/models.js'
 import ClientComp from 'src/components/ClientComp'
 import Splitpanes from 'splitpanes'
 import DashboardCard from 'src/components/DashboardCard'
+import Reference from 'src/store/ORM/refferences.js'
 import 'splitpanes/dist/splitpanes.css'
 export default {
   name: 'ClientDetail',
@@ -265,7 +274,7 @@ export default {
         content: '',
         accept: false
       },
-
+      template: '2 Default',
       showDialog: false,
       menu: Object,
       result: Object,
@@ -274,15 +283,14 @@ export default {
       client: Models.Client.find(parseInt(this.$route.params['id'], 10)),
       tests: Models.Test.query()
         .where('client', parseInt(this.$route.params['id'], 10))
-        .get(),
-      nutritionist: Nutritionist.query().get()
+        .get()
     }
   },
   watch: {},
   created() {},
   mounted() {
     var id = parseInt(this.$route.params['id'], 10)
-    let client = Client.find(id)
+    let client = Models.Client.find(id)
 
     this.client = client
     var integer = parseInt(this.$route.params['id'], 10)
@@ -307,8 +315,9 @@ export default {
     ...mapState('UserModules', {
       user: state => state.user,
       userName: state => state.user.username,
-
-      clients: state => state.user.nutritionist.clients
+      nutritionist: state => state.user.nutritionist,
+      clients: state => state.user.nutritionist.clients,
+      currentClient: state => state.currentClient
     }),
     newMenuCount() {
       // int time interval (days) for a week it will be 7
@@ -382,6 +391,13 @@ export default {
 
       return menus
     },
+    Refs() {
+      let refs = Models.Reference.query()
+        .where('client', parseInt(this.$route.params['id'], 10))
+        .get()
+
+      return refs
+    },
     PrivateNotes() {
       var id = parseInt(this.$route.params['id'], 10)
       let notes = Models.PrivateNote.query()
@@ -439,9 +455,27 @@ export default {
         width: '10px',
         opacity: 0.75
       }
+    },
+    menuTemplates() {
+      let sp = this.nutritionist.menu_templates
+      let options = []
+      for (let i in sp) {
+        // console.log(cli[i])
+        // console.log(i)
+
+        options.push(sp[i])
+      }
+      // console.log('options')
+      // console.log(options)
+      return options
+      // return this.nutritionist.menu_templates
     }
   },
   methods: {
+    created_at(ref) {
+      let d = moment(ref.created_at).calendar()
+      return d
+    },
     EditClient(e) {
       this.showDialog = true
 
@@ -480,7 +514,7 @@ export default {
       formData.append('nutritionist', this.nutritionist[0].id)
       formData.append('client', this.client.id)
       for (var pair of formData.entries()) {
-        console.log(pair[0] + ', ' + pair[1])
+        // console.log(pair[0] + ', ' + pair[1])
       }
 
       // for (let data in formData) {
@@ -490,7 +524,7 @@ export default {
       this.$axios
         .post('api/clientnotes/', formData)
         .then(result => {
-          console.log('RESULT ', result)
+          // console.log('RESULT ', result)
 
           this.$q.notify({
             classes: 'text-bold text-h6',
@@ -500,7 +534,7 @@ export default {
 
             type: 'info'
           })
-          console.log(this.client['private_notes'])
+          // console.log(this.client['private_notes'])
           this.client['private_notes'] = [
             ...this.client['private_notes'],
             {
@@ -521,10 +555,10 @@ export default {
         })
         .catch(err => {
           this.$q.loading.hide()
-          console.log(err)
-          console.log(err.config)
-          console.log(err.request)
-          console.log(err.response)
+          // console.log(err)
+          // console.log(err.config)
+          // console.log(err.request)
+          // console.log(err.response)
           if (err.response) {
             let errors = prettyStringJson(err.response.data)
             for (let index in errors) {
@@ -601,13 +635,20 @@ export default {
 
       return filtered
     },
+
     gotoMenu() {
       // CREATE MENU BUTTON
       var integer = parseInt(this.$route.params['id'], 10)
       var key = _.findKey(this.clients, { id: integer })
-      this.$router.push(`/nutritionist/clients/${this.clients[key].id}/menu`)
+      let tid = parseInt(this.template, 10)
+      console.log(tid)
+
+      this.$router.push(
+        `/nutritionist/clients/${this.clients[key].id}/menu/${tid}/`
+      )
+
       this.$axios
-        .get(`api/clients/?nutritionist=${this.nutid}`)
+        .get(`api/clients/?nutritionist=${this.nutritionist.id}`)
         .then(result => {
           Client.create({ data: result.data.results })
           this.$store.dispatch('UserModules/SetClients', Client.query().get())

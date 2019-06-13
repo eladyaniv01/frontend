@@ -92,6 +92,7 @@ import Client from 'src/store/ORM/client.js'
 import Message from 'src/store/ORM/messages.js'
 import Menu from 'src/store/ORM/menu.js'
 import Supplier from 'src/store/ORM/suppliers.js'
+import Reference from 'src/store/ORM/refferences.js'
 // import FormBuilder from 'src/components/Form/FormBuilder.vue'
 import { required, email } from 'vuelidate/lib/validators'
 import { mapGetters, mapActions, mapState, mapMutations } from 'vuex'
@@ -147,6 +148,13 @@ export default {
           // console.log(
           //   Message.Create({ data: result.data.user.nutritionist.messages })
           // )
+          try {
+            Reference.create({
+              data: result.data.user.nutritionist.references
+            })
+          } catch (err) {
+            console.log(err.message)
+          }
           try {
             Supplier.create({ data: result.data.user.nutritionist.suppliers })
           } catch (err) {

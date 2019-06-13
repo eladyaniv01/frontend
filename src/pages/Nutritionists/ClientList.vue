@@ -226,9 +226,9 @@ export default {
   },
   created() {
     let tests = Models.Test.query().get()
-    console.log(tests)
+    // console.log(tests)
     let evs = Models.Event.query().get()
-    console.log(evs)
+    // console.log(evs)
     this.$axios
       .get(`api/clients/?nutritionist=${this.nutid}`)
       .then(result => {

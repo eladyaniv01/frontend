@@ -6,6 +6,7 @@ import Event from './calendarevents'
 import Test from './tests'
 import InternalMessage from 'src/store/ORM/messages.js';
 import Supplier from 'src/store/ORM/suppliers.js'
+import Reference from 'src/store/ORM/refferences.js'
 const Models = {
     namespaced: true,
     Client,
@@ -15,7 +16,8 @@ const Models = {
     Event,
     Test,
     InternalMessage,
-    Supplier
+    Supplier,
+    Reference
 
 }
 export default Models

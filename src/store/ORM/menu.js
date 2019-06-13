@@ -9,6 +9,7 @@ export default class Menu extends Model {
     static fields() {
         return {
             id: this.attr(null),
+            source: this.attr(''),
             meals: this.attr(''),
             created_at: this.attr(''),
             nutritionist: this.attr(null),

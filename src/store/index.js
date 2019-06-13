@@ -18,6 +18,7 @@ import Event from 'src/store/ORM/calendarevents.js'
 import Test from 'src/store/ORM/tests'
 import InternalMessage from 'src/store/ORM/messages.js';
 import Supplier from 'src/store/ORM/suppliers.js'
+import Reference from 'src/store/ORM/refferences.js'
 Vue.use(Vuex)
 const database = new VuexORM.Database()
 
@@ -29,6 +30,7 @@ database.register(PrivateNote, 'private_notes')
 database.register(Event, 'events')
 database.register(Test, 'tests')
 database.register(Supplier, 'suppliers')
+database.register(Reference, 'references')
 
 
 

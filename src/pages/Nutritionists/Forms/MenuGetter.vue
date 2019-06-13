@@ -33,6 +33,7 @@ export default {
       user: state => state.user,
       userName: state => state.user.username,
       nutritionist: state => state.user.nutritionist,
+      clients: state => state.user.nutritionist.clients,
       currentClient: state => state.currentClient
     }),
     heading() {
@@ -42,7 +43,7 @@ export default {
       return '/nutritionist/profile/update'
     },
     menu() {
-      console.log('THIS MENU ', this.menu)
+      // console.log('THIS MENU ', this.menu)
       return this.menu
     }
   },
@@ -52,17 +53,18 @@ export default {
 
   methods: {
     loadMenu() {
-      this.$q.loading.show({
-        delay: 200, // ms
-        message: 'Processing ...'
-      })
-
       let formData = new FormData()
+      let template = parseInt(this.$route.params['tid'], 10)
 
       formData.append('nutritionist', this.nutritionist.id)
       formData.append('client', this.currentClient.id)
       formData.append('user', this.user.id)
-
+      formData.append('template', template)
+      this.$q.loading.show({
+        delay: 200, // ms
+        message: formData
+      })
+      console.log(formData)
       this.$axios
         .post(`api/menu`, formData)
         .then(result => {
@@ -80,8 +82,8 @@ export default {
           // console.log('RESULT.DATA.MENUDICT')
           // console.log(result.data.menuDict)
           // this.result = result.data
-          console.log(results.data)
-          console.log(Models.Menu.insert({ data: result.data }))
+          // console.log(results.data)
+          // console.log(Models.Menu.insert({ data: result.data }))
           Models.Menu.insert({ data: result.data })
           this.$q.loading.hide()
           this.$router.push('/nutritionist/clients')
