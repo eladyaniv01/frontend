@@ -11,7 +11,7 @@
           <th>Information</th>
         </tr>
       </thead>
-
+      <!-- {{suppliercms}} -->
       <tbody>
         <tr v-for="model in suppliercms" :key="model.id">
           <!-- {{model}} -->

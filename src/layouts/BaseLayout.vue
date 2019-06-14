@@ -266,6 +266,12 @@ export default {
           separator: true
         },
         {
+          icon: 'fas fa-shopping-cart',
+          label: 'Your Shop',
+          separator: true
+          // to: '/sales'
+        },
+        {
           icon: 'attach_money',
           label: 'Sales',
           separator: true,

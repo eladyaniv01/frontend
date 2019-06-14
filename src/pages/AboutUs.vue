@@ -16,15 +16,15 @@
           <img :src="card.img_url" :style="cardImgStyle">
         </q-flashcard-section>
         <q-flashcard-section transition="fade-in" class="fit">
-          <div class="fit" style="background-color: rgba(219,127,8, 0.7);"/>
-          <q-flashcard-section transition="slide-up">
-            <p class="text-h6 flex items-center" v-html="card.heading.title"/>
+          <div class="fit" style="background-color: rgba(64, 231, 231, 0.1);"/>
+          <q-flashcard-section transition="slide-down" class="q-px-xl fit flex items-start">
+            <p :style="cardStyle" class="flex items-center" v-html="card.heading.title"/>
           </q-flashcard-section>
-          <q-flashcard-section transition="nudge-in">
-            <div v-html="card.body.content"/>
+          <q-flashcard-section transition="nudge-in" class="q-px-xl fit flex items-end">
+            <div :style="cardStyle" class="ellipsis" v-html="card.body.content"/>
           </q-flashcard-section>
-          <q-flashcard-section transition="fade-in" class="fit flex justify-center items-end">
-            <a href="#" class="my-button">Learn More</a>
+          <q-flashcard-section transition="fade-in" class="q-px-xl fit flex items-end">
+            <!-- <a href="#" class="my-button">Learn More</a> -->
           </q-flashcard-section>
         </q-flashcard-section>
       </q-flashcard>
@@ -147,7 +147,7 @@ export default {
           padding: '10px',
           border: '10px solid #fff',
           textAlign: 'center',
-          boxShadow: '1px 1px 2px #e6e6e6'
+          boxShadow: '1px 1px 2px #ffffff'
         }
       }
       return {
@@ -157,7 +157,7 @@ export default {
         padding: '1px',
         border: '1px solid #fff',
         textAlign: 'center',
-        boxShadow: '1px 1px 2px #e6e6e6'
+        boxShadow: '1px 1px 2px #ffffff'
       }
     },
     cardImgStyle() {
@@ -171,6 +171,9 @@ export default {
         width: '220px',
         height: '150px'
       }
+    },
+    cardStyle() {
+      return 'background-color: rgba(238, 230, 230,0.5)'
     },
 
     botstyle() {
@@ -252,3 +255,7 @@ export default {
 //   return this.$store.state['userState'].user
 // }
 </script>
+<style lang="stylus" scoped>
+.q-flashcard {
+}
+</style>
