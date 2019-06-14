@@ -97,7 +97,7 @@
           emit-value
           map-options
         />
-        <q-btn>Send</q-btn>
+        <q-btn @click="makeRef">Reffer Your Client</q-btn>
       </div>
       <div class="col-auto">
         <q-markup-table>
@@ -247,6 +247,12 @@ import Splitpanes from 'splitpanes'
 import DashboardCard from 'src/components/DashboardCard'
 import Reference from 'src/store/ORM/refferences.js'
 import 'splitpanes/dist/splitpanes.css'
+import {
+  myRep,
+  sentenceCase,
+  doNotify,
+  prettyStringJson
+} from 'src/utils/stringutils.js'
 export default {
   name: 'ClientDetail',
 
@@ -305,7 +311,7 @@ export default {
       for (let i in sp) {
         // console.log(cli[i])
         // console.log(i)
-        let repr = sp[i].name
+        let repr = sp[i].id + ' ' + sp[i].name
         options.push(repr)
       }
       // console.log('options')
@@ -472,6 +478,79 @@ export default {
     }
   },
   methods: {
+    makeRef() {
+      this.$q.loading.show({
+        delay: 200, // ms
+        message: 'Processing ...'
+      })
+
+      let spec = parseInt(this.spec, 10)
+      console.log(spec)
+
+      let formData = new FormData()
+      formData.append('sender', Models.Nutritionist.query().get()[0].id)
+      formData.append('getter', spec)
+      formData.append('client', this.client.id)
+      // for (var pair of formData.entries()) {
+      //   // console.log(pair[0] + ', ' + pair[1])
+      // }
+
+      // for (let data in formData) {
+      //   alert(data)
+      // }
+      console.log('sender ', Models.Nutritionist.query().get()[0].id)
+      console.log('getter ', spec)
+      console.log('client ', this.client.id)
+      console.log(formData)
+      this.$axios
+        .post('api/makeref', formData)
+        .then(result => {
+          // console.log('RESULT ', result)
+
+          this.$q.notify({
+            classes: 'text-bold text-h6',
+            message: 'Success!',
+            position: 'right',
+            icon: 'fas fa-thumbs-up',
+
+            type: 'info'
+          })
+          // console.log(this.client['private_notes'])
+          console.log('RESULT REF')
+          console.log(result.data.reference)
+          Models.Reference.insert({ data: result.data.reference })
+
+          this.$q.loading.hide()
+        })
+        .catch(err => {
+          this.$q.loading.hide()
+          // console.log(err)
+          // console.log(err.config)
+          // console.log(err.request)
+          // console.log(err.response)
+          if (err.response) {
+            let errors = prettyStringJson(err.response.data)
+            for (let index in errors) {
+              if (errors[index]) {
+                this.$q.notify({
+                  message: errors[index] + '.',
+                  position: 'center',
+
+                  color: 'negative'
+                })
+              }
+            }
+          } else {
+            this.$q.notify({
+              message: 'Network Error, Server might be Offline',
+              position: 'center',
+
+              color: 'negative'
+            })
+          }
+        })
+    },
+
     created_at(ref) {
       let d = moment(ref.created_at).calendar()
       return d
