@@ -3,7 +3,11 @@ export function someAction (context) {
 }
 */
 // cms
+export function UpdateSupplierCms({ state, commit }, payload) {
 
+    commit('UPDATESUPPLIERCMS', payload)
+
+}
 export function UpdateRightBlocks({ state, commit }, payload) {
 
     commit('UPDATERIGHTBLOCKS', payload)

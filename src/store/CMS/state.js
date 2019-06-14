@@ -5,6 +5,7 @@ const state = {
   stickyHeader: null,
   landingCards: null,
   landingHeader: null,
+  suppliercms: null
 
 
 

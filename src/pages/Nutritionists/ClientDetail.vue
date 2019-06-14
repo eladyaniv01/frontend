@@ -111,10 +111,12 @@
           <tr>
             <th>Date</th>
             <th>Specialist</th>
+            <th>Status</th>
           </tr>
           <tr v-for="ref in Refs" :key="ref.id">
             <td>{{created_at(ref)}}</td>
             <td>{{ref.getter_name}}</td>
+            <td>{{ref.done|pb}}</td>
           </tr>
         </q-markup-table>
       </div>

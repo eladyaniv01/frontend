@@ -233,6 +233,11 @@ export default {
           result.data.data.right_blocks
         )
         this.$store.dispatch(
+          'CMS/UpdateSupplierCms',
+          result.data.data.supplierscms
+        )
+        console.log(result.data.data.supplierscms)
+        this.$store.dispatch(
           'CMS/UpdateLeftBlocks',
           result.data.data.left_blocks
         )

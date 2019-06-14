@@ -16,6 +16,7 @@
     <div
       class="bg-blue-grey-2 q-pa-xs q-ma-md text-h6 shadow-5"
     >Template : {{menuTemplate(menu.source)}}</div>
+
     <container
       id="print"
       group-name="row"
@@ -82,7 +83,10 @@
         @click="showStats()"
       ></q-btn>
     </q-page-sticky>
-    <q-btn @click="printPdf">Click Me</q-btn>
+    <q-page-sticky position="bottom-right" class="width 50 shadow-10" :offset="[10, 168]">
+      <q-btn class="bg-blue-grey-8" no-caps push color="primary" label="Print" @click="printPdf()"></q-btn>
+    </q-page-sticky>
+
     <canvas id="canvas" width="1000" height="2000" style="border: 1px solid black;"></canvas>
   </div>
 </template>

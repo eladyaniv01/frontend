@@ -3,7 +3,16 @@ export function someMutation (state) {
 }
 */
 // CMS
+export function UPDATESUPPLIERCMS(state, payload) {
+    if (!state.suppliercms) {
+        state.suppliercms = payload
+        return
+    }
 
+    // state.rightBlocks = _.union((state.rightBlocks, payload), state.rightBlocks)
+    state.rightBlocks = payload
+
+}
 export function UPDATERIGHTBLOCKS(state, payload) {
     if (!state.rightBlocks) {
         state.rightBlocks = payload

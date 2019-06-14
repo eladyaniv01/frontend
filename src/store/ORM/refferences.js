@@ -15,6 +15,7 @@ export default class Reference extends Model {
             sender_name: this.attr(''),
             getter_name: this.attr(''),
             client: this.attr(null),
+            done: this.attr(null),
             created_at: this.attr(''),
 
 
