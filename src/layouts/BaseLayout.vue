@@ -119,13 +119,12 @@
 
     <!-- PAGE CONTAINER -->
     <q-page-container>
-      <transition name="bounce" mode="out-in">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-11 justify-center">
-            <router-view/>
-          </div>
+      <div class="row" fit>
+        <div class="col-xs-12 col-sm-12 col-md-11 justify-center">
+          <router-view/>
         </div>
-      </transition>
+      </div>
+
       <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
         <q-btn fab icon="keyboard_arrow_up" color="primary"/>
       </q-page-scroller>
@@ -254,7 +253,7 @@ export default {
         },
         {
           icon: 'mdi-food',
-          label: 'Menus',
+          label: 'Menus(All)',
           separator: true,
           to: '/nutritionist/menus'
         },
@@ -282,6 +281,7 @@ export default {
           icon: 'help',
           iconColor: 'primary',
           label: 'Help',
+          to: '/help',
           separator: true
         },
         {

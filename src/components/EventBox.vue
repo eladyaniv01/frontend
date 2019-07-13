@@ -1,14 +1,13 @@
 <template >
   <div>
-    <q-card style=" max-width: 300px;  max-height: 20px; ">
+    <q-card class="q-pa-md q-ma-md" style=" max-width: 300px;  max-height: 20px; ">
       <q-list>
-        <q-separator/>
-        <div v-for="field in fields" :key="field">
-          <div :class="bg" v-if="field == 'id'">
+        <div v-for="field in sortedFields" :key="field">
+          <div v-if="field == 'id'">
             <q-btn flat class="eventBtn" to="../../../calendar">
               <q-icon left style="color:grey; font-size: 3.2em;" :name="ICON"/>
-              <div :class="bg" :style="st" class="text-h6">{{singularize(modelName)}}</div>
-              <div :class="bg" :style="st" class="text-subtitle2">{{model[field]}}</div>
+              <div class="text-subtitle2 text-capitalize">{{singularize(modelName)}}</div>
+              <div class="text-subtitle2 text-capitalize">{{model[field]}}</div>
               <q-tooltip>{{tt}}</q-tooltip>
             </q-btn>
             <q-separator/>
@@ -35,8 +34,8 @@
           </div>
 
           <div class="q-pt-sm" v-if="field == 'client'">
-            <div class="doc-card-title shadow-1 bg-green-1" style="margin-left: -11px">
-              <div class="text-subtitle2 text-capitalize bg-green-1">
+            <div class="text-subtitle2 text-capitalize">
+              <div class="text-subtitle2 text-capitalize">
                 {{_.replace(field, /_/gi, ' ')}}
                 <q-icon onright style="color:grey; font-size: 1.5em;" name="supervisor_account"/>
               </div>
@@ -60,8 +59,8 @@
           <div v-if="field == 'title'">
             <div class="title text-weight-bold text-capitalize">{{_.replace(field, /_/gi, ' ')}}</div>
             <div
-              class="text-weight-bolder"
-              style="font-size:25px;"
+              class
+              style="font-size:18px;"
             >{{ _.replace(_.replace(model[field],'true',"✔"),'false',"✘") }}</div>
             <q-separator/>
           </div>
@@ -119,8 +118,23 @@ export default {
         return value != 'id'
       })
       var filtered_ex = sorted.filter(function(value, index, arr) {
-        return value != 'id' && value != 'client'
+        return (
+          value != 'id' &&
+          value != 'client' &&
+          value != 'title' &&
+          value != 'start' &&
+          value != 'end'
+        )
       })
+      if (this.fields.includes('client')) {
+        filtered_ex.unshift('id')
+        filtered_ex.unshift('end')
+        filtered_ex.unshift('start')
+        filtered_ex.unshift('title')
+        filtered_ex.unshift('client')
+
+        return filtered_ex
+      }
       if (this.fields.includes('client')) {
         filtered_ex.unshift('id')
         filtered_ex.unshift('client')

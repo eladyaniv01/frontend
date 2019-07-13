@@ -11,24 +11,18 @@
     <q-separator spaced/>
 
     <div class="flex justify-center">
-      <q-flashcard :style="style" v-for="(card, Cindex)  in this.landingCards" :key="Cindex">
-        <q-flashcard-section transition="nudge-in">
-          <img :src="card.img_url" :style="cardImgStyle">
-        </q-flashcard-section>
-        <q-flashcard-section transition="fade-in" class="fit">
-          <div class="fit" style="background-color: rgba(64, 231, 231, 0.1);"/>
-          <q-flashcard-section transition="slide-down" class="q-px-xl fit flex items-start">
-            <p :style="cardStyle" class="flex items-center" v-html="card.heading.title"/>
-          </q-flashcard-section>
-          <q-flashcard-section transition="nudge-in" class="q-px-xl fit flex items-end">
-            <div :style="cardStyle" class="ellipsis" v-html="card.body.content"/>
-          </q-flashcard-section>
-          <q-flashcard-section transition="fade-in" class="q-px-xl fit flex items-end">
-            <!-- <a href="#" class="my-button">Learn More</a> -->
-          </q-flashcard-section>
-        </q-flashcard-section>
-      </q-flashcard>
+      <div :style="style" v-for="(card, Cindex)  in this.landingCards" :key="Cindex">
+        <img :style="style" :src="card.img_url"></img><br/>
+        <p :style="cardStyle" class="flex items-center" v-html="card.heading.title"/>
+        <div :style="cardStyle" class="ellipsis" v-html="card.body.content"/>
+        <!-- <h6>{{card}}</h6> -->
+      </div>
+      
     </div>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+
+
 
     <q-separator spaced/>
 
@@ -254,6 +248,22 @@ export default {
 // user() {
 //   return this.$store.state['userState'].user
 // }
+
+// <q-flashcard-section transition="nudge-in">
+//   <img :src="card.img_url" :style="cardImgStyle">
+// </q-flashcard-section>
+// <q-flashcard-section transition="fade-in" class="fit">
+//   <div class="fit" style="background-color: rgba(64, 231, 231, 0.1);"/>
+//   <q-flashcard-section transition="slide-down" class="q-px-xl fit flex items-start">
+//     <p :style="cardStyle" class="flex items-center" v-html="card.heading.title"/>
+//   </q-flashcard-section>
+//   <q-flashcard-section transition="nudge-in" class="q-px-xl fit flex items-end">
+//     <div :style="cardStyle" class="ellipsis" v-html="card.body.content"/>
+//   </q-flashcard-section>
+//   <q-flashcard-section transition="fade-in" class="q-px-xl fit flex items-end">
+//     <!-- <a href="#" class="my-button">Learn More</a> -->
+//   </q-flashcard-section>
+// </q-flashcard-section>
 </script>
 <style lang="stylus" scoped>
 .q-flashcard {
