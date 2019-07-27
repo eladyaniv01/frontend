@@ -6,16 +6,16 @@
       <q-toolbar class>
         <!-- LEFT DRAWER -->
         <div v-if="loggedin">
-          <q-btn flat @click="showLeft = !showLeft" icon="menu"/>
+          <q-btn flat @click="showLeft = !showLeft" icon="menu" />
 
-          <q-btn v-if="showLeft" flat round @click="drawerActive()"/>
+          <q-btn v-if="showLeft" flat round @click="drawerActive()" />
 
           <q-drawer show-if-above v-model="showLeft" bordered content-class="sidedrawer">
             <q-scroll-area class="fit">
               <q-list v-for="(menuItem, index) in menuList" :key="index">
                 <q-item :to="menuItem.to" clickable :active="$route.path === menuItem.to" v-ripple>
                   <q-item-section avatar>
-                    <q-icon :name="menuItem.icon"/>
+                    <q-icon :name="menuItem.icon" />
                     <q-badge
                       v-if="menuItem.badge"
                       rounded-borders
@@ -28,22 +28,22 @@
                   <q-item-section>{{ menuItem.label }}</q-item-section>
                 </q-item>
 
-                <q-separator v-if="menuItem.separator"/>
+                <q-separator v-if="menuItem.separator" />
               </q-list>
-              <q-separator/>
+              <q-separator />
               <q-item></q-item>
-              <q-separator/>
+              <q-separator />
               <q-item></q-item>
-              <q-separator/>
+              <q-separator />
               <q-list>
                 <q-item class="q-mt-xl" v-model="user" clickable @click="logItOut()">
                   <q-item-section avatar>
-                    <q-icon name="fas fa-sign-out-alt"/>
+                    <q-icon name="fas fa-sign-out-alt" />
                   </q-item-section>
                   <q-item-section>Logout</q-item-section>
                 </q-item>
               </q-list>
-              <q-separator/>
+              <q-separator />
             </q-scroll-area>
           </q-drawer>
         </div>
@@ -51,20 +51,20 @@
         <!-- NAV BAR -->
         <q-toolbar-title class="col-xs-12 col-sm-12 col-md-8" v-if="loggedin">
           <q-btn class="q-pr-auto" flat to="/home">
-            <img class="red" src="/statics/lotus.png">
+            <img class="red" src="/statics/lotus.png" />
           </q-btn>
           <!-- <q-btn v-if="loggedin" glossy dense icon="mail">
             <q-badge color="green" floating>{{devnum}}</q-badge>
           </q-btn>-->
         </q-toolbar-title>
         <center>
-          <q-btn flat v-if="this.stickyHeader" v-html="this.stickyHeader"/>
+          <q-btn flat v-if="this.stickyHeader" v-html="this.stickyHeader" />
         </center>
         <div id="BaseHeader" class="col-auto">
           <!-- Second row of header is a QTabs -->
           <div v-if="loggedin">
             <q-tabs>
-              <q-separator vertical/>
+              <q-separator vertical />
               <span v-tooltip.top="'Future Scheduled Meetings'">
                 <q-route-tab icon="fas fa-calendar-alt" to="/calendar" label="Calendar">
                   <q-badge
@@ -78,30 +78,30 @@
                 </q-route-tab>
               </span>
 
-              <q-separator vertical/>
+              <q-separator vertical />
               <q-btn-dropdown color="bg-header" :label="user.username" align="right">
                 <q-list link>
                   <q-item clickable v-close-popup to="/nutritionist/profile">
                     <q-item-section avatar>
-                      <q-avatar icon="fas fa-id-card-alt" color="primary" text-color="white"/>
+                      <q-avatar icon="fas fa-id-card-alt" color="primary" text-color="white" />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>Account Settings</q-item-label>
                     </q-item-section>
                     <q-item-section side>
-                      <q-icon name="info" color="amber"/>
+                      <q-icon name="info" color="amber" />
                     </q-item-section>
                   </q-item>
 
                   <q-item clickable v-close-popup @click="logItOut()">
                     <q-item-section avatar>
-                      <q-avatar icon="far fa-handshake" color="primary" text-color="white"/>
+                      <q-avatar icon="far fa-handshake" color="primary" text-color="white" />
                     </q-item-section>
                     <q-item-section>
                       <q-item-label>Logout</q-item-label>
                     </q-item-section>
                     <q-item-section side>
-                      <q-icon name="info" color="amber"/>
+                      <q-icon name="info" color="amber" />
                     </q-item-section>
                   </q-item>
                 </q-list>
@@ -110,7 +110,7 @@
           </div>
           <div v-else>
             <q-tabs align="right">
-              <q-route-tab to="/login" label="Login"/>
+              <q-route-tab to="/login" label="Login" />
             </q-tabs>
           </div>
         </div>
@@ -121,12 +121,12 @@
     <q-page-container>
       <div class="row" fit>
         <div class="col-xs-12 col-sm-12 col-md-11 justify-center">
-          <router-view/>
+          <router-view />
         </div>
       </div>
 
       <q-page-scroller position="bottom-right" :scroll-offset="150" :offset="[18, 18]">
-        <q-btn fab icon="keyboard_arrow_up" color="primary"/>
+        <q-btn fab icon="keyboard_arrow_up" color="primary" />
       </q-page-scroller>
     </q-page-container>
 
@@ -136,12 +136,12 @@
           class="col flex justify-between text-black text-right text-caption text-bold"
         >© Copyright NutHub Corp. 2019</div>
         <div class="col flex justify-end text-black text-left text-overline">
-          <q-icon size="25px" color="primary" class="q-pa-md" name="fas fa-envelope"/>
-          <q-icon size="25px" color="primary" class="q-pa-md" name="ion-logo-facebook"/>
-          <q-icon size="25px" color="primary" class="q-pa-md" name="ion-logo-twitter"/>
-          <q-icon size="25px" color="primary" class="q-pa-md" name="ion-logo-linkedin"/>
-          <q-icon size="25px" color="primary" class="q-pa-md" name="ion-logo-pinterest"/>
-          <q-icon size="25px" color="primary" class="q-pa-md" name="ion-logo-instagram"/>
+          <q-icon size="25px" color="primary" class="q-pa-md" name="fas fa-envelope" />
+          <q-icon size="25px" color="primary" class="q-pa-md" name="ion-logo-facebook" />
+          <q-icon size="25px" color="primary" class="q-pa-md" name="ion-logo-twitter" />
+          <q-icon size="25px" color="primary" class="q-pa-md" name="ion-logo-linkedin" />
+          <q-icon size="25px" color="primary" class="q-pa-md" name="ion-logo-pinterest" />
+          <q-icon size="25px" color="primary" class="q-pa-md" name="ion-logo-instagram" />
         </div>
       </div>
     </q-footer>
@@ -153,7 +153,7 @@
         :offset="[7, 10]"
       >
         <div class="text-subtitle2" align="center">
-          <q-btn rounded class="bg-header text-white" @click="clientAdd()" label="+"/>
+          <q-btn rounded class="bg-header text-white" @click="clientAdd()" label="+" />
         </div>
       </q-page-sticky>
     </div>
@@ -252,6 +252,12 @@ export default {
           to: '/nutritionist/clients/add'
         },
         {
+          icon: 'fas fa-calculator',
+          label: 'BMI',
+          separator: true,
+          to: '/bmi'
+        },
+        {
           icon: 'mdi-food',
           label: 'Menus(All)',
           separator: true,
@@ -267,8 +273,8 @@ export default {
         {
           icon: 'fas fa-shopping-cart',
           label: 'Your Shop',
-          separator: true
-          // to: '/sales'
+          separator: true,
+          to: '/shop'
         },
         {
           icon: 'attach_money',

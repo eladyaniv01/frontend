@@ -8,7 +8,12 @@
         >{{_.capitalize(_.replace(field, /_/gi, ' '))}}</th>
       </thead>
       <tbody>
-        <td v-for="field in sortedFields" :key="field">{{model[field]}}</td>
+        <td v-for="field in sortedFields" :key="field">
+          <div v-if="field == 'bmi'">
+            <p :class="bmi(model[field])">{{model[field]}}</p>
+          </div>
+          <div v-else>{{model[field]}}</div>
+        </td>
       </tbody>
     </q-markup-table>
   </div>
@@ -79,8 +84,7 @@ export default {
       filtered.push('height')
       filtered.push('weight')
       filtered.push('created_at')
-      filtered.push('bmi')
-      filtered.push('bmr')
+
       return filtered
     },
 
@@ -90,6 +94,32 @@ export default {
     })
   },
   methods: {
+    bmi(value) {
+      if (isNaN(value)) {
+        return value
+      }
+      if (!value) {
+        return ''
+      }
+      value = parseFloat(value)
+      if (value < 17) {
+        return `text-red bg-amber-3`
+      }
+      if (value < 20.7) {
+        return `text-orange`
+      }
+      if (value < 25.8) {
+        return `text-green bg-teal-1`
+      }
+      if (value < 32.3) {
+        return `text-orange`
+      }
+      if (value > 40) {
+        return `text-red text-bold bg-amber-2`
+      }
+
+      return ''
+    },
     singularize(name) {
       if (_.endsWith(name, 's') || _.endsWith(name, 'S')) {
         return name.substring(0, name.length - 1)

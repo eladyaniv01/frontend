@@ -32,6 +32,11 @@ const routes = [
     children: [{ path: '', component: () => import('pages/AboutUs.vue') }]
   },
   {
+    path: '/bmi',
+    component: () => import('layouts/BaseLayout.vue'),
+    children: [{ path: '', component: () => import('pages/Bmi.vue') }]
+  },
+  {
     path: '/home',
     component: () => import('layouts/BaseLayout.vue'),
     children: [{ path: '', component: () => import('pages/Index.vue') }]

@@ -16,6 +16,7 @@
 
     <q-input class="q-pa-sm" v-model="searchQuery" type="text" label="search by first name" />
     <!-- <autoComplete v-model="searchQuery" :options="modelList.first_name" label="label"/> -->
+
     <transition name="fade">
       <q-markup-table class="q-ma-sm" v-if="render == 'table'">
         <thead>
@@ -34,7 +35,12 @@
             :key="model.id"
             @click="onRowClick(model.id)"
           >
-            <td v-for="field in sortedFields" :key="field">{{model[field]}}</td>
+            <td v-for="field in sortedFields" :key="field">
+              <div v-if="field == 'bmi'">
+                <p :class="bmi(model[field])">{{model[field]}}</p>
+              </div>
+              <div v-else>{{model[field]}}</div>
+            </td>
           </tr>
         </tbody>
       </q-markup-table>
@@ -128,8 +134,6 @@ export default {
       filtered.push('height')
       filtered.push('weight')
       filtered.push('created_at')
-      filtered.push('bmi')
-      filtered.push('bmr')
 
       return filtered
     },
@@ -183,6 +187,32 @@ export default {
   //   }
   // },
   methods: {
+    bmi(value) {
+      if (isNaN(value)) {
+        return value
+      }
+      if (!value) {
+        return ''
+      }
+      value = parseFloat(value)
+      if (value < 17) {
+        return `text-red bg-amber-3`
+      }
+      if (value < 20.7) {
+        return `text-orange`
+      }
+      if (value < 25.8) {
+        return `text-green bg-teal-1`
+      }
+      if (value < 32.3) {
+        return `text-orange`
+      }
+      if (value > 40) {
+        return `text-red text-bold bg-amber-2`
+      }
+
+      return ''
+    },
     onRowClick(id) {
       this.$router.push(`/nutritionist/clients/${id}`)
     },
@@ -264,4 +294,19 @@ export default {
 }
 </script>
 <style scoped>
+table.tableizer-table {
+  font-size: 12px;
+  border: 1px solid #ccc;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.tableizer-table td {
+  padding: 4px;
+  margin: 3px;
+  border: 1px solid #ccc;
+}
+.tableizer-table th {
+  background-color: #104e8b;
+  color: #fff;
+  font-weight: bold;
+}
 </style>

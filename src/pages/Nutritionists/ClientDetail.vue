@@ -29,9 +29,9 @@
             <li>{{ item.name }}</li>
 
             <li>
-              <q-radio dense v-model="item.value" val="Low" label="Low"/>
-              <q-radio dense v-model="item.value" val="Normal" label="Normal"/>
-              <q-radio dense v-model="item.value" val="High" label="High"/>
+              <q-radio dense v-model="item.value" val="Low" label="Low" />
+              <q-radio dense v-model="item.value" val="Normal" label="Normal" />
+              <q-radio dense v-model="item.value" val="High" label="High" />
             </li>
           </ul>
         </q-scroll-area>
@@ -123,7 +123,7 @@
     </div>
 
     <div class="row q-pa-sm q-ma-sm items-start">
-      <q-separator vertical/>
+      <q-separator vertical />
 
       <div class="col-grow q-pa-sm q-ma-sm">
         <div class="text-subtitle2" align="center">
@@ -159,7 +159,7 @@
           modelName="menus"
         />
       </div>
-      <q-separator vertical/>
+      <q-separator vertical />
 
       <div class="col-grow q-pa-sm q-ma-sm">
         <q-expansion-item
@@ -183,8 +183,8 @@
                     hint="Pick a Descriptive name to find fast"
                     type="text"
                   />
-                  <br>Content
-                  <q-input filled v-model="noteForm.content" type="textarea"/>
+                  <br />Content
+                  <q-input filled v-model="noteForm.content" type="textarea" />
 
                   <div>
                     <q-btn
@@ -200,7 +200,7 @@
               <q-tooltip>Write a Note</q-tooltip>
             </q-btn>
           </div>
-          <NoteListView :modelList="PrivateNotes" modelName="notes"/>
+          <NoteListView :modelList="PrivateNotes" modelName="notes" />
         </q-expansion-item>
 
         <q-expansion-item
@@ -227,7 +227,7 @@
           </div>
         </q-expansion-item>
       </div>
-      <q-separator vertical/>
+      <q-separator vertical />
     </div>
   </div>
 </template>
@@ -430,9 +430,7 @@ export default {
     heading() {
       var integer = parseInt(this.$route.params['id'], 10)
       var key = _.findKey(this.clients, { id: integer })
-      return `Client File for ClientID - ${this.clients[key].id} ( ${
-        this.clients[key].first_name
-      } )`
+      return `Client File for ClientID - ${this.clients[key].id} ( ${this.clients[key].first_name} )`
     },
     NOupdatePath() {
       return ''
@@ -480,6 +478,32 @@ export default {
     }
   },
   methods: {
+    bmi(value) {
+      if (isNaN(value)) {
+        return value
+      }
+      if (!value) {
+        return ''
+      }
+      value = parseFloat(value)
+      if (value < 17) {
+        return `text-red bg-amber-3`
+      }
+      if (value < 20.7) {
+        return `text-orange`
+      }
+      if (value < 25.8) {
+        return `text-green bg-teal-1`
+      }
+      if (value < 32.3) {
+        return `text-orange`
+      }
+      if (value > 40) {
+        return `text-red text-bold bg-amber-2`
+      }
+
+      return ''
+    },
     makeRef() {
       this.$q.loading.show({
         delay: 200, // ms
@@ -769,6 +793,21 @@ ul {
 ul li {
   display: column;
   align-content: right;
+}
+table.tableizer-table {
+  font-size: 12px;
+  border: 1px solid #ccc;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.tableizer-table td {
+  padding: 4px;
+  margin: 3px;
+  border: 1px solid #ccc;
+}
+.tableizer-table th {
+  background-color: #104e8b;
+  color: #fff;
+  font-weight: bold;
 }
 </style>
  
