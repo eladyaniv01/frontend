@@ -12,9 +12,9 @@
       ]"
     />
 
-    <q-btn label="refresh" @click="refresh()"/>
+    <q-btn label="refresh" @click="refresh()" />
 
-    <q-input class="q-pa-sm" v-model="searchQuery" type="text" label="search by first name"/>
+    <q-input class="q-pa-sm" v-model="searchQuery" type="text" label="search by first name" />
     <!-- <autoComplete v-model="searchQuery" :options="modelList.first_name" label="label"/> -->
     <transition name="fade">
       <q-markup-table class="q-ma-sm" v-if="render == 'table'">
@@ -128,6 +128,8 @@ export default {
       filtered.push('height')
       filtered.push('weight')
       filtered.push('created_at')
+      filtered.push('bmi')
+      filtered.push('bmr')
 
       return filtered
     },

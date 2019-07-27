@@ -79,7 +79,8 @@ export default {
       filtered.push('height')
       filtered.push('weight')
       filtered.push('created_at')
-
+      filtered.push('bmi')
+      filtered.push('bmr')
       return filtered
     },
 

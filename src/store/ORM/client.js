@@ -33,6 +33,8 @@ export default class Client extends Model {
             phone_number: this.attr(''),
             created_at: this.attr(''),
             got_free_menu: this.attr(''),
+            bmi: this.attr(''),
+            bmr: this.attr(''),
 
 
         }
