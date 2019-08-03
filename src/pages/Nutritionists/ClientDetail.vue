@@ -733,9 +733,7 @@ export default {
       filtered.unshift('first_name')
       filtered.unshift('last_name')
       filtered.unshift('id')
-
-      filtered.push('height')
-      filtered.push('weight')
+      filtered.push('weight_height_sets')
       filtered.push('created_at')
 
       return filtered

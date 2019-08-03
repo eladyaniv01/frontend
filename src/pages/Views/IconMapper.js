@@ -25,7 +25,10 @@ const IconMappers = {
     email: 'Email',
     created_at: 'created_at',
     nutritionist: 'nutritionist',
-    is_staff: '-1'
+    weight_height_sets: 'Weight Height Sets',
+    is_staff: '-1',
+    height: 'height',
+    weight: 'weight'
   },
   fields_m2m: {
     clients: 'Clients',

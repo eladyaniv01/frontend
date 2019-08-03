@@ -7,6 +7,7 @@ import Test from './tests'
 import InternalMessage from 'src/store/ORM/messages.js';
 import Supplier from 'src/store/ORM/suppliers.js'
 import Reference from 'src/store/ORM/refferences.js'
+import WeightHeightSet from 'src/store/ORM/weightheightsets.js'
 const Models = {
     namespaced: true,
     Client,
@@ -17,7 +18,8 @@ const Models = {
     Test,
     InternalMessage,
     Supplier,
-    Reference
+    Reference,
+    WeightHeightSet
 
 }
 export default Models

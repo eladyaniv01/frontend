@@ -36,7 +36,15 @@
             @click="onRowClick(model.id)"
           >
             <td v-for="field in sortedFields" :key="field">
-              <div v-if="field == 'bmi'">
+              <div v-if="field == 'weight_height_sets'">
+                <ul v-for="(item) in getWeightHeightSetsArray(model)" :key="item">
+                  <li class="text-bold text-purple">Date: {{ getDate(item.time_stamp) }}</li>
+                  <li class="text-bold text-purple-10">Height: {{ item.height }}</li>
+                  <li class="text-bold text-purple-10">Weight: {{ item.weight }}</li>
+                  <q-separator />
+                </ul>
+              </div>
+              <div v-else-if="field == 'bmi'">
                 <p :class="bmi(model[field])">{{model[field]}}</p>
               </div>
               <div v-else>{{model[field]}}</div>
@@ -67,7 +75,8 @@ import {
   myRep,
   sentenceCase,
   doNotify,
-  prettyStringJson
+  prettyStringJson,
+  GetFormattedDate
 } from 'src/utils/stringutils.js'
 import MinListView from 'src/pages/Views/ListViews/MinListView'
 import autoComplete from 'src/components/AutoComplete'
@@ -131,8 +140,7 @@ export default {
       filtered.unshift('last_name')
       filtered.unshift('id')
 
-      filtered.push('height')
-      filtered.push('weight')
+      filtered.push('weight_height_sets')
       filtered.push('created_at')
 
       return filtered
@@ -187,6 +195,14 @@ export default {
   //   }
   // },
   methods: {
+    getDate(string) {
+      return GetFormattedDate(string)
+    },
+    getWeightHeightSetsArray(model) {
+      let sets = model.weight_height_sets
+      return sets
+    },
+
     bmi(value) {
       if (isNaN(value)) {
         return value
