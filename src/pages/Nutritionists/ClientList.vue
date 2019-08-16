@@ -37,10 +37,12 @@
           >
             <td v-for="field in sortedFields" :key="field">
               <div v-if="field == 'weight_height_sets'">
-                <ul v-for="(item) in getWeightHeightSetsArray(model)" :key="item">
-                  <li class="text-bold text-purple">Date: {{ getDate(item.time_stamp) }}</li>
-                  <li class="text-bold text-purple-10">Height: {{ item.height }}</li>
-                  <li class="text-bold text-purple-10">Weight: {{ item.weight }}</li>
+                <ul v-for="(set) in getWeightHeightSetsArray(model)" :key="set.id">
+                  <!-- {{set}} -->
+                  <li class="text-bold text-purple">Date: {{ getDate(set.time_stamp) }}</li>
+                  <li class="text-bold text-purple">Client: {{ set.client }}</li>
+                  <li class="text-bold text-purple-10">Height: {{ set.height }}</li>
+                  <li class="text-bold text-purple-10">Weight: {{ set.weight }}</li>
                   <q-separator />
                 </ul>
               </div>
@@ -199,7 +201,11 @@ export default {
       return GetFormattedDate(string)
     },
     getWeightHeightSetsArray(model) {
-      let sets = model.weight_height_sets
+      let id = model.id
+      let sets = Models.WeightHeightSet.query()
+        .where('client', id)
+        .get()
+      console.log('SETS', sets)
       return sets
     },
 

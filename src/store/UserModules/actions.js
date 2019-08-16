@@ -53,6 +53,9 @@ export function AddClient({ state, commit }, payload) {
 export function AddEvent({ state, commit }, payload) {
   commit('ADDEVENT', payload)
 }
+export function AddWeightHeightSet({ state, commit }, payload) {
+  commit('ADDWEIGHTHEIGHTSET', payload)
+}
 export function FetchClients({ state, commit }, payload) {
   commit('FETCHCLIENTS', payload)
 }
@@ -66,6 +69,9 @@ export function SetClients({ state, commit }, payload) {
 }
 export function SetClientNotes({ state, commit }, payload) {
   commit('SETCLIENTNOTES', payload)
+}
+export function SetClientWeightHeightSets({ state, commit }, payload) {
+  commit('SETCLIENTWEIGHTHEIGHTSETS', payload)
 }
 export function MoveTable({ state, commit }, { from, to, tables }) {
   commit('MOVETABLE', { from, to, tables })

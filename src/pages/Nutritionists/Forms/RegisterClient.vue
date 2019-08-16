@@ -18,7 +18,7 @@
             :error="step < 2"
           >
             <q-toolbar class="bg-secondary text-white shadow-2">
-              <br>
+              <br />
 
               <q-toolbar-title>
                 <div class="text-h6" align="center">Add a New Client</div>
@@ -28,7 +28,7 @@
               <q-card-section>
                 <div class="text-h6 absolute-center">{{username|title}}</div>
               </q-card-section>
-              <q-separator color="white"/>
+              <q-separator color="white" />
               <q-card-section>
                 <q-input
                   filled
@@ -38,7 +38,7 @@
                   :rules="[ val => val && val.length > 0 || 'Required']"
                 >
                   <template v-slot:prepend>
-                    <q-icon name="email"/>
+                    <q-icon name="email" />
                   </template>
                 </q-input>
                 <q-input
@@ -105,14 +105,14 @@
                   hint
                 >
                   <template v-slot:prepend>
-                    <q-icon name="fas fa-transgender"/>
+                    <q-icon name="fas fa-transgender" />
                   </template>
                 </q-select>
               </q-card-section>
               <div class="self-center full-width no-outline" tabindex="110"></div>
             </q-card>
             <q-stepper-navigation>
-              <q-btn @click="() => { done1 = true; step = 2 }" color="secondary" label="Continue"/>
+              <q-btn @click="() => { done1 = true; step = 2 }" color="secondary" label="Continue" />
             </q-stepper-navigation>
           </q-step>
 
@@ -124,7 +124,7 @@
             :done="done2"
           >
             <q-toolbar class="bg-secondary text-white shadow-2">
-              <br>
+              <br />
 
               <q-toolbar-title>
                 <div class="text-h6" align="center">Medical Information</div>
@@ -134,7 +134,7 @@
               <q-card-section>
                 <div class="text-h6 absolute-center">{{username|title}}</div>
               </q-card-section>
-              <q-separator color="white"/>
+              <q-separator color="white" />
               <q-card-section>
                 <q-input
                   filled
@@ -144,7 +144,7 @@
                   :rules="[ val => val && val.length > 0 || 'Required']"
                 >
                   <template v-slot:prepend>
-                    <q-icon name="fas fa-arrows-alt-v"/>
+                    <q-icon name="fas fa-arrows-alt-v" />
                   </template>
                 </q-input>
                 <q-input
@@ -155,16 +155,16 @@
                   :rules="[ val => val && val.length > 0 || 'Required']"
                 >
                   <template v-slot:prepend>
-                    <q-icon name="fas fa-weight-hanging"/>
+                    <q-icon name="fas fa-weight-hanging" />
                   </template>
                 </q-input>
               </q-card-section>
               <div class="self-center full-width no-outline" tabindex="110"></div>
             </q-card>
             <q-stepper-navigation>
-              <q-btn color="secondary" @click="done2 = true; step=3" label="Finish"/>
+              <q-btn color="secondary" @click="done2 = true; step=3" label="Finish" />
 
-              <q-btn flat @click="step = 1" color="secondary" label="Back" class="q-ml-sm"/>
+              <q-btn flat @click="step = 1" color="secondary" label="Back" class="q-ml-sm" />
             </q-stepper-navigation>
           </q-step>
           <q-step :name="3" title="Review and Submit" icon="submit" :done="done3">

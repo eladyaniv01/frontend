@@ -10,10 +10,13 @@
       <tbody>
         <td v-for="field in sortedFields" :key="field">
           <div v-if="field == 'weight_height_sets'">
-            <ul v-for="(item) in getWeightHeightSetsArray(model)" :key="item">
-              <li class="text-bold text-purple">Date: {{ getDate(item.time_stamp) }}</li>
-              <li class="text-bold text-purple-10">Height: {{ item.height }}</li>
-              <li class="text-bold text-purple-10">Weight: {{ item.weight }}</li>
+            <!-- {{getWeightHeightSetsArray(model)}} -->
+            <ul v-for="(set) in getWeightHeightSetsArray" :key="set.id">
+              <!-- {{set}} -->
+              <li class="text-bold text-purple">Date: {{ getDate(set.time_stamp) }}</li>
+              <li class="text-bold text-purple">Client: {{ set.client }}</li>
+              <li class="text-bold text-purple-10">Height: {{ set.height }}</li>
+              <li class="text-bold text-purple-10">Weight: {{ set.weight }}</li>
               <q-separator />
             </ul>
           </div>
@@ -50,61 +53,7 @@ export default {
     // this.pullImage()
   },
   watch: {},
-  computed: {
-    sortedFields() {
-      let fields = _.keys(_.clone(Models.Client.query().get()[0]))
-
-      let sorted = fields.sort()
-
-      var filtered = sorted.filter(function(value, index, arr) {
-        return value != 'id'
-      })
-      var filtered_ex = sorted.filter(function(value, index, arr) {
-        return value != 'id' && value != 'client'
-      })
-      if (fields.includes('client')) {
-        filtered_ex.unshift('id')
-        filtered_ex.unshift('client')
-
-        return filtered_ex
-      }
-      filtered.unshift('id')
-      filtered.splice(filtered.indexOf('$id'), 1)
-      filtered.splice(filtered.indexOf('events'), 1)
-      filtered.splice(filtered.indexOf('got_free_menu'), 1)
-      filtered.splice(filtered.indexOf('menus'), 1)
-      filtered.splice(filtered.indexOf('nutritionist'), 1)
-      filtered.splice(filtered.indexOf('private_notes'), 1)
-      filtered.splice(filtered.indexOf('tests'), 1)
-      filtered.splice(filtered.indexOf('first_name'), 1)
-      filtered.splice(filtered.indexOf('last_name'), 1)
-      filtered.splice(filtered.indexOf('id'), 1)
-      filtered.splice(filtered.indexOf('created_at'), 1)
-      filtered.splice(filtered.indexOf('height'), 1)
-      filtered.splice(filtered.indexOf('weight'), 1)
-      filtered.splice(filtered.indexOf('sex'), 1)
-
-      filtered.unshift('sex')
-      filtered.unshift('first_name')
-      filtered.unshift('last_name')
-      filtered.unshift('id')
-
-      filtered.push('weight_height_sets')
-      filtered.push('created_at')
-
-      return filtered
-    },
-
-    ...mapState('UserModules', {
-      // model: state => state.currentClient
-      // nutritionist: state => state.user.nutritionist,
-    })
-  },
   methods: {
-    getWeightHeightSetsArray(model) {
-      let sets = model.weight_height_sets
-      return sets
-    },
     bmi(value) {
       if (isNaN(value)) {
         return value
@@ -193,6 +142,65 @@ export default {
     //     this.image = json.Image
     //   }
     // }
+  },
+  computed: {
+    getWeightHeightSetsArray() {
+      let id = this.model.id
+      console.log('this.model.id = ', this.model.id)
+      let sets = Models.WeightHeightSet.query()
+        .where('client', id)
+        .get()
+      console.log('SETS', sets)
+      return sets
+    },
+    sortedFields() {
+      let fields = _.keys(_.clone(Models.Client.query().get()[0]))
+
+      let sorted = fields.sort()
+
+      var filtered = sorted.filter(function(value, index, arr) {
+        return value != 'id'
+      })
+      var filtered_ex = sorted.filter(function(value, index, arr) {
+        return value != 'id' && value != 'client'
+      })
+      if (fields.includes('client')) {
+        filtered_ex.unshift('id')
+        filtered_ex.unshift('client')
+
+        return filtered_ex
+      }
+      filtered.unshift('id')
+      filtered.splice(filtered.indexOf('$id'), 1)
+      filtered.splice(filtered.indexOf('events'), 1)
+      filtered.splice(filtered.indexOf('got_free_menu'), 1)
+      filtered.splice(filtered.indexOf('menus'), 1)
+      filtered.splice(filtered.indexOf('nutritionist'), 1)
+      filtered.splice(filtered.indexOf('private_notes'), 1)
+      filtered.splice(filtered.indexOf('tests'), 1)
+      filtered.splice(filtered.indexOf('first_name'), 1)
+      filtered.splice(filtered.indexOf('last_name'), 1)
+      filtered.splice(filtered.indexOf('id'), 1)
+      filtered.splice(filtered.indexOf('created_at'), 1)
+      filtered.splice(filtered.indexOf('height'), 1)
+      filtered.splice(filtered.indexOf('weight'), 1)
+      filtered.splice(filtered.indexOf('sex'), 1)
+
+      filtered.unshift('sex')
+      filtered.unshift('first_name')
+      filtered.unshift('last_name')
+      filtered.unshift('id')
+
+      filtered.push('weight_height_sets')
+      filtered.push('created_at')
+
+      return filtered
+    },
+
+    ...mapState('UserModules', {
+      // model: state => state.currentClient
+      // nutritionist: state => state.user.nutritionist,
+    })
   }
 }
 </script>

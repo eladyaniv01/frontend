@@ -69,6 +69,10 @@
     </div>
 
     <div class="row q-pa-sm q-ma-sm justify-center">
+      <q-btn push color="secondary" icon="edit" @click="EditClient()">
+        <q-tooltip>Edit</q-tooltip>
+      </q-btn>
+
       <div>
         <ClientComp
           class="q-pa-sm q-ma-sm"
@@ -79,8 +83,27 @@
       </div>
 
       <div>
-        <q-btn push color="secondary" icon="edit" @click="EditClient()">
-          <q-tooltip>Edit</q-tooltip>
+        <q-btn class="align-right" push color="secondary" icon="fas fa-weight-hanging">
+          +
+          <q-popup-proxy>
+            <div class="col-grow q-pa-sm q-ma-sm">
+              Height
+              <q-input filled v-model="weightHeightForm.height" type="text" />
+              <br />Weight
+              <q-input filled v-model="weightHeightForm.weight" type="text" />
+
+              <div>
+                <q-btn
+                  label="Add a new Weight/Height set"
+                  @click="addNewHWSet()"
+                  type="submit"
+                  color="secondary"
+                  v-close-popup
+                ></q-btn>
+              </div>
+            </div>
+          </q-popup-proxy>
+          <q-tooltip>Add a new height-weight set</q-tooltip>
         </q-btn>
       </div>
     </div>
@@ -188,7 +211,7 @@
 
                   <div>
                     <q-btn
-                      label="Create A Note"
+                      label="Save"
                       @click="createNote()"
                       type="submit"
                       color="secondary"
@@ -276,6 +299,10 @@ export default {
       noteForm: {
         title: '',
         content: ''
+      },
+      weightHeightForm: {
+        height: '',
+        weight: ''
       },
       form: {
         title: '',
@@ -511,7 +538,7 @@ export default {
       })
 
       let spec = parseInt(this.spec, 10)
-      console.log(spec)
+      // console.log(spec)
 
       let formData = new FormData()
       formData.append('sender', Models.Nutritionist.query().get()[0].id)
@@ -524,10 +551,10 @@ export default {
       // for (let data in formData) {
       //   alert(data)
       // }
-      console.log('sender ', Models.Nutritionist.query().get()[0].id)
-      console.log('getter ', spec)
-      console.log('client ', this.client.id)
-      console.log(formData)
+      // console.log('sender ', Models.Nutritionist.query().get()[0].id)
+      // console.log('getter ', spec)
+      // console.log('client ', this.client.id)
+      // console.log(formData)
       this.$axios
         .post('api/makeref', formData)
         .then(result => {
@@ -542,8 +569,8 @@ export default {
             type: 'info'
           })
           // console.log(this.client['private_notes'])
-          console.log('RESULT REF')
-          console.log(result.data.reference)
+          // console.log('RESULT REF')
+          // console.log(result.data.reference)
           Models.Reference.insert({ data: result.data.reference })
 
           this.$q.loading.hide()
@@ -603,6 +630,92 @@ export default {
         })
         .onDismiss(() => {
           console.log('I am triggered on both OK and Cancel')
+        })
+    },
+    addNewHWSet() {
+      this.$q.loading.show({
+        delay: 200, // ms
+        message: 'Processing ...'
+      })
+      var vm = this.weightHeightForm
+
+      let formData = new FormData()
+
+      formData.append('height', vm.height)
+      formData.append('weight', vm.weight)
+      // formData.append('nutritionist', this.nutritionist[0].id)
+      formData.append('client', this.client.id)
+      for (var pair of formData.entries()) {
+        // console.log(pair[0] + ', ' + pair[1])
+      }
+
+      // for (let data in formData) {
+      //   alert(data)
+      // }
+
+      this.$axios
+        .post('api/create_weight_height_client_set', formData)
+        .then(result => {
+          // console.log('RESULT ', result)
+
+          this.$q.notify({
+            classes: 'text-bold text-h6',
+            message: 'Success!',
+            position: 'right',
+            icon: 'fas fa-thumbs-up',
+
+            type: 'info'
+          })
+          // console.log('RESULT = ', result)
+
+          // console.log(this.client['private_notes'])
+          this.client['weight_height_sets'] = [
+            ...this.client['weight_height_sets'],
+            {
+              id: result.data.weight_height_set.id,
+              client: result.data.weight_height_set.set_client,
+              time_stamp: result.data.weight_height_set.time_stamp,
+              height: result.data.weight_height_set.height,
+              weight: result.data.weight_height_set.weight
+            }
+          ]
+          Models.WeightHeightSet.insert({ data: result.data.weight_height_set })
+          this.$store.dispatch(
+            'UserModules/SetClientWeightHeightSets',
+            this.client['weight_height_sets']
+          )
+          vm.height = null
+          vm.weight = null
+          // this.form.accept = false
+          this.$forceUpdate()
+          this.$q.loading.hide()
+        })
+        .catch(err => {
+          this.$q.loading.hide()
+          // console.log(err)
+          // console.log(err.config)
+          // console.log(err.request)
+          // console.log(err.response)
+          if (err.response) {
+            let errors = prettyStringJson(err.response.data)
+            for (let index in errors) {
+              if (errors[index]) {
+                this.$q.notify({
+                  message: errors[index] + '.',
+                  position: 'center',
+
+                  color: 'negative'
+                })
+              }
+            }
+          } else {
+            this.$q.notify({
+              message: 'Network Error, Server might be Offline',
+              position: 'center',
+
+              color: 'negative'
+            })
+          }
         })
     },
     createNote() {

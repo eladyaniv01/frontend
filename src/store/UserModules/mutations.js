@@ -103,7 +103,7 @@ export function ADDCLIENT(state, payload) {
     return
   } else {
     state.user.nutritionist.clients.push(payload)
-    Models.Client.insert({data: payload})
+    Models.Client.insert({ data: payload })
   }
 }
 export function ADDEVENT(state, payload) {
@@ -111,8 +111,8 @@ export function ADDEVENT(state, payload) {
   if (!payload) {
     return
   } else {
-    
-    Models.Event.insert({data: payload})
+
+    Models.Event.insert({ data: payload })
   }
 }
 
@@ -134,6 +134,20 @@ export function SETCLIENTS(state, payload) {
 }
 export function SETCLIENTNOTES(state, payload) {
   state.currentClient.private_notes = payload
+
+}
+
+export function ADDWEIGHTHEIGHTSET(state, payload) {
+
+  if (!payload) {
+    return
+  } else {
+
+    Models.WeightHeightSet.insert({ data: payload })
+  }
+}
+export function SETCLIENTWEIGHTHEIGHTSETS(state, payload) {
+  state.currentClient.weight_height_sets = payload
 
 }
 export function MOVETABLE(state, { from, to, tables }) {
