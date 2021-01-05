@@ -34,7 +34,7 @@
     "@quasar/extras": "^1.1.2",
     "@vuex-orm/core": "^0.31.11",
     "@vuex-orm/plugin-search": "^0.23.4",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "chart.js": "^2.8.0",
     "highcharts": "^7.1.1",
